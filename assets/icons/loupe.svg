@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="23.994" height="23.994" viewBox="0 0 23.994 23.994">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #9b9b9b;
+      }
+    </style>
+  </defs>
+  <g id="loupe" transform="translate(0 -0.003)">
+    <g id="Group_119" data-name="Group 119" transform="translate(0 0.003)">
+      <path id="Path_55" data-name="Path 55" class="cls-1" d="M23.7,22.291l-6.823-6.823a9.516,9.516,0,1,0-1.414,1.414L22.288,23.7A1,1,0,1,0,23.7,22.291ZM9.5,17A7.5,7.5,0,1,1,17,9.5,7.506,7.506,0,0,1,9.5,17Z" transform="translate(0 -0.003)"/>
+    </g>
+  </g>
+</svg>

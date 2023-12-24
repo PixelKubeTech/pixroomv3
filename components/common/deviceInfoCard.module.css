@@ -1,0 +1,10 @@
+.deviceInfoCard {
+    border: 1px solid #c7cdd2;
+    min-width: 150px;
+    width: calc(25% - .75rem);
+    display: flex;
+    justify-content: space-between;
+    padding: 18px;
+    border-radius: 6px;
+    align-items: center;
+}

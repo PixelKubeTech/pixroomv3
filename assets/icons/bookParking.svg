@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20.711" height="28.239" viewBox="0 0 20.711 28.239">
+    <g id="Group_3242" data-name="Group 3242" transform="translate(-81.19 -398.74)">
+      <g id="Group_3136" data-name="Group 3136" transform="translate(92.067 425.955)">
+        <g id="Group_3135" data-name="Group 3135" transform="translate(0 0)">
+          <rect id="Rectangle_2074" data-name="Rectangle 2074" width="0.792" height="0.792" transform="translate(0 0.739) rotate(-68.832)" fill="#3c5774"/>
+        </g>
+      </g>
+      <g id="Group_3138" data-name="Group 3138" transform="translate(92.64 424.478)">
+        <g id="Group_3137" data-name="Group 3137" transform="translate(0 0)">
+          <rect id="Rectangle_2075" data-name="Rectangle 2075" width="0.792" height="0.792" transform="translate(0 0.739) rotate(-68.832)" fill="#3c5774"/>
+        </g>
+      </g>
+      <g id="Group_3140" data-name="Group 3140" transform="translate(93.212 403.199)">
+        <g id="Group_3139" data-name="Group 3139" transform="translate(0 0)">
+          <path id="Path_1273" data-name="Path 1273" d="M0,0H22.023V.792H0Z" transform="translate(0 20.539) rotate(-68.839)" fill="#3c5774"/>
+        </g>
+      </g>
+      <g id="car" transform="translate(87.946 398.74) rotate(21)">
+        <g id="Group_3241" data-name="Group 3241" transform="translate(0 0)">
+          <g id="Group_3231" data-name="Group 3231" transform="translate(2.864 4.359)">
+            <g id="Group_3230" data-name="Group 3230" transform="translate(0 0)">
+              <path id="Path_1270" data-name="Path 1270" d="M6.212,1.722,5.905,4.757H.31L0,1.721A.941.941,0,0,1,.422.841L.5.789a4.7,4.7,0,0,1,5.214,0l.079.053A.94.94,0,0,1,6.212,1.722Zm-.766-.356-.08-.053a4.076,4.076,0,0,0-4.52,0l-.079.052a.314.314,0,0,0-.139.293L.877,4.129H5.338l.248-2.471A.314.314,0,0,0,5.446,1.365Z" fill="#3c5774"/>
+            </g>
+          </g>
+          <g id="Group_3233" data-name="Group 3233" transform="translate(2.893 12.883)">
+            <g id="Group_3232" data-name="Group 3232" transform="translate(0 0)">
+              <path id="Path_1271" data-name="Path 1271" d="M5.671,2.69l-.609.338a4.063,4.063,0,0,1-3.968,0L.484,2.69a.945.945,0,0,1-.471-.979L.3,0H5.858l.285,1.711A.945.945,0,0,1,5.671,2.69Zm-.149-.876L5.325.629H.83l-.2,1.186a.314.314,0,0,0,.157.327l.609.338a3.438,3.438,0,0,0,3.358,0l.609-.338A.316.316,0,0,0,5.523,1.814Z" transform="translate(0)" fill="#3c5774"/>
+            </g>
+          </g>
+          <g id="Group_3235" data-name="Group 3235" transform="translate(2.879 2.026)">
+            <g id="Group_3234" data-name="Group 3234" transform="translate(0 0)">
+              <rect id="Rectangle_2123" data-name="Rectangle 2123" width="0.629" height="2.266" transform="translate(1.257 0) rotate(33.692)" fill="#3c5774"/>
+            </g>
+          </g>
+          <g id="Group_3237" data-name="Group 3237" transform="translate(7.283 2.019)">
+            <g id="Group_3236" data-name="Group 3236" transform="translate(0 0)">
+              <rect id="Rectangle_2124" data-name="Rectangle 2124" width="2.266" height="0.629" transform="matrix(0.555, 0.832, -0.832, 0.555, 0.523, 0)" fill="#3c5774"/>
+            </g>
+          </g>
+          <g id="Group_3239" data-name="Group 3239" transform="translate(0 0)">
+            <g id="Group_3238" data-name="Group 3238">
+              <path id="Path_1272" data-name="Path 1272" d="M11.8,8.115a.314.314,0,0,1-.293.031l-1.3-.521-.152,1.8.45,5.374a3.425,3.425,0,0,1-1.9,3.369l-.248.124a5.388,5.388,0,0,1-4.777,0l-.248-.124a3.425,3.425,0,0,1-1.9-3.369l.451-5.374-.151-1.8-1.3.521A.314.314,0,0,1,0,7.855V7.024a.939.939,0,0,1,.593-.876l.985-.394L1.446,4.19A3.438,3.438,0,0,1,3.529.738L4.609.277a3.482,3.482,0,0,1,2.723,0l1.08.461A3.438,3.438,0,0,1,10.5,4.19l-.131,1.564.985.394a.939.939,0,0,1,.592.876v.832A.314.314,0,0,1,11.8,8.115ZM1.571,6.434l-.745.3a.312.312,0,0,0-.2.292v.367l.943-.377Zm8.309,8.42L9.428,9.427l.442-5.29a2.811,2.811,0,0,0-1.705-2.82L7.085.855a2.849,2.849,0,0,0-2.229,0l-1.08.461a2.811,2.811,0,0,0-1.7,2.822l.44,5.289-.453,5.428a2.8,2.8,0,0,0,1.553,2.752l.248.124a4.755,4.755,0,0,0,4.217,0l.248-.124A2.8,2.8,0,0,0,9.88,14.854Zm1.433-7.83a.312.312,0,0,0-.2-.292l-.745-.3v.58l.943.377Z" fill="#3c5774"/>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </svg>
+  
