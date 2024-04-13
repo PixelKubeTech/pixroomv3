@@ -1,5 +1,6 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import MeetingBlock from "./MeetingBlocks";
+
 const meetingInfo = [
   {
     isAvailable: false,
@@ -8,11 +9,11 @@ const meetingInfo = [
       to: "12:00",
       duration: 1,
       meetingName: "Ceo Conference Call",
-      bookingPersonName: "Sarah Iverson",
+      bookingPersonName: "Selva ganesh",
     },
   },
   {
-    isAvailable: true,
+    isAvailable: false,
     bookingDetails: {
       from: "12:00",
       to: "15:00",
@@ -52,10 +53,11 @@ const meetingInfo = [
     },
   },
 ];
-function TimelineComponent({ className }: any) {
+function TimelineComponent(props) {
+  console.log('TimelineComponent',props)
   return (
     <div className={`h-full overflow-scroll max-h-100 flex flex-col basis-1/2 gap-2`} >
-      {meetingInfo.map((data) => (
+      {props.meetingInfo.map((data) => (
         <MeetingBlock
           key={data.bookingDetails.from}
           isAvailabe={data.isAvailable}

@@ -2,7 +2,7 @@ import React from 'react'
 import Button from "@mui/material/Button";
 import Router from 'next/router';
 import Edit from "../../assets/icons/edit.svg";
-import DataTable from "../../pages/playlist/editor/index"
+
 type PlaylistProps = {
     name : string,
     image : string,

@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-function Date({ dateObj, selectedDate, setselectedDate, size }: any) {
+function Date({ dateObj, selectedDate, setselectedDate,setCalenderDate, size }: any) {
   const [currDate, currDayofWeek, currDateFotmat] = [
     dateObj.date(),
     dateObj.day(),
@@ -23,8 +23,10 @@ function Date({ dateObj, selectedDate, setselectedDate, size }: any) {
             : "bg-transparent"
         }`
     }
-    onClick={() => setselectedDate(dateObj.format('DD-MM-YYYY'))}
-      >
+    onClick={() =>{
+     setselectedDate(dateObj.format('DD-MM-YYYY'))
+     setCalenderDate(dateObj.format('DD-MM-YYYY'))
+    }}>
         {currDate < 10 ? "0" + currDate : currDate}
       </div>
     </div>

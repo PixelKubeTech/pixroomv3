@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useSearchParams } from "next/navigation";
-
+import Button from "@mui/material/Button"
 function Settings() {
   const searchParams = useSearchParams();
   const macAddress = searchParams.get("macaddress");
@@ -26,7 +26,12 @@ function Settings() {
               {data}
             </span>
           ))}
+          
       </div>
+      <div className="mt-10">
+      <Button size="large" variant="outlined" >Add Device</Button>
+      </div>
+    
     </div>
   );
 }

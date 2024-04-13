@@ -1,22 +1,61 @@
-'use client'
+"use client";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import Devices from "../Devices";
 import ReportFaultModal from "../ReportFaultModal";
 import { Modal } from "../Modals/FindRoom";
 import Calender from "../MeetingCalenderContainer/Calender";
-import AnalogClock from 'analog-clock-react';
+import AnalogClock from "@/components/common/AnalogClock";
+import { getFacilitiesByOrgId } from "@/services/FacilitiesService";
+import { useSearchParams } from "next/navigation";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
+export function MeetingRoomInfoReducer(state, action) {
+  console.log("state", state);
+  if (action.type === "selected_device") {
+    return {
+      ...state,
+      selectedDevice: action.payload,
+    };
+  }
+  throw Error("Unknown action.");
+}
+interface Message {
+  serverity?: string;
+  text?: string;
+}
 
-function MeetingRoomInfo({ info, size = "LARGE", booked }: any) {
+function MeetingRoomInfo({ info, size = "LARGE", booked, spaceInfo }: any) {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
+  const [meetingInfoState, dispatch] = useReducer(MeetingRoomInfoReducer, {
+    selectedDevice: "",
+  });
+  const [success, setSuccess] = React.useState(false);
+  const [message, setMessage] = React.useState<Message>();
+  let handleDeviceChange = (device) => {
+    dispatch({
+      type: "selected_device",
+      payload: device,
+    });
+  };
+  React.useEffect(()=>{
+    console.log(
+      `space`,spaceInfo
+    )
+  })
+  const searchParams = useSearchParams();
+
+  const spaceId = searchParams.get("spaceId");
 
   const handleClick = () => {
-    router.push("/PlayerPage/meetinginfo");
+    console.log("searchParams", searchParams);
+    router.push(`/meetinginfo?spaceId=${spaceId}`);
   };
   const handleDeviceClick = () => {
-      setShowModal(!showModal)
-  }
+    setShowModal(!showModal);
+  };
   const options = {
     border: true,
     borderColor: "#2e2e2e",
@@ -26,9 +65,9 @@ function MeetingRoomInfo({ info, size = "LARGE", booked }: any) {
     handColors: {
       second: "#d81c7a",
       minute: "#ffffff",
-      hour: "#ffffff"
-    }
-};
+      hour: "#ffffff",
+    },
+  };
   return (
     <div
       className={
@@ -37,48 +76,55 @@ function MeetingRoomInfo({ info, size = "LARGE", booked }: any) {
     >
       <div className={"flex justify-between flex-1 pt-6 pb-5 pl-10 pr-6"}>
         <div className="flex ">
-        <div className={"flex flex-col justify-between items-center mr-4"}>
-          <img src={"../assets/images/meeting_logo.png"} className={"h-[40px]"} />
-          {!info && (
-            <div
-              className={`h-[25px] w-[25px] ${booked ? 'bg-[#ff544f]' :'bg-[#58968b]'} rounded-full`}
-            ></div>
-          )}
-        </div>
-        <div className={"flex flex-col justify-between"}>
-          <div className="flex flex-col justify-between">
-            <h1 className="text-5xl font-bold flex items-center">
-              EINSTEIN{" "}
-              {!info && (
-                <span
-                  onClick={handleClick}
-                  className={`text-[#58968b] pl-2 cursor-pointer`}
-                >
-                  <img
-                    className={`text-[#58968b] h-[35px] w-[35px]`}
-                    src="../assets/images/info_icon.svg"
-                  />
-                </span>
-              )}
-            </h1>
-            <p className={"opacity-70"}>Room Capacity: 16 People</p>
+          <div className={"flex flex-col justify-between items-center mr-4"}>
+            <img
+              src={"../assets/images/meeting_logo.png"}
+              className={"h-[40px]"}
+            />
+            {!info && (
+              <div
+                className={`h-[25px] w-[25px] ${
+                  booked ? "bg-[#ff544f]" : "bg-[#58968b]"
+                } rounded-full`}
+              ></div>
+            )}
           </div>
-          {info ? (
-            <p className={"text-[#626574] text-xl"}>Meeting Room Information</p>
-          ) : (
-            !booked ? <p className={"text-[#626574] text-xl"}>
-              Meeting Room <span className={"text-[#58968b]"}>Available</span>
-            </p> :  <p className={"text-[#626574] text-xl"}>
-              Meeting in progress
-            </p>
-
-          )}
+          <div className={"flex flex-col justify-between"}>
+            <div className="flex flex-col justify-between">
+              <h1 className="text-5xl font-bold flex items-center">
+                {spaceInfo?.spaceAliasName ? spaceInfo?.spaceAliasName : ""}{" "}
+                {!info && (
+                  <span
+                    onClick={handleClick}
+                    className={`text-[#58968b] pl-2 cursor-pointer`}
+                  >
+                    <img
+                      className={`text-[#58968b] h-[35px] w-[35px]`}
+                      src="../assets/images/info_icon.svg"
+                    />
+                  </span>
+                )}
+              </h1>
+              <p className={"opacity-70"}>Room Capacity: 10 People</p>
+            </div>
+            {info ? (
+              <p className={"text-[#626574] text-xl"}>
+                Meeting Room Information
+              </p>
+            ) : !booked ? (
+              <p className={"text-[#626574] text-xl"}>
+                Meeting Room <span className={"text-[#58968b]"}>Available</span>
+              </p>
+            ) : (
+              <p className={"text-[#626574] text-xl"}>Meeting in progress</p>
+            )}
+          </div>
         </div>
-        </div>
-        <div className="self-end relative z-0">
-        <AnalogClock width={"110px"} {...options}/>
+        <div className="self-end relative mt-10">
+          <AnalogClock {...options} isAvailable={!booked} />
         </div>
       </div>
+
       {info ? (
         <div
           className={
@@ -92,10 +138,26 @@ function MeetingRoomInfo({ info, size = "LARGE", booked }: any) {
             width={40}
           />
           <div>A problem with a facility? Touch to report.</div>
-          <Modal onClose={() => setShowModal(false)} show={showModal} title = {"Report a fault with the meeting room phone"}>
-          <ReportFaultModal />
+          <Modal
+            onClose={() => setShowModal(false)}
+            show={showModal}
+            title={`Report a fault with the meeting ${meetingInfoState.selectedDevice}`}
+          >
+            <ReportFaultModal setMessage={setMessage} setSuccess={setSuccess} />
           </Modal>
-          <Devices handleClick={handleDeviceClick}/>
+          <Devices
+            orgId={spaceInfo?.orgId}
+            handleClick={handleDeviceClick}
+            handleDeviceChange={handleDeviceChange}
+          />
+          <Snackbar open={success} autoHideDuration={5000}>
+            <Alert
+              variant="filled"
+              sx={{ width: "100%" }}
+            >
+              {message?.text}
+            </Alert>
+          </Snackbar>
         </div>
       ) : (
         <div className="flex flex-col bg-[#dee4f0] h-full rounded-[40px] w-[30%] p-2">

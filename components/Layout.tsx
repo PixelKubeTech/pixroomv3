@@ -2,19 +2,21 @@ import React from "react";
 import CssBaseline from '@mui/material/CssBaseline';
 //import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Sidebar from "./Sidebar";
+// import Sidebar from "./Sidebar";
 import NotificationIcon from "../assets/icons/notification.svg"
 import SearchIcon from "../assets/icons/loupe.svg"
-import UserContext, { initialvalue } from "../context/BookSpaceContext"
+import { UserContext } from "@/app/context/BookSpaceContext";
 import { Stack } from "@mui/material";
 import Image from 'next/image'
 
 const Layout = ({ children }: any) => {
 
   return (
-      <UserContext.Provider value={initialvalue}>
+      <UserContext.Provider value={{
+        
+      }}>
         <div className="xl:container xl:mx-auto 2xl:container 2xl:mx-auto block flex fullHeight mx-auto px-0 sm:px-6 md:px-8" style={{maxWidth:"90rem"}}>
-          <Sidebar />
+    
           <div className="flex flex-1 w-full">
             <div className="w-full">
               <header className="w-full " style={{height: '60px'}}>

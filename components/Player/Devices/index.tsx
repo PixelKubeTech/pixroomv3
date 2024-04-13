@@ -1,44 +1,66 @@
-import React from "react";
+import React, { useState, useEffect, useReducer } from "react";
+import { getFacilitiesByOrgId } from "@/services/FacilitiesService";
+import { DeviceMapping } from "./deviceMapping";
+import { MeetingRoomInfoReducer } from "../MeetingRoomInfo";
 
-function Devices({ size, handleClick }: any) {
+function DeviceIcon({ size, deviceIcon }) {
+  let icon = DeviceMapping.find((device) =>
+    device.device.includes(deviceIcon)
+  )?.icon;
+  let deviceImage = `../assets/images/${icon}.png`;
   return (
-    <div className={`flex items-center`} onClick={handleClick}>
-      <img
-        src={"../assets/images/Screen_Icon.png"}
-        className={`${
-          size === "SMALL" ? "h-[16px]" : "h-[25px]"
-        } px-2 cursor-pointer`}
-      />
-      <img
-        src={"../assets/images/Present_Icon.png"}
-        className={`${
-          size === "SMALL" ? "h-[16px]" : "h-[25px]"
-        }  px-2 cursor-pointer`}
-      />
-      <img
-        src={"../assets/images/Projector.png"}
-        className={`${
-          size === "SMALL" ? "h-[16px]" : "h-[25px]"
-        } px-2 cursor-pointer`}
-      />
-      <img
-        src={"../assets/images/Video_Conference_Icon.png"}
-        className={`${
-          size === "SMALL" ? "h-[16px]" : "h-[25px]"
-        } px-2 cursor-pointer`}
-      />
-      <img
-        src={"../assets/images/fax.png"}
-        className={`${
-          size === "SMALL" ? "h-[16px]" : "h-[25px]"
-        } px-2 cursor-pointer `}
-      />
-      <img
-        src={"../assets/images/Media_Player_Icon.png"}
-        className={
-          `${size === 'SMALL' ? 'h-[16px]' : 'h-[25px]'} px-2 cursor-pointer`
-        }
-      />
+    <img
+      src={deviceImage}
+      className={`${
+        size === "SMALL" ? "h-[16px]" : "h-[25px]"
+      } px-2 cursor-pointer`}
+    />
+  );
+}
+function Devices({ size, handleClick, orgId,handleDeviceChange }: any) {
+
+  const [loading, setLoading] = useState(true);
+  const [facilities, setFacilities] = useState<string[]>([]);
+  console.log("orgId", orgId);
+  useEffect(() => {
+    let getFacilities = async () => {
+      setLoading(true);
+      let result = await getFacilitiesByOrgId({ orgId: orgId });
+      console.log("result", result.facilities);
+      if (result != undefined) {
+        console.log(result.facilities);
+        setFacilities(result.facilities);
+        setLoading(false);
+      } else {
+        setFacilities(["chair", "wifi projector"]);
+        setLoading(false);
+      }
+    };
+    getFacilities();
+  }, []);
+
+  return (
+    <div    className={`flex items-center`}>
+      {loading ? (
+        <div>Loading Facilities...</div>
+      ) : !facilities ? (
+        <div>No Facilities</div>
+      ) : (
+        facilities.map((device) => (
+          <div
+         
+            onClick={(e) => {
+              handleDeviceChange(device);
+              handleClick();
+            }}
+          >
+            <DeviceIcon
+              size={size}
+              deviceIcon={device}
+            />
+          </div>
+        ))
+      )}
     </div>
   );
 }

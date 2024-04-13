@@ -1,0 +1,64 @@
+.circle-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px; /* Adjust height as needed */
+  }
+  
+  .circle {
+    font-size: 40px;
+    color: gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px; /* Diameter of the circle */
+    height: 200px; /* Diameter of the circle */
+    border-radius: 50%; /* Ensures the div is a circle */
+    background: linear-gradient(
+      to bottom right,
+      #ffffff,
+      #e6e9ee
+    ); /* Gradient colors */
+    /* Inset shadow */
+  }
+  
+  .time-label{
+    color:#9eb1b3;
+    font-size:20px
+  }
+
+  .time-value{
+    color:#9eb1b3;
+    font-size:30px
+  }
+
+  .round-button {
+    display: inline-block;
+    width: 50px; /* Set the width and height to the same value for a perfect circle */
+    height: 50px;
+    border-radius: 50%; /* Makes the button round */
+    background-color: #acb5ba; /* Button background color */
+    color: #ffffff; /* Button text color */
+    padding: 10px; /* Adjust padding as needed */
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    border: none; /* Removes border */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Optional: Adds shadow */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+  
+  
+    /* Optional: Hover styles */
+    &:hover {
+      background-color: #0056b3; /* Darker color on hover */
+      transform: scale(1.05); /* Slightly scale the button on hover */
+    }
+  
+    /* Optional: Active (clicked) styles */
+    &:active {
+      background-color: #003366; /* Dark color when clicked */
+      transform: scale(0.95); /* Slightly scale down when clicked */
+    }
+  }
+  
