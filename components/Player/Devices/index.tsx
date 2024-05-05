@@ -7,7 +7,7 @@ function DeviceIcon({ size, deviceIcon }) {
   let icon = DeviceMapping.find((device) =>
     device.device.includes(deviceIcon)
   )?.icon;
-  let deviceImage = `../assets/images/${icon}.png`;
+  let deviceImage = `../pixroom/assets/images/${icon}.png`;
   return (
     <img
       src={deviceImage}

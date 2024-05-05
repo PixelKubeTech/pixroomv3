@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from "@mui/material/Button";
 import Router from 'next/router';
-import Edit from "../../assets/icons/edit.svg";
+import Edit from "../../pixroom/assets/icons/edit.svg";
 
 type PlaylistProps = {
     name : string,

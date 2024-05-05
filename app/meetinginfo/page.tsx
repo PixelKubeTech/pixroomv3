@@ -26,7 +26,7 @@ export default async function Home(props) {
   return (
     <div
       className={`min-h-[700px] h-screen max-h-screen w-screen p-4 box-border bg-cover`}
-      style={{ backgroundImage: `url(../assets/images/mainbg.png)` }}
+      style={{ backgroundImage: `url(../pixroom/assets/images/mainbg.png)` }}
     >
       <MeetingInfoContainer spaceInfo={spaceInfo} meetingInfo={meetingInfo}/>
     </div>

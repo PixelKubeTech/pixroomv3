@@ -3,8 +3,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 //import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 // import Sidebar from "./Sidebar";
-import NotificationIcon from "../assets/icons/notification.svg"
-import SearchIcon from "../assets/icons/loupe.svg"
+import NotificationIcon from "../pixroom/assets/icons/notification.svg"
+import SearchIcon from "../pixroom/assets/icons/loupe.svg"
 import { UserContext } from "@/app/context/BookSpaceContext";
 import { Stack } from "@mui/material";
 import Image from 'next/image'

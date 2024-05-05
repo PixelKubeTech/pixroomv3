@@ -15,7 +15,7 @@ function QRContainer(props: QRContainerProps) {
           className="cursor-pointer"
           height={54}
           width={54}
-          src={"../../../../assets/images/Search_BTN.png"}
+          src={"../../../../pixroom/assets/images/Search_BTN.png"}
           onClick={() => setShowModal(!showModal)}
         />
       </div>
@@ -51,7 +51,7 @@ function QRContainer(props: QRContainerProps) {
         <img
           height={150}
           width={150}
-          src={"../../../../assets/images/qr.png"}
+          src={"../../../../pixroom/assets/images/qr.png"}
         />
       </div>
     </div>

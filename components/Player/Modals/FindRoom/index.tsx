@@ -21,7 +21,7 @@ export const Modal = ({ show, onClose, children, title }: any) => {
             {title}
             </p>
           <img
-            src={"../assets/images/X_BTN.png"}
+            src={"../pixroom/assets/images/X_BTN.png"}
             className={"cursor-pointer "}
             height={40}
             width={40}

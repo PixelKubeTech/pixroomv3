@@ -78,7 +78,7 @@ function MeetingRoomInfo({ info, size = "LARGE", booked, spaceInfo }: any) {
         <div className="flex ">
           <div className={"flex flex-col justify-between items-center mr-4"}>
             <img
-              src={"../assets/images/meeting_logo.png"}
+              src={"../pixroom/assets/images/meeting_logo.png"}
               className={"h-[40px]"}
             />
             {!info && (
@@ -100,7 +100,7 @@ function MeetingRoomInfo({ info, size = "LARGE", booked, spaceInfo }: any) {
                   >
                     <img
                       className={`text-[#58968b] h-[35px] w-[35px]`}
-                      src="../assets/images/info_icon.svg"
+                      src="../pixroom/assets/images/info_icon.svg"
                     />
                   </span>
                 )}
@@ -132,7 +132,7 @@ function MeetingRoomInfo({ info, size = "LARGE", booked, spaceInfo }: any) {
           }
         >
           <img
-            src={"../assets/images/X_BTN.png"}
+            src={"../pixroom/assets/images/X_BTN.png"}
             className={"cursor-pointer"}
             height={40}
             width={40}
