@@ -17,7 +17,7 @@ function DeviceIcon({ size, deviceIcon }) {
     />
   );
 }
-function Devices({ size, handleClick, orgId,handleDeviceChange }: any) {
+function  Devices({ size, handleClick, orgId,handleDeviceChange }: any) {
 
   const [loading, setLoading] = useState(true);
   const [facilities, setFacilities] = useState<string[]>([]);

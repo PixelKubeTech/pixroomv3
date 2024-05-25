@@ -17,7 +17,8 @@
     "react-clock": "^4.6.0",
     "react-dom": "^18",
     "react-error-boundary": "^4.0.13",
-    "react-hook-form": "^7.51.1"
+    "react-hook-form": "^7.51.1",
+    "urql": "^4.1.0"
   },
   "devDependencies": {
     "@ducanh2912/next-pwa": "^10.2.5",
