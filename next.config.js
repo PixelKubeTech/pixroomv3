@@ -11,8 +11,18 @@ const withPWA = require('@ducanh2912/next-pwa').default({
   workboxOptions: {
     disableDevLogs: true,
   },
-  basePath: '/pixroom',
 })
-const nextConfig = {}
+const nextConfig = {
+  async redirects(){
+    return [
+      {
+        source: '/',
+        destination: '/settings',
+        permanent: true,
+      },
+    ]
+  },
+  basePath: '/pixroom'
+}
 
 module.exports = withPWA(nextConfig)
