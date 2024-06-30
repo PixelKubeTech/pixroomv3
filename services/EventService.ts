@@ -1,7 +1,7 @@
 import { reverseDate } from '@/app/utils/DateUtils'
 import axios from 'axios'
 
-const API_BASE_URL = 'http://3.94.231.14:3002/api/pixconnectors'
+const API_BASE_URL = 'https://demo.pixelkube.io/api/pixconnectors'
 
 const getTime = (time) => time.substring(11,16)
 
