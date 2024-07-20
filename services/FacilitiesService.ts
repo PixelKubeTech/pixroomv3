@@ -8,7 +8,10 @@ async function getFacilitiesByOrgId(request){
         let {orgId} = request
         let result = await axios.get(`${API_BASE_URL}/SMSService/Facilities/getByOrganization/${orgId}`)
         // if no facilities is configured by default chair, wifi will be available
-        let facilities = result.data ? result.data.data.map(item=>item.resources).map(([facilities])=>facilities.name.toLowerCase()) : ['chair','wifi']
+        let facilities = result.data ? result.data.data.flatMap(item => item.resources) // Flatten the nested arrays
+                                                        .filter(resource => resource && resource.name) // Filter out empty or undefined resources
+                                                        .map(resource => resource.name.toLowerCase()) : 
+                                                        ['chair', 'wifi'];
         return ({
             ...result.data,
             "facilities":facilities

@@ -31,10 +31,11 @@ export default function Tabs({ tabsData,spaceDetails }: any) {
             return (
               <button
                 key={idx}
-                 ref={(el) =>{
+                  ref={(el) =>{
                     if(el) {
                       (tabsRef.current[idx] = el)
                     }
+
                   }}
                 className={`pt-2 pb-3 px-4 " ${activeTabIndex !== idx && "opacity-30"}`}
                 onClick={() => setActiveTabIndex(idx)}

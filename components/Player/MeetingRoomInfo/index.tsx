@@ -1,16 +1,15 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useReducer, useState } from "react";
 import Devices from "../Devices";
 import ReportFaultModal from "../ReportFaultModal";
 import { Modal } from "../Modals/FindRoom";
 import Calender from "../MeetingCalenderContainer/Calender";
-import AnalogClock from "@/components/common/AnalogClock";
-import { getFacilitiesByOrgId } from "@/services/FacilitiesService";
+import Clock1 from "@/components/common/Clock";
 import { useSearchParams } from "next/navigation";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
+import "../../common/styles.css";
 export function MeetingRoomInfoReducer(state, action) {
   console.log("state", state);
   if (action.type === "selected_device") {
@@ -25,8 +24,31 @@ interface Message {
   serverity?: string;
   text?: string;
 }
+interface Interval {
+  start: number;
+  end: number;
+}
 
-function MeetingRoomInfo({ info, size = "LARGE", booked, spaceInfo }: any) {
+function MeetingRoomInfo({
+  info,
+  size = "LARGE",
+  booked,
+  spaceInfo,
+  themeInfo,
+}: any) {
+  let themeDataResponse;
+  let enableFaultReporting = true;
+  if (themeInfo && themeInfo.themedata) {
+    try {
+      themeDataResponse = JSON.parse(themeInfo.themedata);
+      enableFaultReporting = themeDataResponse.enableFaultReporting;
+    } catch (error) {
+      console.error("Error parsing JSON:", error);
+      themeDataResponse = null; // or handle the error as needed
+    }
+  } else {
+    themeDataResponse = null; // or handle the absence of data as needed
+  }
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [meetingInfoState, dispatch] = useReducer(MeetingRoomInfoReducer, {
@@ -40,22 +62,41 @@ function MeetingRoomInfo({ info, size = "LARGE", booked, spaceInfo }: any) {
       payload: device,
     });
   };
-  React.useEffect(()=>{
-    console.log(
-      `space`,spaceInfo
-    )
-  })
+
   const searchParams = useSearchParams();
 
   const spaceId = searchParams.get("spaceId");
-
+  let calendarId =
+    spaceInfo != null
+      ? spaceInfo.mappedCalendarIds != null
+        ? spaceInfo.mappedCalendarIds[0]
+        : "5"
+      : "6";
+  const queryParams12 = {
+    spaceId: spaceId || "",
+    calendarId: calendarId?.toString() || "",
+    themeid: themeInfo.id?.toString() || "",
+  };
   const handleClick = () => {
-    console.log("searchParams", searchParams);
-    router.push(`/meetinginfo?spaceId=${spaceId}`);
+    //console.log("searchParams", searchParams);
+    const queryString = new URLSearchParams(queryParams12).toString();
+    router.push(`/meetinginfo?${queryString}`);
+    //router.push(`/meetinginfo?spaceId=${queryParams}`);
   };
   const handleDeviceClick = () => {
+    if (!enableFaultReporting) return false;
     setShowModal(!showModal);
   };
+  const closeClick = () => {
+    router.push(`/meeting?spaceId=${spaceId}`);
+  };
+
+  const intervalsFromAPI: Interval[] = [
+    { start: 30, end: 200 },
+    { start: 90, end: 119 },
+    { start: 300, end: 400 },
+    { start: 600, end: 700 },
+  ];
   const options = {
     border: true,
     borderColor: "#2e2e2e",
@@ -120,8 +161,8 @@ function MeetingRoomInfo({ info, size = "LARGE", booked, spaceInfo }: any) {
             )}
           </div>
         </div>
-        <div className="self-end relative mt-10">
-          <AnalogClock {...options} isAvailable={!booked} />
+        <div className="clock-container">
+          <Clock1 intervals={intervalsFromAPI} />
         </div>
       </div>
 
@@ -136,6 +177,7 @@ function MeetingRoomInfo({ info, size = "LARGE", booked, spaceInfo }: any) {
             className={"cursor-pointer"}
             height={40}
             width={40}
+            onClick={() => closeClick()}
           />
           <div>A problem with a facility? Touch to report.</div>
           <Modal
@@ -151,10 +193,7 @@ function MeetingRoomInfo({ info, size = "LARGE", booked, spaceInfo }: any) {
             handleDeviceChange={handleDeviceChange}
           />
           <Snackbar open={success} autoHideDuration={5000}>
-            <Alert
-              variant="filled"
-              sx={{ width: "100%" }}
-            >
+            <Alert variant="filled" sx={{ width: "100%" }}>
               {message?.text}
             </Alert>
           </Snackbar>

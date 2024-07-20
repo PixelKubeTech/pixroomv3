@@ -48,13 +48,25 @@ const AddDevice = (props: IAddDeviceProps) => {
   const [playerResult, addDevice] = useMutation(ADD_DEVICE)
   const [openSuccess, setOpenSuccess] = React.useState(props.errorInfo?.code ? true : false)
   const [openError, setOpenError] = React.useState(false)
+  const searchParams = useSearchParams()
   const [message, setMessage] = React.useState<string>(props.errorInfo?.message ?props.errorInfo?.message:"" )
 
   let variable = {
     request: {
-      ...props.deviceInfo
+      contactPerson: "Kishore",
+      department: "Research",
+      deviceName: "Mobile",
+      deviceStatus: 1,
+      ipAddress: "192.168.1.5",
+      locationName: props.code,
+      orientation: "",
+      resolution: "1920 x 1080 (Full HD)",
+      serialNumber: props.macAddress,
+      spaceName: null,
+      theme: "6",
     },
-  }
+  };
+
   let handleAddDevice = () => {
     addDevice(variable)
       .then((result) => {

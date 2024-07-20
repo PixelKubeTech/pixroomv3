@@ -9,7 +9,7 @@ async function getSpaceInfo(request){
         let result = await axios.get(`${API_BASE_URL}/SMSService/Spaces/${spaceId}`)
         let spaceInfo = result.data
         return spaceInfo
-    }catch(e:any){
+    } catch(e:any){
         return {
             "success":false,
             "errors":{

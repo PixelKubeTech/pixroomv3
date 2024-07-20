@@ -25,7 +25,7 @@ const Layout = ({ children }: any) => {
                     <div className="p-4">
                       <NotificationIcon />
                     </div>
-                    <div ><Image src={"/assets/images/userprofile.png"} alt="" width="50" height="50" /> </div>
+                    <div ><Image src={"/pixroom/assets/images/userprofile.png"} alt="" width="50" height="50" /> </div>
                   </div>
                 </div>
               </header>
@@ -44,7 +44,7 @@ const Layout = ({ children }: any) => {
                       <div className="p-4">
                         <NotificationIcon />
                       </div>
-                      <div ><img src={"/assets/images/userprofile.png"} alt="" width="50" height="50" /> </div>
+                      <div ><img src={"/pixroom/assets/images/userprofile.png"} alt="" width="50" height="50" /> </div>
                     </div>
                   </div>
                 </header>

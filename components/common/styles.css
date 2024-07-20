@@ -1,6 +1,7 @@
 .clock-container {
-    position: relative;
-
+    position: absolute;
+    top:15px;
+    right:475px;
   }
 
 

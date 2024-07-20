@@ -9,14 +9,29 @@ import {
 } from "@/app/context/MeetingContext";
 import { getCurrentDate } from "@/app/utils/DateUtils";
 import { calenderReducer } from "../../../app/reducers/CalenderReducer";
-const MeetingInfoContainer = ({ spaceInfo, meetingInfo }) => {
-    const [calender, dispatch] = useReducer(calenderReducer, {
+const MeetingInfoContainer = ({ spaceInfo, meetingInfo,themeInfo }) => {
+
+  let meetingContainerInfo: any = {
+    "spaceInfo": spaceInfo ? spaceInfo : null,
+    "meetingInfo": meetingInfo ? meetingInfo : null,
+    "themeInfo": themeInfo && themeInfo.themedata ? (() => {
+      try {
+        return JSON.parse(themeInfo.themedata);
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+        return null;
+      }
+    })() : null,
+    "currentDate":getCurrentDate
+  };
+
+ const [calender, dispatch] = useReducer(calenderReducer, {
         meetingDate: getCurrentDate(),
       });
   return (
     <MeetingContext.Provider value={calender}>
       <MeetingDispatchContext.Provider value={dispatch}>
-        <MeetingInfoContext.Provider value={meetingInfo}>
+        <MeetingInfoContext.Provider value={meetingContainerInfo}>
           <div className={`w-full h-full`}>
             <div
               id="modal-root"
@@ -26,6 +41,7 @@ const MeetingInfoContainer = ({ spaceInfo, meetingInfo }) => {
                 info
                 spaceInfo={spaceInfo}
                 meetingInfo={meetingInfo}
+                themeInfo={themeInfo}
               />
               <MeetingCalenderContainer />
             </div>

@@ -1,0 +1,38 @@
+.thin-scrollbar::-webkit-scrollbar {
+    width: 0.2mm;
+    height: 0.2mm;
+  }
+  
+  .thin-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2); /* Lightly colored scrollbar thumb */
+    border-radius: 10px; /* Rounded corners for the scrollbar thumb */
+  }
+  
+  .thin-scrollbar::-webkit-scrollbar-track {
+    background: transparent; /* Transparent scrollbar track */
+  }
+  
+  /* For Firefox */
+  .thin-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    width: 1mm;
+    height: 1mm;
+  }
+  
+  .no-scrollbar::-webkit-scrollbar-thumb {
+    background: transparent; /* Make the scrollbar thumb transparent */
+  }
+  
+  .no-scrollbar::-webkit-scrollbar-track {
+    background: transparent; /* Make the scrollbar track transparent */
+  }
+  
+  /* For Firefox */
+  .no-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+  }

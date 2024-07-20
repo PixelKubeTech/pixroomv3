@@ -61,4 +61,22 @@
       transform: scale(0.95); /* Slightly scale down when clicked */
     }
   }
-  
+  /* Custom scrollbar styles */
+.no-scrollbar::-webkit-scrollbar {
+  width: 1mm;
+  height: 1mm;
+}
+
+.no-scrollbar::-webkit-scrollbar-thumb {
+  background: transparent; /* Make the scrollbar thumb transparent */
+}
+
+.no-scrollbar::-webkit-scrollbar-track {
+  background: transparent; /* Make the scrollbar track transparent */
+}
+
+/* For Firefox */
+.no-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}

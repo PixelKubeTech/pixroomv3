@@ -27,10 +27,9 @@ async function processMeetingInfo(result){
 }
 async function getEventInstances(request){
     try{
-        let {calendarId=121,startTime='',endTime} = request
+        let {calendarId='',startTime='',endTime} = request
         let result = await axios.get(`${API_BASE_URL}/event/getinstances?calendarId=${calendarId}&startTime=${startTime}&endTime=${endTime}`)
         let meetingInfo = await processMeetingInfo(result)
-
         return meetingInfo
     }catch(e:any){
         return {

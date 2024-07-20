@@ -1,5 +1,13 @@
-export const getCurrentDate = () => {
+export const getCurrentDate1 = () => {
   return new Date().toISOString().split('T')[0]
+}
+export const getCurrentDate = (): string => {
+  const date = new Date();
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+  const year = date.getFullYear();
+
+  return `${day}-${month}-${year}`;
 }
 
 export const reverseDate = (date: string | null) => {
@@ -70,4 +78,36 @@ export function getDifferenceInMinutes(startDateStr: string, endDateStr: string)
   const differenceInMinutes = differenceInMilliseconds / 1000 / 60
 
   return differenceInMinutes
+}
+
+export function addOneDay(dateString: string, blnformatdate: boolean = false): string {
+  let day: number, month: number, year: number;
+
+  // Determine if the format is YYYY-MM-DD or DD-MM-YYYY
+  if (dateString.indexOf('-') === 4) {
+    // Format is YYYY-MM-DD
+    [year, month, day] = dateString.split('-').map(Number);
+  } else {
+    // Format is DD-MM-YYYY
+    [day, month, year] = dateString.split('-').map(Number);
+  }
+
+  const newDate = new Date(year, month - 1, day); 
+  // Adjust the date by adding one day
+  if (!blnformatdate) {
+    newDate.setDate(newDate.getDate() + 1);
+  }
+
+  // Format the date in YYYY-MM-DDTHH:mm:ss.sssZ
+  const yearStr = newDate.getFullYear();
+  const monthStr = String(newDate.getMonth() + 1).padStart(2, '0'); // Months are zero indexed, so add 1
+  const dayStr = String(newDate.getDate()).padStart(2, '0');
+  const hours = String(newDate.getUTCHours()).padStart(2, '0');
+  const minutes = String(newDate.getUTCMinutes()).padStart(2, '0');
+  const seconds = String(newDate.getUTCSeconds()).padStart(2, '0');
+  const milliseconds = String(newDate.getUTCMilliseconds()).padStart(3, '0');
+
+  const isoString = `${yearStr}-${monthStr}-${dayStr}T${hours}:${minutes}:${seconds}.${milliseconds}Z`;
+
+  return isoString;
 }
