@@ -101,7 +101,6 @@ function CalenderFormComponent(props) {
           </div>
         </div>
       </div>
-      <div className="flex lg:flex-row flex-col">
         <div className="flex items-center justify-between gap-4">
           <span>Meeting Title :</span>
           <div className="w-[70%]">
@@ -122,7 +121,6 @@ function CalenderFormComponent(props) {
             />
           </div>
         </div>
-      </div>
       <Button
         handleClick={handleSubmit(onSubmit)}
         text={"Book This Slot"}
