@@ -42,7 +42,7 @@
   .hours {
     position: absolute;
     width: 25px;
-    height: 8px;
+    height: 4px;
     background-color: black;
     top: 50%;
     left: 50%;
@@ -55,7 +55,7 @@
   .minutes {
     position: absolute;
     width: 37.5%;
-    height: 4px;
+    height: 2px;
     background-color: black;
     top: 50%;
     left: 50%;
@@ -68,7 +68,7 @@
   .seconds {
     position: absolute;
     width: 42.5%;
-    height: 2px;
+    height: 1px;
     background-color: crimson;
     top: 50%;
     left: 50%;
@@ -80,20 +80,20 @@
   
   .minute-mark{
     position: absolute;
-    width: 2px;
-    height: 12px;
+    width: 1px;
+    height: 10px;
     left: 50%;
-    margin-top: 12px;
-    margin-bottom: 12px;
+    margin-top: 10px;
+    margin-bottom: 10px;
   
   }
   
   .hour-mark{
     position: absolute;
-    width: 3px;
-    height: 25px;
-    left: 50%;
-    margin-top: 22px;
+    width: 2px;
+    height: 16px;
+    left: 51%;
+    margin-top: 14px;
     margin-bottom: 10px;
   }
   
@@ -101,6 +101,6 @@
   .borderSection{
     position: absolute;
     width: 10px;
-    height: 3px;
+    height: 2px;
     left: 50%;
   }

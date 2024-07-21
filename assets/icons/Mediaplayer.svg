@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="54.491" height="47.111" viewBox="0 0 54.491 47.111">
+  <defs>
+    <pattern id="pattern" preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 40 37">
+      <image width="40" height="37" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAlCAYAAAAwYKuzAAAABHNCSVQICAgIfAhkiAAAA3pJREFUWEftmFmoTVEYx13zXGYlIVGUMV5kHqKIB2QoiRJRilx5QJnyYJ4y5EEekAfFAw+SWYgks4TIlEyZyfD7aR1tt7P32eee6+189Wvvc/Za3/qvb63v2+ucktLS0koprTLtWkF/GASdoQk0hqoJPt7w7CU8gFNwFG7ApzTjlqQQ2BBHQ2FMuNYp49iBFPAOvsAvqAb1oBHYv6xd5ot9cCSIjdWaJLA2vabAVOge8aCQs3AersALMErv4WtEoP0bBJEdufaAvtAm4usJ9wdgPdzPpjJO4AgaL4OuodNnrucis37O/Y/Yacc/MKq9YDwMgRah6Suu62ALvI12LyvQPbUUZkQauRQ74Vg5BCV1MaoKdSzH1VyZBXAm0zEqsCdfboPMcrqEi4Iw99X/srZB1GSu7t0PYOaqpVJG4Cjut0MzcKOvgpXg0qY195wJVALuRfdqPjaSxquhXeikhuUKnMfNEnCAZ2DID+XwbFmx5AyAbtAeLDc1wHL0DYzEPbgJJ+Eq5CotrWmzFYaF8fcqcA8fJoC1aRKYmXHWnAcm0DjoEwTlmMvfx3e4c6yDQWxcPyfparrk1xTooP3gAjyM6WXELDkzIZPZNjXjLsJtsNz42eyuC258S4p7O1parJl7YQ08ihmvJt8Ph/tpCnUXGq6FgcGZ9e5EGOQ419fgkmYzl7s+6GMsuM9ahoaPuS6GXTF9/3ydS6BlYAM0DU72c90Mp5OcJjwzkhb+WWAR16x/VouP2frFCXTmLqeRM/WfwnxwaX6WU1y0W6fge3Bk4tO5/6dIJ0XQjHSvaO5NZ202VqTVwtkKmBOcGhAz+B+Li2B1Wm0El2Eu+M6Msyo8sNh2ABPOz0biLtyCrEsXnFkzF0LvMI6VJJXABD1/HynGE85EsBaaeVH7zgez1MPAbrie4NQtlXXr5EqSOJ+jw8yjJcfsttBbZoy8E8iYme7yeQDxLZPa8hVolEwWy4NL6dviMFiAL4Gvxsx50GX3FWpRbx0U2XYamHSpLF+B1jJLjWbyKNZTcpJ5pLKMmKXaJpidSh2N8hXoodNS4+vQd7ZLl9ZMNo9SJsWOtJ3yFahfMzzuzZFrXEtLPiekvCOYS0CFPy9PBCtcRJLDosBCw12MYDGChUag0P7FPViMYKERKLR/cQ8WI1hgBPzV5n8t/rb2j6O8//T8DY5c15irIOKFAAAAAElFTkSuQmCC"/>
+    </pattern>
+  </defs>
+  <g id="Media_Player_Icon" transform="translate(-3.732 -2.5)">
+    <g id="Media_Player_Icon-2" data-name="Media_Player_Icon">
+      <g id="Media_Player_Icon-3" data-name="Media_Player_Icon" transform="translate(3 3)">
+        <g id="Media_Player" data-name="Media Player">
+          <rect id="Rectangle_4_copy" data-name="Rectangle 4 copy" width="51.731" height="17.805" rx="3.679" transform="translate(2.111 27.426)" fill="none" stroke="#757575" stroke-width="2.759"/>
+          <ellipse id="Ellipse_4" data-name="Ellipse 4" cx="3.681" cy="3.695" rx="3.681" ry="3.695" transform="translate(30.047 32.181)" fill="#757575" stroke="#757575" stroke-width="0"/>
+          <ellipse id="Ellipse_4_copy" data-name="Ellipse 4 copy" cx="3.681" cy="3.695" rx="3.681" ry="3.695" transform="translate(39.053 32.181)" fill="#757575" stroke="#757575" stroke-width="0"/>
+        </g>
+        <rect id="noun-connection-2282511_copy" data-name="noun-connection-2282511 copy" width="36.721" height="34.098" transform="translate(9.18)" fill="url(#pattern)"/>
+      </g>
+      <path id="Color_Overlay" data-name="Color Overlay" d="M8.79,48.23a3.679,3.679,0,0,1-3.679-3.679V34.1A3.679,3.679,0,0,1,8.79,30.425H12.18V3H48.9V30.425h4.262A3.679,3.679,0,0,1,56.842,34.1V44.551a3.679,3.679,0,0,1-3.679,3.679Z" fill="#40515d"/>
+      <path id="Stroke_Effect" data-name="Stroke Effect" d="M8.79,48.23a3.679,3.679,0,0,1-3.679-3.679V34.1A3.679,3.679,0,0,1,8.79,30.425H12.18V3H48.9V30.425h4.262A3.679,3.679,0,0,1,56.842,34.1V44.551a3.679,3.679,0,0,1-3.679,3.679Z" fill="none" stroke="#40515d" stroke-linejoin="round" stroke-width="1"/>
+    </g>
+  </g>
+</svg>

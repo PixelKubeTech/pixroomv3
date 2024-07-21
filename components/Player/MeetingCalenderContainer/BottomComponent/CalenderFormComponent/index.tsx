@@ -101,24 +101,26 @@ function CalenderFormComponent(props) {
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-between gap-4">
-        <span>Meeting Title :</span>
-        <div className="w-[70%]">
-          <Input
-            fillWidth={true}
-            register={register("meetingName")}
-            placeholder={"Enter meeting title"}
-          />
+      <div className="flex lg:flex-row flex-col">
+        <div className="flex items-center justify-between gap-4">
+          <span>Meeting Title :</span>
+          <div className="w-[70%]">
+            <Input
+              fillWidth={true}
+              register={register("meetingName")}
+              placeholder={"Enter meeting title"}
+            />
+          </div>
         </div>
-      </div>
-      <div className="flex items-center justify-between gap-4">
-        <span>Booked By :</span>
-        <div className="w-[70%]">
-          <Input
-            fillWidth={true}
-            register={register("participants")}
-            placeholder={"Enter meeting organizer name"}
-          />
+        <div className="flex items-center justify-between gap-4">
+          <span>Booked By :</span>
+          <div className="w-[70%]">
+            <Input
+              fillWidth={true}
+              register={register("participants")}
+              placeholder={"Enter meeting organizer name"}
+            />
+          </div>
         </div>
       </div>
       <Button

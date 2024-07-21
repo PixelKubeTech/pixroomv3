@@ -132,7 +132,7 @@ function MeetingRoomInfo({
           </div>
           <div className={"flex flex-col justify-between"}>
             <div className="flex flex-col justify-between">
-              <h1 className="text-5xl font-bold flex items-center">
+              <h1 className="text-xl md:text-2xl lg:text-3xl xl:text-5xl font-bold flex items-center">
                 {spaceInfo?.spaceAliasName ? spaceInfo?.spaceAliasName : ""}{" "}
                 {!info && (
                   <span
@@ -161,9 +161,7 @@ function MeetingRoomInfo({
             )}
           </div>
         </div>
-        <div className="clock-container">
-          <Clock1 intervals={intervalsFromAPI} />
-        </div>
+        <Clock1 intervals={intervalsFromAPI} />
       </div>
 
       {info ? (

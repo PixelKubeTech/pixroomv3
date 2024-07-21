@@ -20,6 +20,7 @@ interface Time {
 export default function Clock(props: ClockProps): JSX.Element {
   const { intervals } = props;
   const marks = Array.from({ length: 60 }, (_, i) => i + 1);
+  const clockSize = 120;
 
   const [time, setTime] = React.useState<Time>(() => {
     const currentDate = new Date();
@@ -61,15 +62,14 @@ export default function Clock(props: ClockProps): JSX.Element {
   };
 
   return (
-    <div className="clock-wrapper">
-      <div className="clock">
+    <div className="clock" style={{width: clockSize + 'px', height: clockSize + 'px' }}>
         {Array.from({ length: 360 }).map((_, index) => (
           <div
             key={index}
             className="borderSection"
             style={{
               transform: `rotate(${index}deg) translateX(50%)`,
-              transformOrigin: `0 75px`,
+              transformOrigin: `0 ${clockSize/2}px`,
               backgroundColor: getSectionColor(index, intervals),
             }}
           />
@@ -82,7 +82,7 @@ export default function Clock(props: ClockProps): JSX.Element {
                 className={`${mark % 5 === 0 ? "hour-mark" : "minute-mark"}`}
                 style={{
                   transform: `translateX(-75%) translateY(-85%) rotate(${mark * 6}deg)`,
-                  transformOrigin: `0 75px`,
+                  transformOrigin: `0 ${clockSize/2}px`,
                   backgroundColor: shouldHighlight(mark) ? "black" : "grey",
                 }}
               />
@@ -108,7 +108,6 @@ export default function Clock(props: ClockProps): JSX.Element {
           }}
         ></div>
       </div>
-    </div>
   );
 }
 

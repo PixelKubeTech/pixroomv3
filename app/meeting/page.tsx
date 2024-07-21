@@ -41,7 +41,7 @@ export default async function Home(props) {
   let meetingInfo = meetingResponse
   return (
     <div
-      className={`min-h-[700px] h-screen max-h-screen w-screen p-4 box-border bg-cover overflow-y-hidden`}
+      className={`h-screen max-h-screen w-screen p-4 box-border bg-cover overflow-y-hidden`}
       style={{ backgroundImage: `url(../../pixroom/assets/images/mainbg.png)` }}
     >
       <MeetingContainer currentDate={currentDate} spaceInfo={spaceInfo} meetingInfo={meetingInfo} themeInfo={themeResponse} calendarId={calendarparam} booked={false} info={false}/>

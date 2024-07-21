@@ -1,0 +1,42 @@
+ .meeting-card {
+    width: 400px;
+    /* padding: 40px; */
+    /* border-radius: 10px; */
+    /* background-color: #f8e5e7; */
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    /* color: #000; */
+  } 
+  
+  .logo {
+    width: 100px;
+    margin-bottom: 20px;
+  }
+  
+  .time {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .title {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .booked-by {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  
+  .participants {
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    font-size: 18px;    
+  }
+  
+  .user-icon {
+    margin-right: 5px;
+  }

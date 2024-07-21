@@ -32,6 +32,7 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId}: any) {
   const {meetingDate} = useContext(MeetingContext) || {}
   const [success, setSuccess] = React.useState(false);
   const [message, setMessage] = React.useState<Message>();
+  const [eventBookingDetails, setEventBookingDetails] = React.useState(null);
   let themeDataResponse;
   if (themeInfo && themeInfo.themedata) {
     try {
@@ -45,6 +46,10 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId}: any) {
   }
   let showFindRoom=themeDataResponse!=null ? themeDataResponse.findRoom:true;
   let scrollSubject=themeDataResponse!=null  ? themeDataResponse.scrollSubject:true;
+
+  const eventClick = (data) => {
+   setEventBookingDetails(data.bookingDetails);
+   };
 
   useEffect(() => {
     const starttime = meetingDate ? addOneDay(meetingDate,true) : new Date();
@@ -72,33 +77,33 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId}: any) {
     fetchMeetingResponse();
   }, [meetingDate]);
   return (
-    <div className="flex justify-between h-[80%]">
-      <QRContainer booked={booked} showFindRoom={showFindRoom} scrollSubject={scrollSubject} />
-      <div className="w-[30%] h-[100%] min-h-[100%] bg-black/5 rounded-br-[40px]">
-      <div className="bg-green h-[90%] max-h-[90%] rounded-b-[40px] py-4 pl-4">
+    <div className="flex justify-between" style={{height: 'calc(100% - 150px)'}}>
+      <QRContainer booked={booked} showFindRoom={showFindRoom} scrollSubject={scrollSubject} eventBookingDetails={eventBookingDetails} />
+      <div className="w-[30%] h-[100%] bg-black/5 rounded-br-[40px] right-bbb">
+        <div className="bg-green rounded-b-[40px] py-4 pl-4" style={{height: 'calc(100% - 52px)'}}>
           <p className="py-2 text-lg pb-4 px-4 bg-[#0072B8]/5 mb-2 rounded-lg">
             Today
           </p>
           <div className="h-[86%] overflow-hidden">
             {
-              selectedMeetingInfo.length == 0 ? "No meeting scheduled..." :  <TimelineComponent meetingInfo={selectedMeetingInfo} themeInfo={themeDataResponse} />
+              selectedMeetingInfo.length == 0 ? "No meeting scheduled..." :  <TimelineComponent  eventClick={eventClick} meetingInfo={selectedMeetingInfo} themeInfo={themeDataResponse} />
             }
           </div>
         </div>
         {themeDataResponse?.allowBooking?
-        <div className="flex items-center justify-center h-[10%] rounded-b-[40px]">
+        <div className="flex items-center justify-center rounded-b-[40px] py-2">
           <Button
             text={"Book This Room"}
             className={"px-10"}
             handleClick={() => setShowModal(true)}
           />
-          <Modal
-            onClose={() => setShowModal(false)}
-            show={showModal}
-            title={"Book a Room"}
-          >
-            <MeetingDailer setSuccess={setSuccess} setMessage={setMessage}  onClose={() => setShowModal(false)}/>
-          </Modal>
+            <Modal
+              onClose={() => setShowModal(false)}
+              show={showModal}
+              title={"Book a Room"}
+            >
+              <MeetingDailer setSuccess={setSuccess} setMessage={setMessage}  onClose={() => setShowModal(false)}/>
+            </Modal>
         </div>:null}
       </div>
       <Snackbar open={success} autoHideDuration={5000}>

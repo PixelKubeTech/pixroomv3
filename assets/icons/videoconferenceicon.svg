@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="51" height="44" viewBox="0 0 51 44">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_277" data-name="Rectangle 277" width="51" height="44" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Video_Conference_Icon" transform="translate(-3 -3)">
+    <g id="Video_Conference_Icon-2" data-name="Video_Conference_Icon">
+      <g id="Video_Conference_Icon-3" data-name="Video_Conference_Icon" transform="translate(3 3)">
+        <g id="Group_114" data-name="Group 114">
+          <g id="Group_113" data-name="Group 113" clip-path="url(#clip-path)">
+            <path id="Path_1497" data-name="Path 1497" d="M31.155,28.809H15.595a1.857,1.857,0,0,1-1.86-1.854V15.985a1.857,1.857,0,0,1,1.86-1.854h15.57a1.857,1.857,0,0,1,1.861,1.856l-.009,10.97A1.857,1.857,0,0,1,31.155,28.809Z" fill="none" stroke="#494949" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.287"/>
+            <path id="Path_1498" data-name="Path 1498" d="M33.044,18.951l5.4-2.918h1.965V27H38.441l-5.4-2.918" fill="none" stroke="#494949" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.287"/>
+            <path id="Path_1499" data-name="Path 1499" d="M1.146,42.858l1.489-.223A28.36,28.36,0,0,0,13.988,38.36a25.532,25.532,0,0,0,13.837,3.31c11.813-.487,21.421-8.885,22-19.23C50.5,10.393,39.167.509,25.4,1.173,13.132,1.765,3.437,10.864,3.558,21.622a18.3,18.3,0,0,0,3.3,10.229l-.153.555a27.051,27.051,0,0,1-4.544,9.115Z" fill="none" stroke="#494949" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.287"/>
+          </g>
+        </g>
+      </g>
+      <path id="Color_Overlay" data-name="Color Overlay" d="M5.158,44.52A27.05,27.05,0,0,0,9.7,35.405l.153-.555a18.3,18.3,0,0,1-3.3-10.229C6.437,13.864,16.132,4.765,28.4,4.173c13.771-.664,25.1,9.22,24.43,21.266-.58,10.346-10.188,18.743-22,19.229A25.529,25.529,0,0,1,16.988,41.36,28.358,28.358,0,0,1,5.634,45.635l-1.489.222Z" fill="#40515d"/>
+    </g>
+  </g>
+</svg>

@@ -15,6 +15,7 @@ import {getDifferenceInMinutes} from '../../../app/utils/DateUtils'
 import { DeviceMapping } from '../Devices/deviceMapping'
 import { getFacilitiesByOrgId } from '@/services/FacilitiesService'
 import MeetingDailer from '../MeetingDailer'
+import { Modal } from '../Modals/FindRoom'
 
 function DeviceIcon({ size, deviceIcon }) {
   let icon = DeviceMapping.find((device) =>
@@ -30,9 +31,19 @@ function DeviceIcon({ size, deviceIcon }) {
     />
   );
 }
+interface Message {
+  serverity: string;
+  text?: string;
+}
+const handleRowClick = () => {
+  //alert('Row clicked');
+};
+
 function FindRoomTable() {
   const [loading, setLoading] =React.useState(true);
   const [showModal, setShowModal] = React.useState(false);
+  const [success, setSuccess] = React.useState(false);
+  const [message, setMessage] = React.useState<Message>();
   let [rooms, setRooms] = React.useState([])
   const [facilities, setFacilities] = React.useState<string[]>([]);
   console.log("orgId", '42');
@@ -110,6 +121,7 @@ function FindRoomTable() {
                 <TableRow
                   key={idx}
                   style={{ backgroundColor: idx % 2 === 0 ? 'slategray' : 'white' }}
+                  onClick={() => setShowModal(true)}
                 >
                   <TableCell component="th" scope="row">
                     <div
@@ -143,6 +155,15 @@ function FindRoomTable() {
             </TableBody>
           </Table>
         </TableContainer>
+        <div>
+           <Modal
+              onClose={() => setShowModal(false)}
+              show={showModal}
+              title={"Book a Room"}
+            >
+              <MeetingDailer setSuccess={setSuccess} setMessage={setMessage}  onClose={() => setShowModal(false)}/>
+            </Modal>
+        </div>
       </div>
     </div>
   )
