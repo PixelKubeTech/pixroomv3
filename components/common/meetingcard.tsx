@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaUser } from 'react-icons/fa';
-import './meetingCard.css';
+import './meetingcard.css';
 
 interface MeetingCardProps {
     time: string;
