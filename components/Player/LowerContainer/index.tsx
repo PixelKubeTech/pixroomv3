@@ -53,6 +53,8 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId}: any) {
 
    let [progress, setProgress] = React.useState(0);
 
+  
+
   useEffect(() => {
     const starttime = meetingDate ? addOneDay(meetingDate,true) : new Date();
     const enddate = meetingDate ? addOneDay(meetingDate) : new Date();
@@ -78,11 +80,12 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId}: any) {
 
     fetchMeetingResponse();
   }, [meetingDate]);
- useEffect(() => {
+  useEffect(() => {
     if(progress < 97) {
       setTimeout(() => setProgress(newVal1=>newVal1+1), 200)
     }
-  })  return (
+  });
+ return (
     <div className="flex justify-between relative" style={{height: 'calc(100% - 150px)'}}>
       <QRContainer booked={booked} showFindRoom={showFindRoom} scrollSubject={scrollSubject} eventBookingDetails={eventBookingDetails} />
       <div className="w-[30%] h-[100%] bg-black/5 rounded-br-[40px] pb-3">
