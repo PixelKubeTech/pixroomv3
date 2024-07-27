@@ -98,3 +98,38 @@
 .red-clock .react-clock__minute-hand__body {
   background-color: red; /* red for hour and minute hands */
 }
+
+@media only screen and (max-width: 1200px) {
+  .meeting-info.large-mode {
+    padding: 2px;
+  }
+  .meeting-info.large-mode .uppercase {
+    font-size: 10px;
+  }
+  .meeting-info.large-mode .date-text {
+    height: 30px;
+    width: 30px;
+    font-size: 14px;
+  }
+}
+
+@media only screen and (max-width: 1300px) {
+  .meeting-information >  div > span {
+    display: none;
+  }
+  .meeting-information {
+    flex-direction: row;
+    justify-content: space-between;
+    > div {
+      gap: 0;
+      > div {
+        width: 100%;
+      }
+    }
+  }
+}
+.progress-bar {
+    border-bottom-left-radius: 100px;
+    border-bottom-right-radius: 100px;
+    background-color: rgb(88, 150, 139);
+}

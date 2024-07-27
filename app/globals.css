@@ -19,17 +19,3 @@
 body {
   margin: 0;
 }
-
-@media only screen and (max-width: 1200px) {
-  .meeting-info.large-mode {
-    padding: 2px;
-  }
-  .meeting-info.large-mode .uppercase {
-    font-size: 10px;
-  }
-  .meeting-info.large-mode .date-text {
-    height: 30px;
-    width: 30px;
-    font-size: 14px;
-  }
-}

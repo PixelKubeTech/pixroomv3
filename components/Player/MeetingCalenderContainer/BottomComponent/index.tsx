@@ -66,7 +66,7 @@ function BottomComponent() {
    
   const meetingInfo = React.useContext(MeetingInfoContext) || meetingInfodata;
   return (
-    <div className='flex px-8 flex-auto max-h-[calc(100%-240px)] '>
+    <div className='flex px-8 h-[56%]'>
         <TimelineComponent meetingInfo={meetingInfo} eventClick={eventClick}/>
         <CalenderFormComponent meetingInfo={meetingInfo} eventBookingDetails={bookingDetails}/>
     </div>

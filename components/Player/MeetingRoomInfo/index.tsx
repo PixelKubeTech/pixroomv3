@@ -115,7 +115,7 @@ function MeetingRoomInfo({
         "w-full h-[20vh] min-h-[150px] flex justify-between box-border  rounded-[40px] bg-white/25"
       }
     >
-      <div className={"flex justify-between flex-1 pt-6 pb-5 pl-10 pr-6"}>
+      <div className={"flex justify-between flex-1 pt-6 pb-5 pl-10 pr-6 items-center"}>
         <div className="flex ">
           <div className={"flex flex-col justify-between items-center mr-4"}>
             <img

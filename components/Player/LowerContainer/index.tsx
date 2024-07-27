@@ -51,6 +51,8 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId}: any) {
    setEventBookingDetails(data.bookingDetails);
    };
 
+   let [progress, setProgress] = React.useState(0);
+
   useEffect(() => {
     const starttime = meetingDate ? addOneDay(meetingDate,true) : new Date();
     const enddate = meetingDate ? addOneDay(meetingDate) : new Date();
@@ -76,10 +78,14 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId}: any) {
 
     fetchMeetingResponse();
   }, [meetingDate]);
-  return (
-    <div className="flex justify-between" style={{height: 'calc(100% - 150px)'}}>
+ useEffect(() => {
+    if(progress < 97) {
+      setTimeout(() => setProgress(newVal1=>newVal1+1), 200)
+    }
+  })  return (
+    <div className="flex justify-between relative" style={{height: 'calc(100% - 150px)'}}>
       <QRContainer booked={booked} showFindRoom={showFindRoom} scrollSubject={scrollSubject} eventBookingDetails={eventBookingDetails} />
-      <div className="w-[30%] h-[100%] bg-black/5 rounded-br-[40px] right-bbb">
+      <div className="w-[30%] h-[100%] bg-black/5 rounded-br-[40px] pb-3">
         <div className="bg-green rounded-b-[40px] py-4 pl-4" style={{height: 'calc(100% - 52px)'}}>
           <p className="py-2 text-lg pb-4 px-4 bg-[#0072B8]/5 mb-2 rounded-lg">
             Today
@@ -115,6 +121,9 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId}: any) {
           {message?.text}
         </Alert>
       </Snackbar>
+     <div className="left-[22px] right-[22px] absolute bottom-0">
+        <div className="progress-bar h-[8px] w-[30%]" style={{width: `${progress}%`}}></div>
+      </div>  
     </div>
   );
 }

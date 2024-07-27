@@ -1,11 +1,6 @@
  .meeting-card {
     width: 400px;
-    /* padding: 40px; */
-    /* border-radius: 10px; */
-    /* background-color: #f8e5e7; */
-    text-align: center;
     font-family: 'Arial', sans-serif;
-    /* color: #000; */
   } 
   
   .logo {
@@ -32,8 +27,6 @@
   
   .participants {
     display: flex;
-    align-items: start;
-    justify-content: start;
     font-size: 18px;    
   }
   
