@@ -7,6 +7,7 @@ import { DeviceService, EventService } from "../../services";
 import { useSearchParams } from "next/navigation";
 import { IErrorInfo, IResponse } from "./SettingsInterface";
 import { getCurrentDate,addOneDay } from "../utils/DateUtils";
+import moment from "moment";
 
 function Settings() {
   const router = useRouter();
@@ -39,18 +40,27 @@ function Settings() {
             themeId:serialResponse.result.theme
           };
 
-          // const starttime = currentDate ? addOneDay(currentDate,true) : new Date();
-          // const enddate = currentDate ? addOneDay(currentDate) : new Date();
+          const starttime = moment().utc().format('YYYY-MM-DD hh:mm:ss');
+          const enddate = moment().utc().format('YYYY-MM-DD 23:59:59');
+          let currentTime=moment().utc().format('hh:mm');
          
-          // let meetingResponse = await EventService.getEventInstances({
-          //   calendarId: serialResponse.result.calendarId,
-          //   startTime: starttime,
-          //   endTime: enddate,
-          // });
-      
-          //console.log("meetingResponse", meetingResponse);
+          let meetingResponse = await EventService.getEventInstances({
+            calendarId: serialResponse.result.calendarId,
+            startTime: starttime,
+            endTime: enddate,
+          });
+
+          let pageName="meeting";
+          //let currentTime=new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          if(meetingResponse!=null)
+          {
+            meetingResponse.map(x=>{
+              if(x.date==currentDate && x.bookingDetails!=null &&  currentTime >= x.bookingDetails.from && currentTime < x.bookingDetails.to)
+                  pageName="meetingbooked";
+            })
+          }
           const queryString = new URLSearchParams(queryParams).toString();
-          router.push(`/meeting?${queryString}`);
+          router.push(`/${pageName}?${queryString}`);
           //router.push(`/meeting?spaceId=${serialResponse.result.spaceId}`);
           setLoading(false);
         } else if (!serialResponse.success) {
