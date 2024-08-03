@@ -9,7 +9,6 @@ import Clock1 from "@/components/common/Clock";
 import { useSearchParams } from "next/navigation";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import "../../common/styles.css";
 export function MeetingRoomInfoReducer(state, action) {
   console.log("state", state);
   if (action.type === "selected_device") {
@@ -137,10 +136,10 @@ function MeetingRoomInfo({
                 {!info && (
                   <span
                     onClick={handleClick}
-                    className={`text-[#58968b] pl-2 cursor-pointer`}
+                    className={`text-[#58968b] pl-2 cursor-pointer mt-2`}
                   >
                     <img
-                      className={`text-[#58968b] h-[35px] w-[35px]`}
+                      className={`text-[#58968b] h-[30px] w-[30px]`}
                       src="../pixroom/assets/images/info_icon.svg"
                     />
                   </span>

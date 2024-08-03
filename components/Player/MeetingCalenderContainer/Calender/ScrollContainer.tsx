@@ -3,8 +3,6 @@ import React, { useContext, useState } from "react";
 import moment from "moment";
 import Date from "./Date";
 import { MeetingDispatchContext } from '../../../../app/context/MeetingContext'
-import "./scrollbarthincalendar.css";
-
 
 function ScrollContainer({margin = 4, size = 'LARGE'} : any) {
   const calender:any = useContext(MeetingDispatchContext)

@@ -30,7 +30,7 @@ function QRContainer(props: QRContainerProps) {
   return (
     <div className="h-full flex flex-col w-[70%] p-6 mb-10 relative">
 
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center pl-[76px]">
         <img
               height={50}
               width={200}
@@ -68,17 +68,17 @@ function QRContainer(props: QRContainerProps) {
       <MeetingCard {...meetingDetails} />
 
       <img
-        className="absolute bottom-8 right-2"
-          height={150}
-          width={150}
+        className="absolute bottom-[10%] right-[10%]"
+          height={75}
+          width={75}
           src={"../../../../pixroom/assets/images/qr.png"}
         />
       {props.booked ? (
-      <div className="absolute bottom-0 flex gap-1 pb-3 pl-4">
+      <div className="absolute flex items-center bottom-4 flex gap-1 pb-3 pl-6">
         <img
           className="cursor-pointer"
-          height={24}
-          width={24}
+          height={36}
+          width={36}
           src={"../../../../pixroom/assets/images/Search_BTN.png"}
           onClick={() => setShowTimelineModal(!showTimelineModal)}
         />

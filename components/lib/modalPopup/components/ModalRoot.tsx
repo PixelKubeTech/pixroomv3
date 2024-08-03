@@ -25,8 +25,8 @@ export default function ModalRoot() {
   const ModalComponent = modal.component ? modal.component : null;
 
   return (
-    <section className={ modal.component ? styles.modalRoot : '' }>
-      
+    <section className={ modal.component ? 'fixed inset-0 z-50 w-screen h-screen flex items-center justify-center bg-[#010101]/[0.2]' : ''} 
+      style={{backgroundColor: `rgba(1, 1, 1, 0.2)`,}}>
       { ModalComponent && (
         <ModalComponent
           { ...modal.props }

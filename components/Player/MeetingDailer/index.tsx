@@ -21,7 +21,7 @@ const MeetingTime = ({ hour, time }) => {
   const val = time < 10 ? `0${time}` : time;
   return (
     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  text-2xl">
-      <div className="circle-container">
+      <div className="flex justify-center items-center h-[300px]">
         <div className="circle">{`${hour}:${val}`}</div>
       </div>
     </div>
@@ -105,8 +105,8 @@ const MeetingDailer = ({  onClose, setMessage, setSuccess }) => {
           onChange={handleChange}
         />
         <div className="flex flex-col items-center mt-10">
-          <div className="time-label">START TIME</div>
-          <div className="mt-2 time-value">{getCurrentTimePlus1()}</div>
+          <div className="text-[#9eb1b3] text-xl">START TIME</div>
+          <div className="mt-2 text-[#9eb1b3] text-3xl">{getCurrentTimePlus1()}</div>
         </div>
       </div>
       <div className="flex justify-between items-center mt-10">

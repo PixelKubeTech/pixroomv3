@@ -16,9 +16,12 @@ function AnalogClock(props) {
   }, []);
 
   return (
-    <div className="clock-container">
+    <div className="absolute top-[3%] right-[28%]">
       <Clock value={value} size={120} hourMarksLength={15}  className={props.isAvailable? "black-clock":"red-clock"}/>
-      <div  className="day-text">{currentDay}</div>
+      <div className="day-text absolute top-[60%] left-1/2 text-sm text-[#333333]"
+        style={{
+          transform: `translate(-50%, -50%)`,
+        }}>{currentDay}</div>
     </div>
   );
 }

@@ -19,3 +19,81 @@
 body {
   margin: 0;
 }
+
+/* scrollbarthincalendar.css moved below */
+
+.thin-scrollbar::-webkit-scrollbar {
+  width: 0.2mm;
+  height: 0.2mm;
+}
+
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  /* Lightly colored scrollbar thumb */
+  border-radius: 10px;
+  /* Rounded corners for the scrollbar thumb */
+}
+
+.thin-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  /* Transparent scrollbar track */
+}
+
+/* For Firefox */
+.thin-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  width: 1mm;
+  height: 1mm;
+}
+
+.no-scrollbar::-webkit-scrollbar-thumb {
+  background: transparent;
+  /* Make the scrollbar thumb transparent */
+}
+
+.no-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  /* Make the scrollbar track transparent */
+}
+
+/* For Firefox */
+.no-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+
+/* moved from components/common/styles.css */
+@media only screen and (max-width: 1200px) {
+  .meeting-info.large-mode {
+    padding: 2px;
+  }
+  .meeting-info.large-mode .uppercase {
+    font-size: 10px;
+  }
+  .meeting-info.large-mode .date-text {
+    height: 30px;
+    width: 30px;
+    font-size: 14px;
+  }
+}
+
+@media only screen and (max-width: 1300px) {
+  .meeting-information >  div > span {
+    display: none;
+  }
+  .meeting-information {
+    flex-direction: row;
+    justify-content: space-between;
+    > div {
+      gap: 0;
+      > div {
+        width: 100%;
+      }
+    }
+  }
+}
