@@ -10,13 +10,12 @@ interface MeetingCardProps {
   
 const MeetingCard: React.FC<MeetingCardProps> = ({ time, title, bookedBy, participants }) => {
   return (  
-    <div className="meeting-card pl-6 mt-auto mb-auto">
-      {/* <img src="https://upload.wikimedia.org/wikipedia/commons/b/bd/Tesla_Motors.svg" alt="Tesla" className="logo" /> */}
-      <div className="time">{time}</div>
-      <div className="title">{title}</div>
-      <div className="booked-by">Booked by {bookedBy}</div>
-      <div className="participants flex items-center">
-        <FaUser className="user-icon" />
+    <div className="pl-[76px] mt-auto mb-auto">
+    <div className="text-4xl font-extralight mb-1.5">{time}</div>
+    <div className="text-[54px] font-bold mb-2.5">{title}</div>
+    <div className="text-base font-semibold text-[#7d7d7d] mb-5">Booked by {bookedBy}</div>
+    <div className="flex items-center text-lg">
+      <FaUser className="mr-[5px]" />
         <span>{participants}</span>
       </div>
     </div>
