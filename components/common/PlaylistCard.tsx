@@ -10,7 +10,6 @@ type PlaylistProps = {
 }
 
 function openPlayListEditor(name:any){
-    debugger;
     if(name){
         //setEditUserData(editUser);
         Router.push({pathname:'/playlist/editor', query: { name: name }})

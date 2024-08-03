@@ -1,11 +1,11 @@
-import { reverseDate } from '@/app/utils/DateUtils'
+import { addOneDay, getCurrentDate, reverseDate } from '@/app/utils/DateUtils'
 import axios from 'axios'
 
 const API_BASE_URL = 'https://demo.pixelkube.io/api/pixconnectors'
 
 const getTime = (time) => time.substring(11,16)
 
-async function processMeetingInfo(result){
+async function processMeetingInfo1(result){
     try{
         return Promise.resolve(result.data.map(item=>{
             let response = {
@@ -16,6 +16,8 @@ async function processMeetingInfo(result){
                 meetingName:item.summary,
                  from:getTime(item.startTime),
                  to:getTime(item.endTime),
+                 from1: new Date(item.startTime).getTime(), // Convert to timestamp
+                 to2: new Date(item.endTime).getTime(), // Convert to timestamp
                  bookingPersonName:item.attendees[0]?.email ?? ''
              }
             } 
@@ -25,9 +27,57 @@ async function processMeetingInfo(result){
         return Promise.reject({})
     }
 }
+
+async function processMeetingInfo(result) {
+    try {
+        const mappedData = result.data.map(item => {
+            let response = {
+                isAvailable: false,
+                date: reverseDate(item.startTime.split('T')[0]), // Ensure reverseDate is defined
+                bookingDetails: {
+                    duration: 2,
+                    meetingName: item.summary,
+                    from: getTime(item.startTime), // Ensure getTime is defined
+                    to: getTime(item.endTime), // Ensure getTime is defined
+                    from1: new Date(item.startTime).getTime(), // Convert to timestamp
+                    to2: new Date(item.endTime).getTime(),
+                    bookingPersonName: item.attendees[0]?.email ?? ''
+                }
+            }
+            return response;
+        });
+        mappedData.sort((a, b) => {
+            return a.bookingDetails.from1 - b.bookingDetails.from1 || a.bookingDetails.to2 - b.bookingDetails.to2;
+        });
+
+        // mappedData.sort((a, b) => {
+        //     const fromA = new Date(a.bookingDetails.from1).getTime();
+        //     const fromB = new Date(b.bookingDetails.from).getTime();
+        //     const toA = new Date(a.bookingDetails.to).getTime();
+        //     const toB = new Date(b.bookingDetails.to).getTime();
+        //     return fromA - fromB || toA - toB;
+        // });
+        console.log("Sorted Object",mappedData);
+
+        return Promise.resolve(mappedData);
+    } catch (e: any) {
+        return Promise.reject({
+            "success": false,
+            "errors": {
+                "code": "500",
+                "message": e.message
+            },
+            "result": []
+        });
+    }
+}
 async function getEventInstances(request){
     try{
         let {calendarId='',startTime='',endTime} = request
+        let currentDate = getCurrentDate()
+        const result1 = addOneDay(currentDate);
+        startTime =  result1.startOfDay ;
+        endTime = result1.endOfDay;
         let result = await axios.get(`${API_BASE_URL}/event/getinstances?calendarId=${calendarId}&startTime=${startTime}&endTime=${endTime}`)
         let meetingInfo = await processMeetingInfo(result)
         return meetingInfo

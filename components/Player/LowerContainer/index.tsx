@@ -56,16 +56,12 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId}: any) {
   
 
   useEffect(() => {
-    const starttime = meetingDate ? addOneDay(meetingDate,true) : new Date();
-    const enddate = meetingDate ? addOneDay(meetingDate) : new Date();
     // Fetch meeting response
     const fetchMeetingResponse = async () => {
       try {
         console.log('calendarIdparam', calendarIdparam);
         const meetingList = await EventService.getEventInstances({
-          calendarId: calendarIdparam ? calendarIdparam : '4',
-          startTime: starttime,
-          endTime: enddate
+          calendarId: calendarIdparam ? calendarIdparam : '4'
         });
         setEvent(meetingList);
         if (meetingList.length > 0) {

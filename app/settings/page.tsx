@@ -39,19 +39,12 @@ function Settings() {
             calendarId: serialResponse.result.calendarId,
             themeId:serialResponse.result.theme
           };
-
-          const starttime = moment().utc().format('YYYY-MM-DD hh:mm:ss');
-          const enddate = moment().utc().format('YYYY-MM-DD 23:59:59');
-          let currentTime=moment().utc().format('hh:mm');
-         
+          let currentTime = addOneDay(currentDate).currentTime;
           let meetingResponse = await EventService.getEventInstances({
-            calendarId: serialResponse.result.calendarId,
-            startTime: starttime,
-            endTime: enddate,
+            calendarId: serialResponse.result.calendarId
           });
 
           let pageName="meeting";
-          //let currentTime=new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
           if(meetingResponse!=null)
           {
             meetingResponse.map(x=>{

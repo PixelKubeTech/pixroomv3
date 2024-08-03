@@ -8,6 +8,7 @@ import { ISpace } from "../interface";
 import { addOneDay, getCurrentDate, getStartEndOfMonth } from "../utils/DateUtils";
 import { getThemesById } from '@/services/ThemeService';
 import MeetingContainer from '@/components/Player/MeetingContainer';
+import { debug } from 'console';
 //const inter = Inter({ subsets: ['latin'] })
 
 export default async function MeetingBooked(props) {
@@ -15,6 +16,9 @@ export default async function MeetingBooked(props) {
   let calendarparam = props.searchParams.calendarId ? props.searchParams.calendarId : "3"
   let themeparam = props.searchParams.themeId ? props.searchParams.themeId : "1"
   let currentDate = getCurrentDate();
+  const result = addOneDay(currentDate);
+
+  
   let spaceresponse = await SpaceService.getSpaceInfo({
     spaceId:spaceIdparam,
   });
@@ -22,13 +26,8 @@ export default async function MeetingBooked(props) {
   if(calendarparam=='0' && spaceresponse?.data?.mappedCalendarIds?.length>0){
     calendarparam = spaceresponse.data.mappedCalendarIds[0];
   }
-  const starttime = currentDate ? addOneDay(currentDate,true) : currentDate;
-  const enddate = currentDate ? addOneDay(currentDate) : currentDate;
-
   let meetingInfo = await EventService.getEventInstances({
-    calendarId: spaceresponse.data?.mappedCalendarIds?spaceresponse.data.mappedCalendarIds[0]:'1',
-    startTime: starttime,
-    endTime: enddate,
+    calendarId: spaceresponse.data?.mappedCalendarIds?spaceresponse.data.mappedCalendarIds[0]:'1'
   });
   //let meetingInfo = meetingResponse
   let spaceInfo: ISpace.SpaceInfo = spaceresponse.data;

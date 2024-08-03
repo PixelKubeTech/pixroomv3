@@ -17,8 +17,6 @@ export default async function Home(props) {
   let spaceIdparam = props.searchParams.spaceId ? props.searchParams.spaceId : "32"
   let calendarparam = props.searchParams.calendarId ? props.searchParams.calendarId : "0"
   let themeparam = props.searchParams.themeId ? props.searchParams.themeId : "1"
-  console.log("calendarid", calendarparam);
-  console.log("themeparam", themeparam);
   let currentDate = getCurrentDate()
   let response = await SpaceService.getSpaceInfo({
     spaceId:spaceIdparam,
@@ -27,13 +25,8 @@ export default async function Home(props) {
   if(calendarparam=='0' && response?.data?.mappedCalendarIds?.length>0){
     calendarparam = response.data.mappedCalendarIds[0];
   }
-  const starttime = currentDate ? addOneDay(currentDate,true) : new Date();
-  const enddate = currentDate ? addOneDay(currentDate) : new Date();
-
   let meetingResponse = await EventService.getEventInstances({
-    calendarId: response.data?.mappedCalendarIds?response.data.mappedCalendarIds[0]:'1',
-    startTime: starttime,
-    endTime: enddate,
+    calendarId: response.data?.mappedCalendarIds?response.data.mappedCalendarIds[0]:'1'
   });
 
   let themeResponse = props!=null && props.themeInfo!=null?props.themeInfo:await getThemesById({ Id: themeparam });

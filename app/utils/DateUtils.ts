@@ -1,3 +1,53 @@
+export function addOneDay(dateString: string, blnformatdate: boolean = false): { startOfDay: string, endOfDay: string, currentTime: string } {
+  let day: number, month: number, year: number;
+
+  // Determine if the format is YYYY-MM-DD or DD-MM-YYYY
+  if (dateString.indexOf('-') === 4) {
+    // Format is YYYY-MM-DD
+    [year, month, day] = dateString.split('-').map(Number);
+  } else {
+    // Format is DD-MM-YYYY
+    [day, month, year] = dateString.split('-').map(Number);
+  }
+
+  // Create a date object for the given date
+  const date = new Date(Date.UTC(year, month - 1, day)); 
+
+  // Create a date object for the current time
+  const currentTime = new Date();
+
+  // Format the dates in YYYY-MM-DDTHH:mm:ss.sssZ
+  const formatDate = (date: Date, hours: number, minutes: number, seconds: number): string => {
+    const yearStr = date.getUTCFullYear();
+    const monthStr = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero indexed, so add 1
+    const dayStr = String(date.getUTCDate()).padStart(2, '0');
+    const hoursStr = String(hours).padStart(2, '0');
+    const minutesStr = String(minutes).padStart(2, '0');
+    const secondsStr = String(seconds).padStart(2, '0');
+    const milliseconds = "000";
+
+    return `${yearStr}-${monthStr}-${dayStr}T${hoursStr}:${minutesStr}:${secondsStr}.${milliseconds}Z`;
+  }
+
+  const formatCurrentDate = (date: Date): string => {
+    const yearStr = date.getUTCFullYear();
+    const monthStr = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const dayStr = String(date.getUTCDate()).padStart(2, '0');
+    const hoursStr = String(date.getUTCHours()).padStart(2, '0');
+    const minutesStr = String(date.getUTCMinutes()).padStart(2, '0');
+    const secondsStr = String(date.getUTCSeconds()).padStart(2, '0');
+    const milliseconds = String(date.getUTCMilliseconds()).padStart(3, '0');
+
+    return `${yearStr}-${monthStr}-${dayStr}T${hoursStr}:${minutesStr}:${secondsStr}.${milliseconds}Z`;
+  }
+
+  return {
+    startOfDay: formatDate(date, 0, 0, 0),
+    endOfDay: formatDate(date, 23, 59, 0),
+    currentTime: formatCurrentDate(currentTime)
+  };
+} 
+
 export const getCurrentDate1 = () => {
   return new Date().toISOString().split('T')[0]
 }
@@ -78,36 +128,4 @@ export function getDifferenceInMinutes(startDateStr: string, endDateStr: string)
   const differenceInMinutes = differenceInMilliseconds / 1000 / 60
 
   return differenceInMinutes
-}
-
-export function addOneDay(dateString: string, blnformatdate: boolean = false): string {
-  let day: number, month: number, year: number;
-
-  // Determine if the format is YYYY-MM-DD or DD-MM-YYYY
-  if (dateString.indexOf('-') === 4) {
-    // Format is YYYY-MM-DD
-    [year, month, day] = dateString.split('-').map(Number);
-  } else {
-    // Format is DD-MM-YYYY
-    [day, month, year] = dateString.split('-').map(Number);
-  }
-
-  const newDate = new Date(year, month - 1, day); 
-  // Adjust the date by adding one day
-  if (!blnformatdate) {
-    newDate.setDate(newDate.getDate() + 1);
-  }
-
-  // Format the date in YYYY-MM-DDTHH:mm:ss.sssZ
-  const yearStr = newDate.getFullYear();
-  const monthStr = String(newDate.getMonth() + 1).padStart(2, '0'); // Months are zero indexed, so add 1
-  const dayStr = String(newDate.getDate()).padStart(2, '0');
-  const hours = String(newDate.getUTCHours()).padStart(2, '0');
-  const minutes = String(newDate.getUTCMinutes()).padStart(2, '0');
-  const seconds = String(newDate.getUTCSeconds()).padStart(2, '0');
-  const milliseconds = String(newDate.getUTCMilliseconds()).padStart(3, '0');
-
-  const isoString = `${yearStr}-${monthStr}-${dayStr}T${hours}:${minutes}:${seconds}.${milliseconds}Z`;
-
-  return isoString;
 }

@@ -17,16 +17,12 @@ export default async function Home(props) {
   let spaceId = props.searchParams.spaceId ? props.searchParams.spaceId : "15"
   let calendarId = props.searchParams.calendarId ? props.searchParams.calendarId : "2"
   let themeid= props.searchParams.themeId ? props.searchParams.themeId : "1"
-  let currentDate = getCurrentDate();
-  const starttime = currentDate ? addOneDay(currentDate,true) : currentDate;
-  const enddate = currentDate ? addOneDay(currentDate) : currentDate;
+
   let response = await SpaceService.getSpaceInfo({
     spaceId: spaceId,
   });
   let meetingResponse = await EventService.getEventInstances({
-    calendarId: calendarId,
-    startTime: starttime,
-    endTime: enddate,
+    calendarId: calendarId
   });
   let spaceInfo: ISpace.SpaceInfo = response.data;
   let meetingInfo = meetingResponse;
