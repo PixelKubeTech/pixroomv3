@@ -39,7 +39,8 @@ function Settings() {
             calendarId: serialResponse.result.calendarId,
             themeId:serialResponse.result.theme
           };
-          let currentTime = addOneDay(currentDate).currentTime;
+          //let currentTime = addOneDay(currentDate).currentTime;
+          let currentTime=new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit'});
           let meetingResponse = await EventService.getEventInstances({
             calendarId: serialResponse.result.calendarId
           });

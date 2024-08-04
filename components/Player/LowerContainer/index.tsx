@@ -46,7 +46,7 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId}: any) {
   }
   let showFindRoom=themeDataResponse!=null ? themeDataResponse.findRoom:true;
   let scrollSubject=themeDataResponse!=null  ? themeDataResponse.scrollSubject:true;
-
+  let currentTime=new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit'});
   const eventClick = (data) => {
    setEventBookingDetails(data.bookingDetails);
    };
@@ -59,6 +59,7 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId}: any) {
     // Fetch meeting response
     const fetchMeetingResponse = async () => {
       try {
+        let currentTime=new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit'});
         console.log('calendarIdparam', calendarIdparam);
         const meetingList = await EventService.getEventInstances({
           calendarId: calendarIdparam ? calendarIdparam : '4'
@@ -66,6 +67,10 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId}: any) {
         setEvent(meetingList);
         if (meetingList.length > 0) {
           setSelectMeetingInfo(meetingList);
+          meetingList.map(x=>{
+            if(x.date==currentDate && x.bookingDetails!=null &&  currentTime >= x.bookingDetails.from && currentTime < x.bookingDetails.to)
+              setEventBookingDetails(x.bookingDetails);
+          })
         } else {
           setSelectMeetingInfo([]);
         }
