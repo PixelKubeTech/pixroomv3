@@ -54,6 +54,7 @@ function CalenderFormComponent(props) {
       15,
       19,
       31,
+      31,
       hhStartTime,
       endTime,
       meetingName,
@@ -84,7 +85,7 @@ function CalenderFormComponent(props) {
   return (
     <div className="basis-1/2 p-6 flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <div className="flex gap-8 items-center">
+        <div className="flex gap-4 items-center">
           <span>Start :</span>
           <div className="flex gap-4 items-center">
             <Input register={register("hhStart")} placeholder={"11"} />
@@ -92,7 +93,7 @@ function CalenderFormComponent(props) {
             <Input register={register("mmStart")} placeholder={"15"} />
           </div>
         </div>
-        <div className="flex gap-8 items-center">
+        <div className="flex gap-4 items-center">
           <span>End:</span>
           <div className="flex gap-4 items-center">
             <Input register={register("hhEnd")} placeholder={"11"} />

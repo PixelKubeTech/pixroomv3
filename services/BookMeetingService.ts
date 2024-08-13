@@ -1,4 +1,5 @@
 import axios from "axios";
+import dayjs, { Dayjs } from "dayjs";
 
 const API_BASE_URL = "https://demo.pixelkube.io/api";
 
@@ -15,38 +16,55 @@ class Meeting {
   meetingName: string;
   participants: string;
   notes: string;
+  action:string;
 
   constructor(
     spaceId: number = 0,
     buildingId: number = 0,
     orgId: number = 0,
+    floorId: number = 0,
     startDateTime: string = "",
     endDateTime: string = "",
     meetingName: string = "",
     participants: string = "",
-    notes: string = ""
+    notes: string = "",
+    action:string=""
   ) {
+    const startDate = this.convertStartDateToISODateTime(startDateTime);
     this.spaceId = spaceId;
     this.noOfAttendees = 300;
     this.buildingId = buildingId;
     this.orgId = orgId;
-    this.floorId = 31;
+    this.floorId = floorId;
     this.alldays = false;
     this.reminder = 0;
-    this.startDateTime = this.convertToISODateTime(startDateTime);
-    this.endDateTime =  this.convertToISODateTime(endDateTime);
+    this.startDateTime = startDate;
+    this.endDateTime = this.calculateEndDataOnISODateTime(
+      dayjs(startDate),
+      endDateTime
+    );
     this.meetingName = meetingName;
     this.participants = participants;
     this.notes = notes;
+    this.action= action;
   }
 
-  private convertToISODateTime(timeString:string):string{
-    const date = new Date();
-    const [currentDate] = date.toISOString().split('T')
+  private convertStartDateToISODateTime(timeString: string): string {
     const [hours, minutes] = timeString.split(":");
-   // const [time, period] = minutes.split(" ");
-    const parsedDate = `${currentDate}T${timeString}:00Z`
-   console.log('parsedDate',parsedDate)
+    const date = dayjs().hour(parseInt(hours)).minute(parseInt(minutes));
+    const parsedDate = date.format("YYYY-MM-DDTHH:MM:00[Z]");
+    console.log("parsedDate", parsedDate);
+    return parsedDate;
+  }
+
+  private calculateEndDataOnISODateTime(
+    startDate: Dayjs,
+    timeString: string
+  ): string {
+    const [hours, minutes] = timeString.split(":");
+    const date = startDate.hour(parseInt(hours)).minute(parseInt(minutes));
+    const parsedDate = date.format("YYYY-MM-DDTHH:MM:00[Z]");
+    console.log("parsedDate", parsedDate);
     return parsedDate;
   }
 }

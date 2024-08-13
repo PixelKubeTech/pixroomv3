@@ -1,54 +1,59 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import CircularSlider from "@fseehawer/react-circular-slider";
 import "./style.css";
 import GoButton from "./GoButton";
-
-import {
-  bookMeeting,
-  Meeting,
-  Parking,
-  Service,
-} from "@/services/BookMeetingService";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import { bookMeeting, Meeting } from "@/services/BookMeetingService";
 import {
   getCurrentHour,
-  getCurrentTime,
   addMinutesToCurrentTime,
-  getCurrentTimePlusHours,
   getCurrentTimePlus1,
 } from "./DateUtils";
-import { getCurrentMinutesPlus30 } from "@/app/utils/DateUtils";
+dayjs.extend(utc);
 const MeetingTime = ({ hour, time }) => {
-  const val = time < 10 ? `0${time}` : time;
+  const val = time < 10 ? `0${time}` : time === 60 ? "00" : time;
+  const processedHour = time === 60 ? "01" : "00";
   return (
     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  text-2xl">
       <div className="flex justify-center items-center h-[300px]">
-        <div className="circle">{`${hour}:${val}`}</div>
+        <div className="circle">{`${processedHour}:${val}`}</div>
       </div>
     </div>
   );
 };
 
-const MeetingDailer = ({  onClose, setMessage, setSuccess }) => {
-  const {minute} = addMinutesToCurrentTime(15)
-  const [time, setTime] = useState(minute);
-  const {hour} = getCurrentTimePlusHours(0)
-  console.log("Hour",hour)
+const MeetingDailer = ({
+  onClose,
+  setMessage,
+  setSuccess,
+  spaceId,
+  floorId,
+  buildingId,
+  orgId,
+  floorName,
+}) => {
+  const { minute, hour } = addMinutesToCurrentTime(15);
+  const [progressMinute, setProgressMinute] = useState(0);
+  const [progressHour, setProgressHour] = useState(hour);
+  console.log("Hour", hour);
 
   const handleChange = (value) => {
-    setTime(value);
-    //onTimeSelect(value);
+    const progressMin = minute + value;
+    setProgressMinute(value);
   };
 
   // Service to save instant meeting
   const bookInstantMeeting = async () => {
     let startTime = getCurrentTimePlus1();
-    console.log('startTime',startTime)
+    console.log("startTime", startTime);
     let currentHr = getCurrentHour();
-    let endTime = `${currentHr}:${time}`;
+    let endTime = `${currentHr}:${progressMinute}`;
     let meetingInfo = new Meeting(
-      15,
-      19,
-      31,
+      spaceId,
+      buildingId,
+      orgId,
+      floorId,
       startTime,
       endTime,
       "Instant Meeting",
@@ -85,15 +90,9 @@ const MeetingDailer = ({  onClose, setMessage, setSuccess }) => {
         <CircularSlider
           label="Meeting Time"
           min={0}
-          // initialValue={15}
-          //dataIndex={20}
-          renderLabelValue={<MeetingTime time={time} hour={hour} />}
+          renderLabelValue={<MeetingTime time={progressMinute} hour={0} />}
           knobPosition={"bottom"}
-          //arcLength={180}
           max={60}
-          //   stepSize={10}
-          //   verticalOffset={0.5}
-          //data={["5","10","15","20"]}
           knobColor="#3182ce"
           progressColorFrom="#74eca4"
           progressColorTo="#3182ce"
@@ -101,12 +100,14 @@ const MeetingDailer = ({  onClose, setMessage, setSuccess }) => {
           trackColor="#f7fafc"
           trackSize={25}
           knobSize={35}
-          dataIndex={time}
+          dataIndex={progressMinute}
           onChange={handleChange}
         />
         <div className="flex flex-col items-center mt-10">
           <div className="text-[#9eb1b3] text-xl">START TIME</div>
-          <div className="mt-2 text-[#9eb1b3] text-3xl">{getCurrentTimePlus1()}</div>
+          <div className="mt-2 text-[#9eb1b3] text-3xl">
+            {getCurrentTimePlus1()}
+          </div>
         </div>
       </div>
       <div className="flex justify-between items-center mt-10">

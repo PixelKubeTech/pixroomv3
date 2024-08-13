@@ -1,22 +1,21 @@
 interface FindRoom {
+  key: string;
+  value: RoomDetails;
+}
+interface RoomDetails {
   spaceName: string;
   spaceId: number;
-  coordinates: string;
   buildingId: number;
-  buildingName: string;
-  address: string;
-  organisationImage: string | null;
-  isAvailable: boolean;
   floorId: number;
   floorName: string;
-  orgId: number;
-  spaceType: string;
-  startDate: string;
-  endDate: string;
-  resourceId: number;
-  resourceIcon: string | null;
+  organizationId: number;
+  isAvailable: boolean;
+  nextAvailableSlot: number;
+  spaceResources: ISpaceResource[];
+}
+interface ISpaceResource {
   facilityId: number;
   facilityName: string;
-  floorImage: string | null;
   resourceCount: number;
+  resourceId: number;
 }

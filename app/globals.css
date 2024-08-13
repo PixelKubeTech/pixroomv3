@@ -72,9 +72,11 @@ body {
   .meeting-info.large-mode {
     padding: 2px;
   }
+
   .meeting-info.large-mode .uppercase {
     font-size: 10px;
   }
+
   .meeting-info.large-mode .date-text {
     height: 30px;
     width: 30px;
@@ -82,18 +84,40 @@ body {
   }
 }
 
-@media only screen and (max-width: 1300px) {
-  .meeting-information >  div > span {
+@media only screen and (max-width: 1360px) {
+  .meeting-information>div>span {
     display: none;
   }
+
+  .meeting-info-context-scroll {
+    height: 50% !important;
+  }
+
   .meeting-information {
     flex-direction: row;
     justify-content: space-between;
-    > div {
+
+    >div {
       gap: 0;
-      > div {
+
+      >div {
         width: 100%;
       }
     }
   }
+}
+
+.meeting-booked-background {
+  z-index: -10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100vh;
+  width: 100%;
+}
+
+.meeting-block-border:not(:first-child) {
+  border-top: 5px solid #ffffff;
 }

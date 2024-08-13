@@ -1,26 +1,30 @@
-import axios from 'axios'
+import axios from "axios";
 
-const API_BASE_URL = 'https://demo.pixelkube.io/api'
+const API_BASE_URL = "https://demo.pixelkube.io/api";
 
 async function getFindRoomDetails(request) {
   try {
     const config = {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-    }
-    let result = await axios.post(`${API_BASE_URL}/SMSService/Spaces/FindRooms`, request, config)
-    return result.data
+    };
+    let result = await axios.post(
+      `${API_BASE_URL}/SMSService/Spaces/FindRooms`,
+      request,
+      config
+    );
+    return result.data.data;
   } catch (e: any) {
-    return {
+    throw {
       success: false,
       errors: {
-        code: '500',
+        code: "500",
         message: e.message,
       },
       result: [],
-    }
+    };
   }
 }
 
-export { getFindRoomDetails }
+export { getFindRoomDetails };

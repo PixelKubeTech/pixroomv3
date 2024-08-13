@@ -66,7 +66,7 @@ function BottomComponent() {
    
   const meetingInfo = React.useContext(MeetingInfoContext) || meetingInfodata;
   return (
-    <div className='flex px-8 h-[56%]'>
+    <div className='flex px-8 h-[56%] meeting-info-context-scroll'>
         <TimelineComponent meetingInfo={meetingInfo} eventClick={eventClick}/>
         <CalenderFormComponent meetingInfo={meetingInfo} eventBookingDetails={bookingDetails}/>
     </div>

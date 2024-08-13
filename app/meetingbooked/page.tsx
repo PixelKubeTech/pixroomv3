@@ -43,7 +43,8 @@ export default async function MeetingBooked(props) {
   //   </div>
   // )
   return (
-    <div className={`h-screen max-h-screen w-screen p-4 box-border bg-cover overflow-y-hidden`} style={{ backgroundImage: `url(../pixroom/assets/images/booked.jpg)` }}>
+    <div className={`h-screen max-h-screen w-screen p-4 box-border bg-cover overflow-y-hidden`}>
+        <img src={"/pixroom/assets/images/booked.jpg"} className='meeting-booked-background'/>
       <MeetingContainer currentDate={currentDate} spaceInfo={spaceInfo} meetingInfo={meetingInfo} themeInfo={themeResponse} calendarId= {calendarparam} booked={true} info={false}/>
     </div>
   );
