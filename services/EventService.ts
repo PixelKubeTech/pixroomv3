@@ -18,7 +18,11 @@ async function processMeetingInfo(result) {
                     to: getTime(item.endTime), // Ensure getTime is defined
                     from1: new Date(item.startTime).getTime(), // Convert to timestamp
                     to2: new Date(item.endTime).getTime(),
-                    bookingPersonName: item.attendees[0]?.email ?? ''
+                    bookingPersonName: item.attendees[0]?.email ?? '',
+                    sourceEventId:item.sourceEventId,
+                    noOfAttendees:item.attendees.length,
+                    notes:item.summary
+                    
                 }
             }
             return response;

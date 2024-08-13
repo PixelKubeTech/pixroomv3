@@ -88,7 +88,7 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId}: any) {
   });
  return (
     <div className="flex justify-between relative" style={{height: 'calc(100% - 150px)'}}>
-      <QRContainer booked={booked} showFindRoom={showFindRoom} scrollSubject={scrollSubject} eventBookingDetails={eventBookingDetails} />
+      <QRContainer booked={booked} showFindRoom={showFindRoom} scrollSubject={scrollSubject} eventBookingDetails={eventBookingDetails} spaceInfo={null} />
       <div className="w-[30%] h-[100%] rounded-br-[40px] pb-3" style={{backgroundColor: 'rgba(255, 255, 255, .5)'}}>
         <div className="bg-green rounded-b-[40px] py-4" style={{height: 'calc(100% - 52px)', backgroundColor: 'rgba(255, 255, 255, .5)'}}>
           <p className="py-2 text-md font-bold pb-4 px-4 mb-2 rounded-lg text-[#7f818d]">
@@ -113,15 +113,15 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId}: any) {
               title={"Book a Room"}
             >
              <MeetingDailer
-  setSuccess={setSuccess}
-  setMessage={setMessage}
-  onClose={() => setShowModal(false)}
-  spaceId={null} // Pass the correct spaceId
-  floorId={null} // Pass the correct floorId
-  buildingId={null} // Pass the correct buildingId
-  orgId={null} // Pass the correct orgId
-  floorName={null} // Pass the correct floorName
-/>
+                    setSuccess={setSuccess}
+                    setMessage={setMessage}
+                    onClose={() => setShowModal(false)}
+                    spaceId={null} // Pass the correct spaceId
+                    floorId={null} // Pass the correct floorId
+                    buildingId={null} // Pass the correct buildingId
+                    orgId={null} // Pass the correct orgId
+                    floorName={null} // Pass the correct floorName
+                  />
             </Modal>
         </div>:null}
       </div>

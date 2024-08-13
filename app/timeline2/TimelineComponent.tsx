@@ -1,4 +1,7 @@
+import { bookMeeting } from '@/services/BookMeetingService';
+import moment from 'moment';
 import React, { useState, useRef, useEffect } from 'react';
+import { addOneDay } from '../utils/DateUtils';
 
 const DragIcon = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-1/2 cursor-grab">
@@ -7,10 +10,11 @@ const DragIcon = () => (
     </svg>
   );
 
-const MeetingTimeline = ({ startTime, endTime, onEndTimeChange }) => {
+const MeetingTimeline = ({ startTime, endTime, onEndTimeChange,spaceInfo,onMeetingClose,eventBookingDetails }) => {
   const [currentEndTime, setCurrentEndTime] = useState(endTime);
   const progressBarRef = useRef<any>(null);
   const isDraggingRef = useRef(false);
+  const [updateRequired,setUpdateRequired]=useState(false);
 
   const parseTime = (time) => {
     const [hours, minutes] = time.split(':').map(Number);
@@ -63,6 +67,7 @@ const MeetingTimeline = ({ startTime, endTime, onEndTimeChange }) => {
     const adjustedEndMinutes = Math.max(newEndMinutes, initialEndMinutes);
     
     const newEndTime = formatTime(normalizeMinutes(adjustedEndMinutes));
+    setUpdateRequired(newEndTime > endTime?true:false);
     setCurrentEndTime(newEndTime);
   };
 
@@ -95,7 +100,34 @@ const MeetingTimeline = ({ startTime, endTime, onEndTimeChange }) => {
     return marks;
   };
 
-  return (
+const updateMeeting = async () => {
+    if(eventBookingDetails!=null && spaceInfo!=null)
+    {
+      let currentDate=moment().format("YYYY-MM-DD");
+      const dateObj = addOneDay(currentDate);
+      let currentTime=dateObj.currentTime;
+      let request= {"meeting":{"spaceId":spaceInfo.spaceId,
+        "noOfAttendees":eventBookingDetails.noOfAttendees,
+        "buildingId":spaceInfo.buildingId,
+        "orgId":spaceInfo.orgId,
+        "floorId":spaceInfo.floorId,
+        "alldays":false,
+        "reminder":0,
+        "startDateTime":currentDate+"T"+startTime+":00Z",
+        "endDateTime":updateRequired?currentDate+"T"+currentEndTime+":00Z":currentTime,
+        "meetingName":eventBookingDetails.meetingName,
+        "participants":eventBookingDetails.noOfAttendees,
+        "action":"update",
+        "sourceEventId":eventBookingDetails.sourceEventId,
+        "notes":eventBookingDetails.summary
+      },
+      "parkings":[],
+      "services":[]};
+       let meetingResponse = await bookMeeting(request);
+       console.log("Book Meeting Update Response", meetingResponse);
+       onMeetingClose(false);
+    }
+  };  return (
     <div className="w-[100%] mx-auto bg-white p-6">
       <h2 className="text-xl font-bold mb-4">Amend the time of your current meeting below:</h2>
       
@@ -105,7 +137,7 @@ const MeetingTimeline = ({ startTime, endTime, onEndTimeChange }) => {
           <p className="text-2xl font-bold text-green-500">{startTime}</p>
         </div>
         <div className="flex items-center">
-        <button className="bg-pink-300 text-red-700 text-sm font-bold px-2 py-2 rounded-full" style={{width: '60px', height: '60px', borderRadius: '50%'}}>END NOW</button>
+        <button onClick={()=>updateMeeting()} className="bg-pink-300 text-red-700 text-sm font-bold px-2 py-2 rounded-full" style={{width: '60px', height: '60px', borderRadius: '50%'}}>{updateRequired?"Extend":"END NOW"}</button>
         </div>
         <div className="text-right">
           <p className="text-sm text-gray-500">End</p>

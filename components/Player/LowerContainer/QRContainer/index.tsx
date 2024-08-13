@@ -9,6 +9,7 @@ interface QRContainerProps {
   showFindRoom:Boolean;
   scrollSubject:Boolean;
   eventBookingDetails:any;
+  spaceInfo:any;
 }
 const meetingDetails = {
   time: '10:00am - 11:00am',
@@ -17,6 +18,8 @@ const meetingDetails = {
   participants: 6,
 };
 function QRContainer(props: QRContainerProps) {
+  let meetingStartTime=props!=null && props.eventBookingDetails!=null && props.eventBookingDetails.from!=null?props.eventBookingDetails.from:"11:00";
+  let meetingExtendEndTime=props!=null && props.eventBookingDetails!=null && props.eventBookingDetails.to!=null?props.eventBookingDetails.to:"13:00";
   if(props.eventBookingDetails!=null)
   {
   	meetingDetails.title=props.eventBookingDetails.meetingName;
@@ -59,9 +62,12 @@ function QRContainer(props: QRContainerProps) {
         show={showTimelineModal}
       >
         <MeetingTimeline
-            startTime="11:00"
-            endTime="13:00"
+            startTime={meetingStartTime}
+            endTime={meetingExtendEndTime}
             onEndTimeChange={(newEndTime) => setNewEnd(newEndTime)}
+            spaceInfo={props.spaceInfo}
+            eventBookingDetails={props.eventBookingDetails}
+            onMeetingClose={()=>setShowTimelineModal(false)}
           />
       </TimelineModal>
 

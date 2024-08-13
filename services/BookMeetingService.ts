@@ -17,6 +17,7 @@ class Meeting {
   participants: string;
   notes: string;
   action:string;
+  sourceEventId:string;
 
   constructor(
     spaceId: number = 0,
@@ -28,7 +29,8 @@ class Meeting {
     meetingName: string = "",
     participants: string = "",
     notes: string = "",
-    action:string=""
+    action:string="",
+    sourceEventId=""
   ) {
     const startDate = this.convertStartDateToISODateTime(startDateTime);
     this.spaceId = spaceId;
@@ -45,8 +47,9 @@ class Meeting {
     );
     this.meetingName = meetingName;
     this.participants = participants;
-    this.notes = notes;
-    this.action= action;
+    this.notes = "";
+    this.action=action;
+    this.sourceEventId=sourceEventId;
   }
 
   private convertStartDateToISODateTime(timeString: string): string {
@@ -131,7 +134,7 @@ async function bookMeeting(request) {
       },
     };
     const response: any = await axios.post(bookingUrl, request, config);
-    console.log('response.data',response.data);
+    console.log("response.data", response.data);
     return {
       success: true,
       result: {
