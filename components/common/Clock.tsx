@@ -62,6 +62,12 @@ export default function Clock(props: ClockProps): JSX.Element {
     }
     return customGreen;
   };
+  const getTodayDay = () => {
+    const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+    const today = new Date();
+    const day = today.getDay();
+    return days[day];
+  };
 
   return (
     // Clock
@@ -124,7 +130,7 @@ export default function Clock(props: ClockProps): JSX.Element {
             boxShadow: `0 2px 3px rgba(192, 57, 43, 0.5)`,
           }}
         ></div>
-        <div className="absolute bottom-[22px] left-[44px] text-[#6f6f6f] text-sm">MON</div>
+        <div className="absolute bottom-[22px] left-[44px] text-[#6f6f6f] text-sm">{getTodayDay()}</div>
       </div>
   );
 }
