@@ -13,7 +13,14 @@ const withPWA = require('@ducanh2912/next-pwa').default({
   },
 })
 const nextConfig = {
-  async redirects(){
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ["@svgr/webpack"],
+    });
+    return config;
+  },
+  async redirects() {
     return [
       {
         source: '/',
@@ -22,7 +29,7 @@ const nextConfig = {
       },
     ]
   },
-  basePath: '/pixroom'
-}
+  basePath: '/pixroom',
+};
 
 module.exports = withPWA(nextConfig)

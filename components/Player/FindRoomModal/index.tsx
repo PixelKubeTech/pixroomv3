@@ -16,7 +16,7 @@ import { spaceResourceConfig } from "../Config/config";
 import { MeetingInfoContext } from "@/app/context/MeetingContext";
 import dayjs from "dayjs";
 
-interface Message {
+export interface Message {
   serverity: string;
   text?: string;
 }
@@ -37,13 +37,8 @@ function FindRoomTable() {
       try {
         const startDate = dayjs();
         let roomsResponse = await FindRoomService.getFindRoomDetails({
-          // startDate: "2024-05-11 05:24:17",
-          // endDate: "2024-05-11 05:24:17",
-          // orgId: 44,
-          // buildingId: 34,
-          // floorId: 43,
-          startDate: startDate.format("YYY-MM-DD HH:MM:01"),
-          endDate: startDate.add(1, "hour").format("YYY-MM-DD HH:MM:00"),
+          startDate: startDate.format("YYYY-MM-DD HH:mm:01"),
+          endDate: startDate.add(1, "hour").format("YYYY-MM-DD HH:mm:00"),
           orgId: meetingInfo.spaceInfo.orgId,
           buildingId: meetingInfo.spaceInfo.buildingId,
           floorId: meetingInfo.spaceInfo.floorId,
@@ -77,13 +72,6 @@ function FindRoomTable() {
     <div>
       <div className="max-h-[380px] overflow-auto mt-6">
         <div className="flex items-center justify-center h-[20%] rounded-b-[40px]">
-          {/* <Modal
-            onClose={() => setShowModal(false)}
-            show={showModal}
-            title={"Book a Room"}
-          >
-            <MeetingDailer setSuccess={setSuccess} setMessage={setMessage}  onClose={() => setShowModal(false)}/>
-          </Modal> */}
         </div>
         <TableContainer component={Paper}>
           <Table className="p-4" aria-label="simple table">
@@ -102,12 +90,13 @@ function FindRoomTable() {
                   key={idx}
                   style={{
                     backgroundColor: !roomDetails.value.isAvailable
-                      ? "slategray"
-                      : "white",
+                      ? "white"
+                      : "slategray",
                   }}
                   onClick={() => {
-                    if (roomDetails.value.isAvailable) {
+                    if (!roomDetails.value.isAvailable) {
                       setSelectedSpaceDetail(roomDetails.value);
+                      console.log("Selected Details"+ roomDetails.value);
                       setShowModal(true);
                     }
                   }}
@@ -116,7 +105,7 @@ function FindRoomTable() {
                     <div className="flex">
                       <div
                         className={`h-[25px] w-[25px] ${
-                          !roomDetails.value.isAvailable
+                          roomDetails.value.isAvailable
                             ? "bg-[#ff544f]"
                             : "bg-[#58968b]"
                         } rounded-full mr-2`}
@@ -171,7 +160,7 @@ function FindRoomTable() {
               spaceId={selectedSpaceDetail.spaceId}
               buildingId={selectedSpaceDetail.buildingId}
               floorId={selectedSpaceDetail.floorId}
-              orgId={selectedSpaceDetail.organizationId}
+              orgId={selectedSpaceDetail.orgId}
               floorName={selectedSpaceDetail.floorName}
             />
           </Modal>

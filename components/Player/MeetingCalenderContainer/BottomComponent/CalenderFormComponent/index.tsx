@@ -50,16 +50,32 @@ function CalenderFormComponent(props) {
     let hhStartTime = `${hhStart}:${mmStart}`;
     let endTime = `${hhEnd}:${mmEnd}`;
 
+    // let meetingInfo = new Meeting(
+    //   15,
+    //   19,
+    //   31,
+    //   31,
+    //   hhStartTime,
+    //   endTime,
+    //   meetingName,
+    //   participants,
+    //   ""
+    // );
+    const participantsDummy: string[] = ["Alice", "Bob", "Charlie"];
+    
     let meetingInfo = new Meeting(
-      15,
-      19,
-      31,
-      31,
+      37,
+      40,
+      54,
+      53,
+      2,
       hhStartTime,
       endTime,
-      meetingName,
-      participants,
-      ""
+      "Instant Meeting",
+      participantsDummy,
+      "Instant Meeting booked by System",
+      'New',
+       '',
     );
     let services = [];
     let parkings = [];
