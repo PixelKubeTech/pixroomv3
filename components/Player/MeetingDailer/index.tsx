@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import CircularSlider from "@fseehawer/react-circular-slider";
 import "./style.css";
 import GoButton from "./GoButton";
@@ -10,6 +10,7 @@ import {
   addMinutesToCurrentTime,
   getCurrentTimePlus1,
 } from "./DateUtils";
+import { Message } from "../FindRoomModal";
 dayjs.extend(utc);
 const MeetingTime = ({ hour, time }) => {
   const val = time < 10 ? `0${time}` : time === 60 ? "00" : time;
@@ -23,6 +24,17 @@ const MeetingTime = ({ hour, time }) => {
   );
 };
 
+export interface IMeetingDailer {
+  onClose: () => void;
+  setMessage: Dispatch<SetStateAction<Message | undefined>>;
+  setSuccess: Dispatch<SetStateAction<boolean>>;
+  spaceId?: number;
+  floorId?: number;
+  buildingId?: number;
+  orgId?: number;
+  floorName?: string;
+}
+
 const MeetingDailer = ({
   onClose,
   setMessage,
@@ -32,7 +44,7 @@ const MeetingDailer = ({
   buildingId,
   orgId,
   floorName,
-}) => {
+}: IMeetingDailer) => {
   const { minute, hour } = addMinutesToCurrentTime(15);
   const [progressMinute, setProgressMinute] = useState(0);
   const [progressHour, setProgressHour] = useState(hour);
@@ -43,22 +55,40 @@ const MeetingDailer = ({
     setProgressMinute(value);
   };
 
+
   // Service to save instant meeting
   const bookInstantMeeting = async () => {
+    
     let startTime = getCurrentTimePlus1();
     console.log("startTime", startTime);
+
+    const [hours, minutes] = startTime.split(':').map(Number);
+    // Create a new Date object with today's date and the parsed time
+    const now = new Date();
+    const endTimecal = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+    let noofattendees =2;
+
+    // Add progressMinutes to the endTimecal
+    endTimecal.setMinutes(endTimecal.getMinutes() + progressMinute);
     let currentHr = getCurrentHour();
-    let endTime = `${currentHr}:${progressMinute}`;
+    let endtimehour= String(endTimecal.getHours()).padStart(2, '0');
+    let endtimeminutes= String(endTimecal.getMinutes()).padStart(2, '0');
+    let endTime = `${endtimehour}:${endtimeminutes}`;
+    const participantsDummy: string[] = ["Alice", "Bob", "Charlie"];
+       
     let meetingInfo = new Meeting(
       spaceId,
       buildingId,
       orgId,
       floorId,
+      noofattendees,
       startTime,
       endTime,
       "Instant Meeting",
-      "Default Participants",
-      ""
+      participantsDummy,
+      "Instant Meeting booked by System",
+      'New',
+       '',
     );
     let services = [];
     let parkings = [];

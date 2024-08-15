@@ -10,7 +10,7 @@ const DragIcon = () => (
     </svg>
   );
 
-const MeetingTimeline = ({ startTime, endTime, onEndTimeChange,spaceInfo,onMeetingClose,eventBookingDetails }) => {
+const MeetingTimeline = ({ startTime, endTime, onEndTimeChange,spaceInfo,onMeetingClose,eventBookingDetails,nextMeetingStartAt }) => {
   const [currentEndTime, setCurrentEndTime] = useState(endTime);
   const progressBarRef = useRef<any>(null);
   const isDraggingRef = useRef(false);
@@ -39,7 +39,7 @@ const MeetingTimeline = ({ startTime, endTime, onEndTimeChange,spaceInfo,onMeeti
   if (initialEndMinutes <= startMinutes) {
     initialEndMinutes += 24 * 60; // Add 24 hours if end time is on the next day
   }
-  const extendedEndMinutes = initialEndMinutes + 4 * 60; // Extend by 4 hours from initial end time
+  const extendedEndMinutes = nextMeetingStartAt!=null && nextMeetingStartAt!=""?parseTime(nextMeetingStartAt)-1: initialEndMinutes + 4 * 60; // Extend by 4 hours from initial end time
   const totalMinutes = extendedEndMinutes - startMinutes;
 
   const currentTimeMinutes = parseTime(new Date().toTimeString().slice(0, 5));
@@ -100,8 +100,11 @@ const MeetingTimeline = ({ startTime, endTime, onEndTimeChange,spaceInfo,onMeeti
     return marks;
   };
 
-const updateMeeting = async () => {
-    if(eventBookingDetails!=null && spaceInfo!=null)
+  const getCurrentTimeZone = ():string => {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone;
+  };  
+  const updateMeeting = async () => {
+   if(eventBookingDetails!=null && spaceInfo!=null)
     {
       let currentDate=moment().format("YYYY-MM-DD");
       const dateObj = addOneDay(currentDate);
@@ -119,7 +122,8 @@ const updateMeeting = async () => {
         "participants":eventBookingDetails.noOfAttendees,
         "action":"update",
         "sourceEventId":eventBookingDetails.sourceEventId,
-        "notes":eventBookingDetails.summary
+        "notes":eventBookingDetails.summary,
+        "timeZone": getCurrentTimeZone()
       },
       "parkings":[],
       "services":[]};
@@ -127,7 +131,9 @@ const updateMeeting = async () => {
        console.log("Book Meeting Update Response", meetingResponse);
        onMeetingClose(false);
     }
-  };  return (
+  };
+
+  return (
     <div className="w-[100%] mx-auto bg-white p-6">
       <h2 className="text-xl font-bold mb-4">Amend the time of your current meeting below:</h2>
       

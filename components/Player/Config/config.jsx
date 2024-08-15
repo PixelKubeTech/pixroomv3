@@ -4,6 +4,7 @@ import Whiteboard from "../../../assets/icons/dashboard card icons/whiteboard.sv
 import Accard from "../../../assets/icons/dashboard card icons/accard.svg";
 import Faxmachine from "../../../assets/icons/dashboard card icons/faxmachine.svg";
 import Viewbox from "../../../assets/icons/dashboard card icons/viewbox.svg";
+import Chair from "../../../assets/icons/dashboard card icons/chair.svg";
 export const services = [
   {
     serviceName: "Cofee",
@@ -42,7 +43,7 @@ export const spaceResourceConfig = [
   {
     resourceName: "Chair",
     resourceId: 100,
-    resourceIcon: <Projector />,
+    resourceIcon: <Chair />,
   },
   {
     resourceName: "Wifi",
@@ -52,7 +53,7 @@ export const spaceResourceConfig = [
   {
     resourceName: "Projector",
     resourceId: 111,
-    resourceIcon: <Viewbox />,
+    resourceIcon: <Projector />,
   },
   {
     resourceName: "TV",

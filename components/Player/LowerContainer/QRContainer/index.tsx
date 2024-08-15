@@ -10,6 +10,7 @@ interface QRContainerProps {
   scrollSubject:Boolean;
   eventBookingDetails:any;
   spaceInfo:any;
+  nextMeetingStartAt:String;
 }
 const meetingDetails = {
   time: '10:00am - 11:00am',
@@ -68,6 +69,7 @@ function QRContainer(props: QRContainerProps) {
             spaceInfo={props.spaceInfo}
             eventBookingDetails={props.eventBookingDetails}
             onMeetingClose={()=>setShowTimelineModal(false)}
+            nextMeetingStartAt={props.nextMeetingStartAt}
           />
       </TimelineModal>
 

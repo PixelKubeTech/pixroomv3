@@ -2,6 +2,7 @@ import axios from "axios";
 import dayjs, { Dayjs } from "dayjs";
 
 const API_BASE_URL = "https://demo.pixelkube.io/api";
+//const API_BASE_URL = "http://localhost:7177/api";
 
 class Meeting {
   spaceId: number;
@@ -14,62 +15,67 @@ class Meeting {
   startDateTime: string;
   endDateTime: string;
   meetingName: string;
-  participants: string;
+  participants: string[] = [];
   notes: string;
   action:string;
   sourceEventId:string;
+  timezone:string;
 
   constructor(
     spaceId: number = 0,
     buildingId: number = 0,
     orgId: number = 0,
     floorId: number = 0,
+    noOfAttendees:number= 0,
     startDateTime: string = "",
     endDateTime: string = "",
     meetingName: string = "",
-    participants: string = "",
+    participants: string[] = [], 
     notes: string = "",
     action:string="",
-    sourceEventId=""
+    sourceEventId="",
+    timezone="",
   ) {
     const startDate = this.convertStartDateToISODateTime(startDateTime);
     this.spaceId = spaceId;
-    this.noOfAttendees = 300;
+    this.noOfAttendees = noOfAttendees;
     this.buildingId = buildingId;
     this.orgId = orgId;
     this.floorId = floorId;
     this.alldays = false;
-    this.reminder = 0;
+    this.reminder = 10;
     this.startDateTime = startDate;
     this.endDateTime = this.calculateEndDataOnISODateTime(
-      dayjs(startDate),
       endDateTime
     );
     this.meetingName = meetingName;
     this.participants = participants;
-    this.notes = "";
+    this.notes = notes;
     this.action=action;
     this.sourceEventId=sourceEventId;
+    this.timezone= this.getCurrentTimeZone();
   }
 
+  private getCurrentTimeZone = ():string => {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone;
+  };   
   private convertStartDateToISODateTime(timeString: string): string {
     const [hours, minutes] = timeString.split(":");
     const date = dayjs().hour(parseInt(hours)).minute(parseInt(minutes));
-    const parsedDate = date.format("YYYY-MM-DDTHH:MM:00[Z]");
+    const parsedDate = date.format("YYYY-MM-DDTHH:mm:00[Z]");
     console.log("parsedDate", parsedDate);
     return parsedDate;
   }
 
-  private calculateEndDataOnISODateTime(
-    startDate: Dayjs,
+ private calculateEndDataOnISODateTime(
     timeString: string
-  ): string {
+): string {
     const [hours, minutes] = timeString.split(":");
-    const date = startDate.hour(parseInt(hours)).minute(parseInt(minutes));
-    const parsedDate = date.format("YYYY-MM-DDTHH:MM:00[Z]");
+    const date =  dayjs().hour(parseInt(hours)).minute(parseInt(minutes));
+    const parsedDate = date.format("YYYY-MM-DDTHH:mm:00[Z]");
     console.log("parsedDate", parsedDate);
     return parsedDate;
-  }
+}
 }
 
 class Parking {
@@ -127,7 +133,6 @@ interface BookingResponse {
 async function bookMeeting(request) {
   try {
     let bookingUrl = `${API_BASE_URL}/SMSService/BookMeeting`;
-
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -138,9 +143,9 @@ async function bookMeeting(request) {
     return {
       success: true,
       result: {
-        serverity:"success",
+        serverity: "success",
         code: 200,
-        message:`Successfully booked for ${response.data.data.meeting.referenceNumber}`
+        message: `Successfully booked for ${response.data.data.meeting.referenceNumber}`,
       },
     };
     //return response;
@@ -148,9 +153,9 @@ async function bookMeeting(request) {
     return {
       success: false,
       result: {
-        serverity:"error",
+        serverity: "error",
         code: 500,
-        message:`Booking failed! Please retry!`
+        message: `Booking failed! Please retry!`,
       },
     };
   }

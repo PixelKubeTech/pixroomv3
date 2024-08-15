@@ -8,6 +8,7 @@ function index() {
   const [showTimelineModal, setShowTimelineModal] = useState(false);
   const spaceInfo = null;
   const eventBookingDetails=null;
+  let nextMeetingStartAt="";
   console.log({newEnd});
   return <MeetingTimeline
     startTime="11:00"
@@ -16,6 +17,7 @@ function index() {
     spaceInfo={spaceInfo}
     onMeetingClose={()=>setShowTimelineModal(false)}
     eventBookingDetails={eventBookingDetails}
+    nextMeetingStartAt={nextMeetingStartAt}
   />;
 };
 

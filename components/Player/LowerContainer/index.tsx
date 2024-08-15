@@ -23,7 +23,7 @@ interface Message {
   text?: string;
 }
 
-function LowerContainer({ booked, meetingInfo , themeInfo, calendarId}: any) {
+function LowerContainer({ booked, meetingInfo , themeInfo, calendarId,spaceInfo}: any) {
   const [showModal, setShowModal] = useState(false);
   const [meetingData,setEvent] = useState(meetingInfo);
   const[calendarIdparam,setCalendarId] = useState(calendarId);
@@ -34,6 +34,7 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId}: any) {
   const [message, setMessage] = React.useState<Message>();
   const [eventBookingDetails, setEventBookingDetails] = React.useState(null);
   let themeDataResponse;
+  const [nextMeetingStartAt,setNextMeetingStartAt]=React.useState("");
   if (themeInfo && themeInfo.themedata) {
     try {
       themeDataResponse = JSON.parse(themeInfo.themedata);
@@ -60,6 +61,7 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId}: any) {
     const fetchMeetingResponse = async () => {
       try {
         let currentTime=new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit'});
+        
         console.log('calendarIdparam', calendarIdparam);
         const meetingList = await EventService.getEventInstances({
           calendarId: calendarIdparam ? calendarIdparam : '4'
@@ -67,9 +69,12 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId}: any) {
         setEvent(meetingList);
         if (meetingList.length > 0) {
           setSelectMeetingInfo(meetingList);
-          meetingList.map(x=>{
+          meetingList.map((x,i)=>{
             if(x.date==currentDate && x.bookingDetails!=null &&  currentTime >= x.bookingDetails.from && currentTime < x.bookingDetails.to)
+            {
               setEventBookingDetails(x.bookingDetails);
+              setNextMeetingStartAt(meetingList[i+1].bookingDetails.from);
+            }
           })
         } else {
           setSelectMeetingInfo([]);
@@ -88,10 +93,10 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId}: any) {
   });
  return (
     <div className="flex justify-between relative" style={{height: 'calc(100% - 150px)'}}>
-      <QRContainer booked={booked} showFindRoom={showFindRoom} scrollSubject={scrollSubject} eventBookingDetails={eventBookingDetails} spaceInfo={null} />
-      <div className="w-[30%] h-[100%] rounded-br-[40px] pb-3" style={{backgroundColor: 'rgba(255, 255, 255, .5)'}}>
-        <div className="bg-green rounded-b-[40px] py-4" style={{height: 'calc(100% - 52px)', backgroundColor: 'rgba(255, 255, 255, .5)'}}>
-          <p className="py-2 text-md font-bold pb-4 px-4 mb-2 rounded-lg text-[#7f818d]">
+      <QRContainer nextMeetingStartAt={nextMeetingStartAt} booked={booked} showFindRoom={showFindRoom} scrollSubject={scrollSubject} eventBookingDetails={eventBookingDetails} spaceInfo={spaceInfo} />
+      <div className="w-[30%] h-[100%] bg-black/5 rounded-br-[40px] pb-3">
+        <div className="bg-green rounded-b-[40px] py-4 pl-4" style={{height: 'calc(100% - 52px)'}}>
+          <p className="py-2 text-lg pb-4 px-4 bg-[#0072B8]/5 mb-2 rounded-lg">
             Today
           </p>
           <div className="h-[86%] overflow-hidden">
@@ -112,16 +117,7 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId}: any) {
               show={showModal}
               title={"Book a Room"}
             >
-             <MeetingDailer
-                    setSuccess={setSuccess}
-                    setMessage={setMessage}
-                    onClose={() => setShowModal(false)}
-                    spaceId={null} // Pass the correct spaceId
-                    floorId={null} // Pass the correct floorId
-                    buildingId={null} // Pass the correct buildingId
-                    orgId={null} // Pass the correct orgId
-                    floorName={null} // Pass the correct floorName
-                  />
+              <MeetingDailer setSuccess={setSuccess} setMessage={setMessage}  onClose={() => setShowModal(false)}/>
             </Modal>
         </div>:null}
       </div>
@@ -134,10 +130,11 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId}: any) {
           {message?.text}
         </Alert>
       </Snackbar>
-      <div className="left-[22px] right-[22px] absolute bottom-0">
-        <div className="h-[8px] w-[30%] rounded-b-full bg-[#58968B]" style={{width: `${progress}%`}}></div>
-      </div>
+     <div className="left-[22px] right-[22px] absolute bottom-0">
+        <div className="progress-bar h-[8px] w-[30%]" style={{width: `${progress}%`}}></div>
+      </div>  
     </div>
   );
 }
+
 export default LowerContainer;
