@@ -43,7 +43,7 @@ const MeetingInfoContainer = ({ spaceInfo, meetingInfo,themeInfo }) => {
                 meetingInfo={meetingInfo}
                 themeInfo={themeInfo}
               />
-              <MeetingCalenderContainer />
+              <MeetingCalenderContainer showFreeSlots/>
             </div>
           </div>
         </MeetingInfoContext.Provider>

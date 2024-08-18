@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-function MeetingBlock({ isAvailable, bookingDetails, parentProps, onClick }: any) {
+//function MeetingBlock({ isAvailable, bookingDetails, parentProps, onClick }: any) {
+function MeetingBlock({ isAvailable, bookingDetails, parentProps, onClick, setStartTime = () => {}, setEndTime = () => {} }: any) {
   const [selectedSlots, setSelectedSlots] = useState<number[]>([]);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -32,6 +33,8 @@ function MeetingBlock({ isAvailable, bookingDetails, parentProps, onClick }: any
     if (isAvailable && selectedSlots.length > 0) {
       const startTime = addMinutes(bookingDetails.from, selectedSlots[0] * 15);
       const endTime = addMinutes(bookingDetails.from, (selectedSlots[selectedSlots.length - 1] + 1) * 15);
+      setStartTime(startTime);
+      setEndTime(endTime);
       onClick({
         isAvailable,
         bookingDetails: {

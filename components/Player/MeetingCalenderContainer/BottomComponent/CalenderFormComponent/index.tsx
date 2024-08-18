@@ -27,7 +27,7 @@ interface UseFormInputs {
 function CalenderFormComponent(props) {
   console.log(props);
   let { hhStart, mmStart, hhEnd, mmEnd } = getTimeSlots();
-  const { register, handleSubmit, reset } = useForm<UseFormInputs>({
+  const { register, handleSubmit, reset, setValue } = useForm<UseFormInputs>({
     defaultValues: {
       participants: "",
       hhStart: hhStart,
@@ -37,6 +37,16 @@ function CalenderFormComponent(props) {
       meetingName: "",
     },
   });
+
+  const {startTime, endTime} = props;
+  React.useEffect(() => {
+    setValue("hhStart", startTime.split(":")[0]);
+    setValue("mmStart", startTime.split(":")[1]);
+    setValue("hhEnd", endTime.split(":")[0]);
+    setValue("mmEnd", endTime.split(":")[1]);
+  }, [startTime, endTime]);
+
+  
   const [success, setSuccess] = React.useState(false);
   const [message, setMessage] = React.useState<Message>();
   const handleSuccess = (status) => {

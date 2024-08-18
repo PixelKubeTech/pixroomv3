@@ -2,6 +2,7 @@ import React from 'react'
 import CalenderFormComponent from './CalenderFormComponent'
 import TimelineComponent from './TimelineComponent'
 import { MeetingInfoContext } from '@/app/context/MeetingContext'
+import { getTime, getTimeSlots } from './CalenderFormComponent/utils';
 
 const meetingInfodata = [
   {
@@ -56,9 +57,10 @@ const meetingInfodata = [
   },
 ];
 
-
-function BottomComponent() {
+function BottomComponent({showFreeSlots}) {
   const [bookingDetails, setBookingDetails] = React.useState(null);
+  const [startTime, setStartTime] = React.useState(getTimeSlots().hhStart + ":" + getTimeSlots().mmStart);
+  const [endTime, setEndTime] = React.useState(getTimeSlots().hhEnd + ":" + getTimeSlots().mmEnd);
 
   const eventClick = (data) => {
     setBookingDetails(data.bookingDetails);
@@ -67,8 +69,8 @@ function BottomComponent() {
   const meetingInfo = React.useContext(MeetingInfoContext) || meetingInfodata;
   return (
     <div className='flex px-8 h-[56%] meeting-info-context-scroll'>
-        <TimelineComponent meetingInfo={meetingInfo} eventClick={eventClick}/>
-        <CalenderFormComponent meetingInfo={meetingInfo} eventBookingDetails={bookingDetails}/>
+      <TimelineComponent meetingInfo={meetingInfo} eventClick={eventClick} showFreeSlots={showFreeSlots} setStartTime={setStartTime} setEndTime={setEndTime}/>
+      <CalenderFormComponent meetingInfo={meetingInfo} eventBookingDetails={bookingDetails} startTime={startTime} endTime={endTime}/>
     </div>
   )
 }

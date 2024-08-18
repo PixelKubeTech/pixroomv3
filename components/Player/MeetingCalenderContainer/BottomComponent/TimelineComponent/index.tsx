@@ -6,7 +6,7 @@ function TimelineComponent(props) {
   const handleMeetingBlockClick = (data) => {
     props.eventClick(data);
   };
-
+  const { showFreeSlots } = props;
   let meetingInfo: any = null;
   if (props.meetingInfo != null && props.meetingInfo.length > 0) meetingInfo = props.meetingInfo;
   else if (
@@ -50,7 +50,8 @@ function TimelineComponent(props) {
       return freeSlots;
     };
   
-    const freeSlots = findFreeSlots(meetingInfo || []);
+    //const freeSlots = findFreeSlots(meetingInfo || []);
+    const freeSlots = showFreeSlots ? findFreeSlots(meetingInfo || []) : [];
   
     // Merge meetings and free slots, then sort
     const combinedList = [...meetingInfo, ...freeSlots].sort((a, b) => a.bookingDetails.from.localeCompare(b.bookingDetails.from));
@@ -63,6 +64,8 @@ function TimelineComponent(props) {
           bookingDetails={data.bookingDetails}
           parentProps={props}
           onClick={handleMeetingBlockClick}
+          setStartTime={props.setStartTime}
+          setEndTime={props.setEndTime}
         />
       ))}
     </div>
