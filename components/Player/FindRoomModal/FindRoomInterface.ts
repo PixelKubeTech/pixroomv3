@@ -3,7 +3,7 @@ interface FindRoom {
   value: RoomDetails;
 }
 interface RoomDetails {
-  orgId:number;
+  orgId: number;
   spaceName: string;
   spaceId: number;
   buildingId: number;
@@ -11,7 +11,7 @@ interface RoomDetails {
   floorName: string;
   organizationId: number;
   isAvailable: boolean;
-  nextAvailableSlot: number;
+  availableIn: number;
   spaceResources: ISpaceResource[];
 }
 interface ISpaceResource {

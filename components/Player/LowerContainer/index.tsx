@@ -117,7 +117,12 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId,spaceInfo}
               show={showModal}
               title={"Book a Room"}
             >
-              <MeetingDailer setSuccess={setSuccess} setMessage={setMessage}  onClose={() => setShowModal(false)}/>
+              <MeetingDailer
+                setSuccess={setSuccess}
+                setMessage={setMessage}
+                maxAvailableTime={60}
+                onClose={() => setShowModal(false)}
+              />
             </Modal>
         </div>:null}
       </div>

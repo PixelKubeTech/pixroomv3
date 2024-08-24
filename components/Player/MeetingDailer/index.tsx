@@ -33,6 +33,7 @@ export interface IMeetingDailer {
   buildingId?: number;
   orgId?: number;
   floorName?: string;
+  maxAvailableTime: number;
 }
 
 const MeetingDailer = ({
@@ -44,6 +45,7 @@ const MeetingDailer = ({
   buildingId,
   orgId,
   floorName,
+  maxAvailableTime,
 }: IMeetingDailer) => {
   const { minute, hour } = addMinutesToCurrentTime(15);
   const [progressMinute, setProgressMinute] = useState(0);
@@ -122,7 +124,7 @@ const MeetingDailer = ({
           min={0}
           renderLabelValue={<MeetingTime time={progressMinute} hour={0} />}
           knobPosition={"bottom"}
-          max={60}
+          max={maxAvailableTime}
           knobColor="#3182ce"
           progressColorFrom="#74eca4"
           progressColorTo="#3182ce"

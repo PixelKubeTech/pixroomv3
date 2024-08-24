@@ -80,7 +80,7 @@ function FindRoomTable() {
                 <TableCell className="font-bold">Meeting Room</TableCell>
                 <TableCell className="font-bold">Floor Name</TableCell>
                 <TableCell className="font-bold">Facilities</TableCell>
-                <TableCell className="font-bold">Next Availability</TableCell>
+                <TableCell className="font-bold">Available For</TableCell>
               </TableRow>
             </TableHead>
 
@@ -139,7 +139,7 @@ function FindRoomTable() {
                   </TableCell>
                   <TableCell>
                     <div className={`flex items-center`}>
-                      {roomDetails.value.nextAvailableSlot}
+                      {roomDetails.value.availableIn}
                     </div>
                   </TableCell>
                 </TableRow>
@@ -162,6 +162,11 @@ function FindRoomTable() {
               floorId={selectedSpaceDetail.floorId}
               orgId={selectedSpaceDetail.orgId}
               floorName={selectedSpaceDetail.floorName}
+              maxAvailableTime={
+                selectedSpaceDetail.availableIn
+                  ? selectedSpaceDetail.availableIn
+                  : 60
+              }
             />
           </Modal>
         </div>
