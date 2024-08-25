@@ -1,9 +1,14 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { useEffect, useRef, Dispatch, SetStateAction, useState } from "react";
 import CircularSlider from "@fseehawer/react-circular-slider";
 import "./style.css";
-import GoButton from "./GoButton";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
+import Button from "../@common/Button";
+import GoButton from "./GoButton";
+import { useRouter } from "next/router";
+
+
+
 import { bookMeeting, Meeting } from "@/services/BookMeetingService";
 import {
   getCurrentHour,
@@ -34,6 +39,7 @@ export interface IMeetingDailer {
   orgId?: number;
   floorName?: string;
   maxAvailableTime: number;
+  handleClick: any;
 }
 
 const MeetingDailer = ({
@@ -46,7 +52,9 @@ const MeetingDailer = ({
   orgId,
   floorName,
   maxAvailableTime,
+  handleClick,
 }: IMeetingDailer) => {
+  const [isBookNowSelected, setIsBookNowSelected] = useState(false);
   const { minute, hour } = addMinutesToCurrentTime(15);
   const [progressMinute, setProgressMinute] = useState(0);
   const [progressHour, setProgressHour] = useState(hour);
@@ -115,7 +123,15 @@ const MeetingDailer = ({
     onClose();
     console.log("bookInstantMeetingClose");
   };
-
+  
+  if(!isBookNowSelected){
+    return (
+      <div className="flex flex-col items-center gap-4 justify-center h-[400px]">
+      <Button text="Book Now" handleClick={()=>setIsBookNowSelected(true)} />
+      <Button text="Book Later" handleClick={handleClick} />
+      </div>
+    )
+  }
   return (
     <div>
       <div className="flex flex-col items-center">

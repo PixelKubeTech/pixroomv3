@@ -162,6 +162,7 @@ function FindRoomTable() {
               floorId={selectedSpaceDetail.floorId}
               orgId={selectedSpaceDetail.orgId}
               floorName={selectedSpaceDetail.floorName}
+              handleClick={null}
               maxAvailableTime={
                 selectedSpaceDetail.availableIn
                   ? selectedSpaceDetail.availableIn

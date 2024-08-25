@@ -24,12 +24,12 @@ const MeetingContainer = (props: MeetingProps) => {
   const [calender, dispatch] = useReducer(calenderReducer, {
     meetingDate: getCurrentDate(),
   });
-  let meetingContainerInfo:any={
-    "spaceInfo":props.spaceInfo,
-    "meetingInfo":props.meetingInfo,
-    "themeInfo":props.themeInfo,
-    "currentDate":props.currentDate
-  }
+  let meetingContainerInfo: any = {
+    spaceInfo: props.spaceInfo,
+    meetingInfo: props.meetingInfo,
+    themeInfo: props.themeInfo,
+    currentDate: props.currentDate,
+  };
 
   return (
     <MeetingContext.Provider value={calender}>
@@ -47,8 +47,14 @@ const MeetingContainer = (props: MeetingProps) => {
               spaceInfo={props.spaceInfo}
               themeInfo={props.themeInfo}
             />
-            <LowerContainer booked={props.booked} meetingInfo={props.meetingInfo} themeInfo={props.themeInfo} calendarId={props.calendarId} />
-          </div>
+            <LowerContainer
+                booked={props.booked}
+                spaceInfo={props.spaceInfo}
+                meetingInfo={props.meetingInfo}
+                themeInfo={props.themeInfo}
+                calendarId={props.calendarId}
+              />
+            </div>
         </div>
         </MeetingInfoContext.Provider>
       </MeetingDispatchContext.Provider>

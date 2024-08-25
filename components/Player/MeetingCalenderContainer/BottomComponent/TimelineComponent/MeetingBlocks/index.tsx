@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 //function MeetingBlock({ isAvailable, bookingDetails, parentProps, onClick }: any) {
-function MeetingBlock({ isAvailable, bookingDetails, parentProps, onClick, setStartTime = () => {}, setEndTime = () => {} }: any) {
+function MeetingBlock({ isAvailable, bookingDetails, parentProps, onClick, setStartTime = () => {}, setEndTime = () => {}, currentIndex, selectedMeetingIndex, setSelectedMeetingIndex }: any) {
   const [selectedSlots, setSelectedSlots] = useState<number[]>([]);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -25,6 +25,7 @@ function MeetingBlock({ isAvailable, bookingDetails, parentProps, onClick, setSt
         const end = Math.max(prevSelected[0], index);
         return Array.from({ length: end - start + 1 }, (_, i) => start + i);
       });
+      setSelectedMeetingIndex(currentIndex);
     }
   };
 
@@ -76,7 +77,7 @@ function MeetingBlock({ isAvailable, bookingDetails, parentProps, onClick, setSt
             <div
               key={index}
               className={`h-4 mb-1 rounded cursor-pointer ${
-                selectedSlots.includes(index) ? 'bg-blue-500' : 'bg-gray-200'
+                selectedMeetingIndex === currentIndex && selectedSlots.includes(index) ? 'bg-blue-500' : 'bg-gray-200'
               }`}
               onMouseDown={() => handleMouseDown(index)}
               onMouseEnter={() => handleMouseEnter(index)}

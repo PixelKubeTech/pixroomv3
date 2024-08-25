@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Modal } from "../../../components/Player/Modals/FindRoom";
 import Button from "../@common/Button";
-import TimelineComponent from "../MeetingCalenderContainer/BottomComponent/TimelineComponent";
 import QRContainer from "./QRContainer";
 import { CalenderType, MeetingContext } from "@/app/context/MeetingContext";
 import { getCurrentDate, reverseDate,addOneDay } from "@/app/utils/DateUtils";
@@ -11,7 +10,9 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import { EventService } from "@/services";
-
+import TimelineComponent from "../MeetingCalenderContainer/BottomComponent/TimelineComponent";
+import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 function getMeetingDataByDate(meetingData:Array<any>,date:any){
   if((meetingData as any)?.success==false){ return []}
   let result =  meetingData.filter(item => item.date === date)
@@ -48,6 +49,27 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId,spaceInfo}
   let showFindRoom=themeDataResponse!=null ? themeDataResponse.findRoom:true;
   let scrollSubject=themeDataResponse!=null  ? themeDataResponse.scrollSubject:true;
   let currentTime=new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit'});
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const spaceId = searchParams.get("spaceId");
+  let calendarId2 =
+    spaceInfo != null
+      ? spaceInfo.mappedCalendarIds != null
+        ? spaceInfo.mappedCalendarIds[0]
+        : "5"
+      : "6";
+  const queryParams12 = {
+    spaceId: spaceId || "",
+    calendarId: calendarId2?.toString() || "",
+    themeid: themeInfo.id?.toString() || "",
+  };
+  const handleClick = () => {
+    //console.log("searchParams", searchParams);
+    const queryString = new URLSearchParams(queryParams12).toString();
+    router.push(`/meetinginfo?${queryString}`);
+    //router.push(`/meetinginfo?spaceId=${queryParams}`);
+  };
   const eventClick = (data) => {
    setEventBookingDetails(data.bookingDetails);
    };
@@ -121,6 +143,7 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId,spaceInfo}
                 setSuccess={setSuccess}
                 setMessage={setMessage}
                 maxAvailableTime={60}
+                handleClick={handleClick}
                 onClose={() => setShowModal(false)}
               />
             </Modal>

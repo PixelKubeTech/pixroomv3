@@ -33,7 +33,7 @@ export const Modal = ({ show, onClose, children, title }: any) => {
           </div> */}
         </div>
 
-        <div>{children}</div>
+        {children}
       </div>
     </div>
   ) : null;

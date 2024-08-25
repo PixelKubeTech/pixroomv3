@@ -3,6 +3,8 @@ import MeetingBlock from "./MeetingBlocks";
 import "./scrollbarthin.css";
 
 function TimelineComponent(props) {
+  const [selectedSlots, setSelectedSlots] = useState<number[]>([]);
+  const [selectedMeetingIndex, setSelectedMeetingIndex] = useState<number>(-1);
   const handleMeetingBlockClick = (data) => {
     props.eventClick(data);
   };
@@ -57,7 +59,7 @@ function TimelineComponent(props) {
     const combinedList = [...meetingInfo, ...freeSlots].sort((a, b) => a.bookingDetails.from.localeCompare(b.bookingDetails.from));
   return (
     <div className={`h-full overflow-scroll max-h-100 flex flex-col basis-1/2 gap-2 thin-scrollbar`}>
-      {combinedList?.map((data) => (
+      {combinedList?.map((data, index) => (
         <MeetingBlock
           key={data.bookingDetails.from}
           isAvailable={data.isAvailable}
@@ -66,6 +68,11 @@ function TimelineComponent(props) {
           onClick={handleMeetingBlockClick}
           setStartTime={props.setStartTime}
           setEndTime={props.setEndTime}
+          selectedSlots={selectedSlots}
+          setSelectedSlots={setSelectedSlots}s
+          currentIndex={index}
+          selectedMeetingIndex={selectedMeetingIndex}
+          setSelectedMeetingIndex={setSelectedMeetingIndex}
         />
       ))}
     </div>
