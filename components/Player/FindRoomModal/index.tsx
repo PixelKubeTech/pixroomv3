@@ -80,7 +80,7 @@ function FindRoomTable() {
                 <TableCell className="font-bold">Meeting Room</TableCell>
                 <TableCell className="font-bold">Floor Name</TableCell>
                 <TableCell className="font-bold">Facilities</TableCell>
-                <TableCell className="font-bold">Available For</TableCell>
+                <TableCell className="font-bold"> Available For(minutes)</TableCell>
               </TableRow>
             </TableHead>
 
@@ -89,26 +89,17 @@ function FindRoomTable() {
                 <TableRow
                   key={idx}
                   style={{
-                    backgroundColor: !roomDetails.value.isAvailable
-                      ? "white"
-                      : "slategray",
+                    backgroundColor: "white",
                   }}
                   onClick={() => {
-                    if (!roomDetails.value.isAvailable) {
-                      setSelectedSpaceDetail(roomDetails.value);
-                      console.log("Selected Details"+ roomDetails.value);
-                      setShowModal(true);
-                    }
+                    setSelectedSpaceDetail(roomDetails.value);
+                    setShowModal(true);
                   }}
                 >
                   <TableCell component="th" scope="row">
                     <div className="flex">
                       <div
-                        className={`h-[25px] w-[25px] ${
-                          roomDetails.value.isAvailable
-                            ? "bg-[#ff544f]"
-                            : "bg-[#58968b]"
-                        } rounded-full mr-2`}
+                        className={`h-[25px] w-[25px] bg-[#58968b] rounded-full mr-2`}
                       ></div>
                       <div style={{ paddingTop: "2px" }}>{roomDetails.key}</div>
                     </div>
