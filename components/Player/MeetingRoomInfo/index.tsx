@@ -100,7 +100,7 @@ function MeetingRoomInfo({
     if (_meetingInfo === undefined) {
       (async () => {
         const meetingResponse = await EventService.getEventInstances({
-          calendarId: 321,
+          calendarId: calendarId,
         });
         setIntervalsFromAPI(
           meetingResponse?.bookingDetails?.map((bookingDetail: any) => {

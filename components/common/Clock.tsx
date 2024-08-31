@@ -53,15 +53,20 @@ export default function Clock(props: ClockProps): JSX.Element {
     return minute % 5 === 0; // Change this condition based on your requirement
   };
 
-  const getSectionColor = (index: number, intervals: Interval[]): string => {
+
+  const getSectionColor = (index: number, intervals: Interval[] | null | undefined): string => {
+    if (!Array.isArray(intervals)) {
+        return customGreen; // Return default color if intervals is not an array
+    }
     const currentMinute = index * 6;
     for (let i = 0; i < intervals.length; i++) {
-      if (currentMinute >= intervals[i].start && currentMinute <= intervals[i].end) {
-        return customRed;
-      }
+        if (currentMinute >= intervals[i].start && currentMinute <= intervals[i].end) {
+            return customRed; // Return customRed if currentMinute is within the interval
+        }
     }
-    return customGreen;
-  };
+    return customGreen; // Return customGreen if no interval matches
+};
+  
   const getTodayDay = () => {
     const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
     const today = new Date();

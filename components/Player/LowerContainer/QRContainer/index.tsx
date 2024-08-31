@@ -13,10 +13,10 @@ interface QRContainerProps {
   nextMeetingStartAt:String;
 }
 const meetingDetails = {
-  time: '10:00am - 11:00am',
-  title: 'Testing the Marketing Meeting',
-  bookedBy: 'Dinesh Kumar Indarmal',
-  participants: 6,
+  time:'',
+  title: 'Room Available',
+  bookedBy: '',
+  participants: 0,
 };
 function QRContainer(props: QRContainerProps) {
   let meetingStartTime=props!=null && props.eventBookingDetails!=null && props.eventBookingDetails.from!=null?props.eventBookingDetails.from:"11:00";
@@ -24,7 +24,7 @@ function QRContainer(props: QRContainerProps) {
   if(props.eventBookingDetails!=null)
   {
   	meetingDetails.title=props.eventBookingDetails.meetingName;
-  	meetingDetails.time=props.eventBookingDetails.from+"-"+props.eventBookingDetails.to;
+  	meetingDetails.time= props.eventBookingDetails.from+"-"+props.eventBookingDetails.to;
   	meetingDetails.bookedBy=props.eventBookingDetails.bookingPersonName;
   	meetingDetails.participants=props.eventBookingDetails.duration;
   }
