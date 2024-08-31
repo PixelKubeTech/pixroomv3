@@ -28,23 +28,29 @@ interface UseFormInputs {
 }
 function CalenderFormComponent(props) {
   console.log("props",props);
-  const [startTime,setStartTime]=React.useState<String>(props.startTime);
-  const [endTime,setEndTime]=React.useState<String>(props.endTime);
-
+  debugger;
+  const {startTime, endTime} = props;
   let { hhStart, mmStart, hhEnd, mmEnd } = getTimeSlots();
-  const { register, handleSubmit, reset } = useForm<UseFormInputs>({
+  const { register, handleSubmit, reset, setValue } = useForm<UseFormInputs>({
     defaultValues: {
       participants: "",
-      hhStart: startTime,
-      mmStart: startTime,
-      hhEnd: endTime,
-      mmEnd: endTime,
+      hhStart: hhStart,
+      mmStart: mmStart,
+      hhEnd: hhEnd,
+      mmEnd: mmEnd,
       meetingName: "",
     },
   });
+  React.useEffect(() => {
+    setValue("hhStart", startTime.split(":")[0]);
+    setValue("mmStart", startTime.split(":")[1]);
+    setValue("hhEnd", endTime.split(":")[0]);
+    setValue("mmEnd", endTime.split(":")[1]);
+  }, [startTime, endTime]);
+  
   const [success, setSuccess] = React.useState(false);
   const [message, setMessage] = React.useState<Message>();
-  
+
   const handleSuccess = (status) => {
     setSuccess(status);
   };
@@ -70,7 +76,7 @@ function CalenderFormComponent(props) {
           "action":"create",
           //"sourceEventId":props.eventBookingDetails.sourceEventId,
           //"notes":props.eventBookingDetails.summary,
-          //"timeZone": getCurrentTimeZone()
+          "timeZone": getCurrentTimeZone()
         },
         "parkings":[],
         "services":[]};
@@ -86,17 +92,17 @@ function CalenderFormComponent(props) {
         <div className="flex gap-8 items-center">
           <span>Start :</span>
           <div className="flex gap-4 items-center">
-            <Input register={startTime?startTime.split(":")[0]:"17"} placeholder={"11"} />
+            <Input register={register("hhStart")} placeholder={"11"} />
             :
-            <Input register={startTime?startTime.split(":")[1]:"30"} placeholder={"15"} />
+            <Input register={register("mmStart")} placeholder={"15"} />
           </div>
         </div>
         <div className="flex gap-8 items-center">
           <span>End:</span>
           <div className="flex gap-4 items-center">
-            <Input register={endTime?endTime.split(":")[0]:"18"} placeholder={"11"} />
+            <Input register={register("hhEnd")} placeholder={"11"} />
             :
-            <Input register={endTime?endTime.split(":")[1]:"30"} placeholder={"45"} />
+            <Input register={register("mmEnd")} placeholder={"45"} />
           </div>
         </div>
       </div>
@@ -128,8 +134,11 @@ function CalenderFormComponent(props) {
         className={"self-end"}
       />
       <Snackbar open={success} autoHideDuration={5000}>
-        <Alert variant="filled" sx={{ width: "100%" }}>
-          <AlertTitle>{message?.serverity}</AlertTitle>
+        <Alert
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+           <AlertTitle>{message?.serverity}</AlertTitle>
           {message?.text}
         </Alert>
       </Snackbar>

@@ -20,26 +20,38 @@ function MeetingBlock({ isAvailable, bookingDetails, parentProps, onClick, setSt
 
   const handleMouseEnter = (index: number) => {
     if (isDragging && isAvailable) {
-      const startTime = addMinutes(bookingDetails.from, selectedSlots[0] * 15);
-      const endTime = addMinutes(bookingDetails.from, (selectedSlots[selectedSlots.length - 1] + 1) * 15);
       setSelectedSlots(prevSelected => {
         const start = Math.min(prevSelected[0], index);
         const end = Math.max(prevSelected[0], index);
         return Array.from({ length: end - start + 1 }, (_, i) => start + i);
       });
       setSelectedMeetingIndex(currentIndex);
-      onClick({
-        isAvailable,
-        bookingDetails: {
-          ...bookingDetails,
-          from: startTime,
-          to: endTime,
-          duration: selectedSlots.length
-        },
-        parentProps
-      });
     }
   };
+
+
+  // const handleMouseEnter = (index: number) => {
+  //   if (isDragging && isAvailable) {
+  //     const startTime = addMinutes(bookingDetails.from, selectedSlots[0] * 15);
+  //     const endTime = addMinutes(bookingDetails.from, (selectedSlots[selectedSlots.length - 1] + 1) * 15);
+  //     setSelectedSlots(prevSelected => {
+  //       const start = Math.min(prevSelected[0], index);
+  //       const end = Math.max(prevSelected[0], index);
+  //       return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+  //     });
+  //     setSelectedMeetingIndex(currentIndex);
+  //     onClick({
+  //       isAvailable,
+  //       bookingDetails: {
+  //         ...bookingDetails,
+  //         from: startTime,
+  //         to: endTime,
+  //         duration: selectedSlots.length
+  //       },
+  //       parentProps
+  //     });
+  //   }
+  // };
 
   const handleMouseUp = () => {
     setIsDragging(false);
