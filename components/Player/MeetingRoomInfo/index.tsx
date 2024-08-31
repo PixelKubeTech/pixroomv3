@@ -9,6 +9,8 @@ import Clock1 from "@/components/common/Clock";
 import { useSearchParams } from "next/navigation";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import dayjs from "dayjs";
+import { EventService } from "@/services";
 export function MeetingRoomInfoReducer(state, action) {
   console.log("state", state);
   if (action.type === "selected_device") {
@@ -34,6 +36,7 @@ function MeetingRoomInfo({
   booked,
   spaceInfo,
   themeInfo,
+  meetingInfo,
 }: any) {
   let themeDataResponse;
   let enableFaultReporting = true;
@@ -90,12 +93,40 @@ function MeetingRoomInfo({
     router.push(`/meeting?spaceId=${spaceId}`);
   };
 
-  const intervalsFromAPI: Interval[] = [
-    { start: 30, end: 200 },
-    { start: 90, end: 119 },
-    { start: 300, end: 400 },
-    { start: 600, end: 700 },
-  ];
+  const [intervalsFromAPI, setIntervalsFromAPI] = useState<Interval[]>([]);
+
+  React.useEffect(() => {
+    let _meetingInfo = { ...meetingInfo };
+    if (_meetingInfo === undefined) {
+      (async () => {
+        const meetingResponse = await EventService.getEventInstances({
+          calendarId: 321,
+        });
+        setIntervalsFromAPI(
+          meetingResponse?.bookingDetails?.map((bookingDetail: any) => {
+            const startTime = bookingDetail.bookingDetails?.from.split(":");
+            const endTime = bookingDetail.bookingDetails?.to.split(":");
+            return {
+              start: parseInt(startTime[0]) * 60 + parseInt(startTime[1]),
+              end: parseInt(endTime[0]) * 60 + parseInt(endTime[1]),
+            } as Interval;
+          })
+        );
+      })();
+    } else {
+      setIntervalsFromAPI(
+        meetingInfo?.map((bookingDetail: any) => {
+          const startTime = bookingDetail.bookingDetails?.from.split(":");
+          const endTime = bookingDetail.bookingDetails?.to.split(":");
+          return {
+            start: parseInt(startTime[0]) * 60 + parseInt(startTime[1]),
+            end: parseInt(endTime[0]) * 60 + parseInt(endTime[1]),
+          } as Interval;
+        })
+      );
+    }
+  }, [meetingInfo]);
+
   const options = {
     border: true,
     borderColor: "#2e2e2e",
@@ -114,7 +145,11 @@ function MeetingRoomInfo({
         "w-full h-[20vh] min-h-[150px] flex justify-between box-border  rounded-[40px] bg-white/25"
       }
     >
-      <div className={"flex justify-between flex-1 pt-6 pb-5 pl-10 pr-6 items-center"}>
+      <div
+        className={
+          "flex justify-between flex-1 pt-6 pb-5 pl-10 pr-6 items-center"
+        }
+      >
         <div className="flex ">
           <div className={"flex flex-col justify-between items-center mr-4"}>
             <img
