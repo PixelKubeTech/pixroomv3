@@ -20,12 +20,24 @@ function MeetingBlock({ isAvailable, bookingDetails, parentProps, onClick, setSt
 
   const handleMouseEnter = (index: number) => {
     if (isDragging && isAvailable) {
+      const startTime = addMinutes(bookingDetails.from, selectedSlots[0] * 15);
+      const endTime = addMinutes(bookingDetails.from, (selectedSlots[selectedSlots.length - 1] + 1) * 15);
       setSelectedSlots(prevSelected => {
         const start = Math.min(prevSelected[0], index);
         const end = Math.max(prevSelected[0], index);
         return Array.from({ length: end - start + 1 }, (_, i) => start + i);
       });
       setSelectedMeetingIndex(currentIndex);
+      onClick({
+        isAvailable,
+        bookingDetails: {
+          ...bookingDetails,
+          from: startTime,
+          to: endTime,
+          duration: selectedSlots.length
+        },
+        parentProps
+      });
     }
   };
 
@@ -77,7 +89,7 @@ function MeetingBlock({ isAvailable, bookingDetails, parentProps, onClick, setSt
             <div
               key={index}
               className={`h-4 mb-1 rounded cursor-pointer ${
-                selectedMeetingIndex === currentIndex && selectedSlots.includes(index) ? 'bg-blue-500' : 'bg-gray-200'
+                selectedMeetingIndex === currentIndex && selectedSlots.includes(index) ? 'bg-red-500' : 'bg-gray-200'
               }`}
               onMouseDown={() => handleMouseDown(index)}
               onMouseEnter={() => handleMouseEnter(index)}

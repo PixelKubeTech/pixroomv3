@@ -17,6 +17,7 @@ export default async function Home(props) {
   let spaceId = props.searchParams.spaceId ? props.searchParams.spaceId : "15"
   let calendarId = props.searchParams.calendarId ? props.searchParams.calendarId : "2"
   let themeid= props.searchParams.themeId ? props.searchParams.themeId : "1"
+  let currentDate = getCurrentDate()
 
   let response = await SpaceService.getSpaceInfo({
     spaceId: spaceId,
@@ -32,7 +33,7 @@ export default async function Home(props) {
       className={`h-screen max-h-screen w-screen p-4 box-border bg-cover overflow-y-hidden`}
       style={{ backgroundImage: `url(../pixroom/assets/images/mainbg.png)` }}
     >
-      <MeetingInfoContainer spaceInfo={spaceInfo} meetingInfo={meetingInfo} themeInfo={themeInfo}/>
+      <MeetingInfoContainer currentDate={currentDate} spaceInfo={spaceInfo} meetingInfo={meetingInfo} themeInfo={themeInfo} calendarId={calendarId}/>
     </div>
   );
 }

@@ -9,7 +9,7 @@ import {
 } from "@/app/context/MeetingContext";
 import { getCurrentDate } from "@/app/utils/DateUtils";
 import { calenderReducer } from "../../../app/reducers/CalenderReducer";
-const MeetingInfoContainer = ({ spaceInfo, meetingInfo,themeInfo }) => {
+const MeetingInfoContainer = ({ spaceInfo, meetingInfo,themeInfo,currentDate,calendarId }) => {
 
   let meetingContainerInfo: any = {
     "spaceInfo": spaceInfo ? spaceInfo : null,
@@ -22,7 +22,7 @@ const MeetingInfoContainer = ({ spaceInfo, meetingInfo,themeInfo }) => {
         return null;
       }
     })() : null,
-    "currentDate":getCurrentDate
+    "currentDate":currentDate
   };
 
  const [calender, dispatch] = useReducer(calenderReducer, {
@@ -43,7 +43,7 @@ const MeetingInfoContainer = ({ spaceInfo, meetingInfo,themeInfo }) => {
                 meetingInfo={meetingInfo}
                 themeInfo={themeInfo}
               />
-              <MeetingCalenderContainer showFreeSlots/>
+              <MeetingCalenderContainer meetingInfo={meetingInfo} themeInfo={themeInfo} calendarId={calendarId} spaceInfo={spaceInfo} showFreeSlots/>
             </div>
           </div>
         </MeetingInfoContext.Provider>
