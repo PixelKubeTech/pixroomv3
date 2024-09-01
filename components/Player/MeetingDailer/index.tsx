@@ -6,9 +6,6 @@ import utc from "dayjs/plugin/utc";
 import Button from "../@common/Button";
 import GoButton from "./GoButton";
 import { useRouter } from "next/router";
-
-
-
 import { bookMeeting, Meeting } from "@/services/BookMeetingService";
 import {
   getCurrentHour,
@@ -16,6 +13,7 @@ import {
   getCurrentTimePlus1,
 } from "./DateUtils";
 import { Message } from "../FindRoomModal";
+import { debug } from "console";
 dayjs.extend(utc);
 const MeetingTime = ({ hour, time }) => {
   const val = time < 10 ? `0${time}` : time === 60 ? "00" : time;
@@ -33,7 +31,7 @@ export interface IMeetingDailer {
   onClose: () => void;
   setMessage: Dispatch<SetStateAction<Message | undefined>>;
   setSuccess: Dispatch<SetStateAction<boolean>>;
-  spaceId?: number;
+  spaceId?: any;
   floorId?: number;
   buildingId?: number;
   orgId?: number;
@@ -54,19 +52,15 @@ const MeetingDailer = ({
   maxAvailableTime,
   handleClick,
 }: IMeetingDailer) => {
-  const [isBookNowSelected, setIsBookNowSelected] = useState(false);
   const { minute, hour } = addMinutesToCurrentTime(15);
   const [progressMinute, setProgressMinute] = useState(0);
   const [progressHour, setProgressHour] = useState(hour);
   console.log("Hour", hour);
-
+  console.log("SpaceId", spaceId);
   const handleChange = (value) => {
     const progressMin = minute + value;
     setProgressMinute(value);
   };
-
-
-  // Service to save instant meeting
   const bookInstantMeeting = async () => {
     
     let startTime = getCurrentTimePlus1();
@@ -85,12 +79,14 @@ const MeetingDailer = ({
     let endtimeminutes= String(endTimecal.getMinutes()).padStart(2, '0');
     let endTime = `${endtimehour}:${endtimeminutes}`;
     const participantsDummy: string[] = ["Alice", "Bob", "Charlie"];
-       
+    const getCurrentTimeZone = ():string => {
+      return Intl.DateTimeFormat().resolvedOptions().timeZone;
+    };  
     let meetingInfo = new Meeting(
-      spaceId,
-      buildingId,
-      orgId,
-      floorId,
+      spaceId.spaceId,
+      spaceId.buildingId,
+      spaceId.orgId,
+      spaceId.floorId,
       noofattendees,
       startTime,
       endTime,
@@ -99,6 +95,7 @@ const MeetingDailer = ({
       "Instant Meeting booked by System",
       'New',
        '',
+       getCurrentTimeZone()
     );
     let services = [];
     let parkings = [];
@@ -124,14 +121,6 @@ const MeetingDailer = ({
     console.log("bookInstantMeetingClose");
   };
   
-  if(!isBookNowSelected){
-    return (
-      <div className="flex flex-col items-center gap-4 justify-center h-[400px]">
-      <Button text="Book Now" handleClick={()=>setIsBookNowSelected(true)} />
-      <Button text="Book Later" handleClick={handleClick} />
-      </div>
-    )
-  }
   return (
     <div>
       <div className="flex flex-col items-center">
@@ -160,7 +149,8 @@ const MeetingDailer = ({
       </div>
       <div className="flex justify-between items-center mt-10">
         <GoButton title={"back"} onClick={bookInstantMeetingClose} />
-        <GoButton title={"GO"} onClick={bookInstantMeeting} />
+        <Button text="Book Now" handleClick={bookInstantMeeting} />
+        <Button text="Book Later" handleClick={handleClick} />
       </div>
     </div>
   );

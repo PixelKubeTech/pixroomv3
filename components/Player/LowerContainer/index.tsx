@@ -129,17 +129,22 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId,spaceInfo}
         </div>
         {themeDataResponse?.allowBooking?
         <div className="flex items-center justify-center rounded-b-[40px] py-2">
-          <Button
-            text={"Book This Room"}
-            className={"px-10"}
-            handleClick={() => setShowModal(true)}
-          />
+          <div>
+            {booked && (
+                  <Button
+                  text={"Book This Room"}
+                  className={"px-10"}
+                  handleClick={() => setShowModal(true)}
+                />
+            )} 
+          </div>
             <Modal
               onClose={() => setShowModal(false)}
               show={showModal}
               title={"Book a Room"}
             >
-              <MeetingDailer
+              <MeetingDailer 
+                spaceId={spaceInfo}
                 setSuccess={setSuccess}
                 setMessage={setMessage}
                 maxAvailableTime={60}

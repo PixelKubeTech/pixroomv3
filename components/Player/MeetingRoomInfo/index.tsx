@@ -40,6 +40,7 @@ function MeetingRoomInfo({
 }: any) {
   let themeDataResponse;
   let enableFaultReporting = true;
+  console.log("meetingInfo",meetingInfo);
   if (themeInfo && themeInfo.themedata) {
     try {
       themeDataResponse = JSON.parse(themeInfo.themedata);
@@ -74,6 +75,8 @@ function MeetingRoomInfo({
         ? spaceInfo.mappedCalendarIds[0]
         : "5"
       : "6";
+
+  console.log("SpaceInfo for RoomCapacity",spaceInfo);
   const queryParams12 = {
     spaceId: spaceId || "",
     calendarId: calendarId?.toString() || "",
