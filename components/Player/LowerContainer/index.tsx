@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Modal } from "../../../components/Player/Modals/FindRoom";
 import Button from "../@common/Button";
+import TimelineComponent from "../MeetingCalenderContainer/BottomComponent/TimelineComponent";
 import QRContainer from "./QRContainer";
 import { CalenderType, MeetingContext } from "@/app/context/MeetingContext";
 import { getCurrentDate, reverseDate,addOneDay } from "@/app/utils/DateUtils";
@@ -76,8 +77,10 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId,spaceInfo}
 
    let [progress, setProgress] = React.useState(0);
 
-  
-
+  function timeToMinutes(time) {
+    const [hours, minutes] = time.split(':').map(Number);
+    return hours * 60 + minutes;
+  }
   useEffect(() => {
     // Fetch meeting response
     const fetchMeetingResponse = async () => {
@@ -89,15 +92,23 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId,spaceInfo}
           calendarId: calendarIdparam ? calendarIdparam : '4'
         });
         setEvent(meetingList);
+        const currentDate= getCurrentDate();
         if (meetingList.length > 0) {
           setSelectMeetingInfo(meetingList);
           meetingList.map((x,i)=>{
             if(x.date==currentDate && x.bookingDetails!=null &&  currentTime >= x.bookingDetails.from && currentTime < x.bookingDetails.to)
             {
               setEventBookingDetails(x.bookingDetails);
-              setNextMeetingStartAt(meetingList[i+1].bookingDetails.from);
+              if(meetingList[i + 1]!=null && meetingList[i + 1].bookingDetails!=null)
+                setNextMeetingStartAt(meetingList[i+1].bookingDetails.from);
             }
           })
+         if(nextMeetingStartAt=="")
+ 
+          {
+            const nextMeeting = meetingList.filter(x => x.date==currentDate && x.bookingDetails!=null &&  timeToMinutes(currentTime) <= timeToMinutes(x.bookingDetails.from));
+            setNextMeetingStartAt(nextMeeting[0].bookingDetails.from);
+          }
         } else {
           setSelectMeetingInfo([]);
         }

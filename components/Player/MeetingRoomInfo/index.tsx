@@ -40,7 +40,6 @@ function MeetingRoomInfo({
 }: any) {
   let themeDataResponse;
   let enableFaultReporting = true;
-  console.log("meetingInfo",meetingInfo);
   if (themeInfo && themeInfo.themedata) {
     try {
       themeDataResponse = JSON.parse(themeInfo.themedata);
@@ -54,6 +53,7 @@ function MeetingRoomInfo({
   }
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
+  
   const [meetingInfoState, dispatch] = useReducer(MeetingRoomInfoReducer, {
     selectedDevice: "",
   });
@@ -93,7 +93,7 @@ function MeetingRoomInfo({
     setShowModal(!showModal);
   };
   const closeClick = () => {
-    router.push(`/meeting?spaceId=${spaceId}`);
+    router.back();
   };
 
   const [intervalsFromAPI, setIntervalsFromAPI] = useState<Interval[]>([]);

@@ -6,8 +6,11 @@ interface MeetingCardProps {
     title: string;
     bookedBy: string;
     participants?: string | number; 
+    nextMeetingStartAt:String;
   }
-  const MeetingCard: React.FC<MeetingCardProps> = ({ time, title, bookedBy, participants }) => {
+  
+  
+  const MeetingCard: React.FC<MeetingCardProps> = ({ time, title, bookedBy, participants,  nextMeetingStartAt }) => {
 
     const participantsStr = participants !== undefined ? participants.toString() : '';
 
@@ -27,7 +30,14 @@ interface MeetingCardProps {
             <FaUser className="mr-[5px]" />
             <span>{participants}</span>
           </div>
-        )}
+           </>
+          ) : (
+        <>
+          <div className="text-[54px] font-bold mb-2.5">
+            Meeting Room Available until {nextMeetingStartAt}
+          </div>
+        </>
+      )}
       </div>
     );
   };

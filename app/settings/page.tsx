@@ -31,9 +31,17 @@ function Settings() {
         const serialResponse = await DeviceService.getDeviceInfo({
           serialNumber: macAddress ? macAddress : "10001",
         });
+
+       
         console.log("serialResponse", serialResponse);
+        
         if (serialResponse.success) {
           console.log("spaceId", serialResponse?.result.spaceId);
+          const spacedetails = await DeviceService.getSpaceDetails({
+            spaceid: serialResponse?.result.spaceId,
+          });
+          debugger;
+          console.log("SpaceDetail:",spacedetails);
           const queryParams = {
             spaceId: serialResponse.result.spaceId,
             calendarId: serialResponse.result.calendarId,
