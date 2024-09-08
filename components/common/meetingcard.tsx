@@ -16,28 +16,31 @@ interface MeetingCardProps {
 
     return (
       <div className="pl-[76px] mt-auto mb-auto">
-        {time && (
-          <div className="text-4xl font-extralight mb-1.5">{time}</div>
-        )}
-        {title && (
-          <div className="text-[54px] font-bold mb-2.5">{title}</div>
-        )}
-        {bookedBy && (
-          <div className="text-base font-semibold text-[#7d7d7d] mb-5">Booked by {bookedBy}</div>
-        )}
-       { participantsStr && participantsStr !== '0' && (
-          <div className="flex items-center text-lg">
-            <FaUser className="mr-[5px]" />
-            <span>{participants}</span>
-          </div>
-           </>
-          ) : (
+        {title ? (
         <>
-          <div className="text-[54px] font-bold mb-2.5">
-            Meeting Room Available until {nextMeetingStartAt}
-          </div>
+            {time && (
+              <div className="text-4xl font-extralight mb-1.5">{time}</div>
+            )}
+            {title && (
+              <div className="text-[54px] font-bold mb-2.5">{title}</div>
+            )}
+            {bookedBy && (
+              <div className="text-base font-semibold text-[#7d7d7d] mb-5">Booked by {bookedBy}</div>
+            )}
+          {participantsStr && participantsStr !== '0' && (
+              <div className="flex items-center text-lg">
+                <FaUser className="mr-[5px]" />
+                <span>{participants}</span>
+              </div>
+            )} 
         </>
-      )}
+        ) : (
+            <>
+              <div className="text-[54px] font-bold mb-2.5">
+                Meeting Room Available until {nextMeetingStartAt}
+              </div>
+            </>
+       )}
       </div>
     );
   };

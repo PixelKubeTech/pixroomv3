@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Modal } from "../../../components/Player/Modals/FindRoom";
 import Button from "../@common/Button";
-import TimelineComponent from "../MeetingCalenderContainer/BottomComponent/TimelineComponent";
 import QRContainer from "./QRContainer";
 import { CalenderType, MeetingContext } from "@/app/context/MeetingContext";
 import { getCurrentDate, reverseDate,addOneDay } from "@/app/utils/DateUtils";
