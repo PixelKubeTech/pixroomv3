@@ -28,7 +28,6 @@ interface UseFormInputs {
 }
 function CalenderFormComponent(props) {
   console.log("props",props);
-  debugger;
   const {startTime, endTime} = props;
   let { hhStart, mmStart, hhEnd, mmEnd } = getTimeSlots();
   const { register, handleSubmit, reset, setValue } = useForm<UseFormInputs>({
