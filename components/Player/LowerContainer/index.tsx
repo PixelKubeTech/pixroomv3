@@ -137,10 +137,9 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId,spaceInfo}
             }
           </div>
         </div>
-        {themeDataResponse?.allowBooking?
         <div className="flex items-center justify-center rounded-b-[40px] py-2">
           <div>
-            {booked && (
+            {!booked && (
                   <Button
                   text={"Book This Room"}
                   className={"px-10"}
@@ -162,7 +161,7 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId,spaceInfo}
                 onClose={() => setShowModal(false)}
               />
             </Modal>
-        </div>:null}
+        </div>
       </div>
       <Snackbar open={success} autoHideDuration={5000}>
         <Alert
