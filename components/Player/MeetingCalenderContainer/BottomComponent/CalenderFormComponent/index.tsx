@@ -13,6 +13,8 @@ import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import { getTimeSlots } from "./utils";
 import moment from "moment";
+import momenttz from 'moment-timezone';
+
 import { addOneDay } from "@/app/utils/DateUtils";
 interface Message {
   serverity?: string;
@@ -55,32 +57,28 @@ function CalenderFormComponent(props) {
   };
 
   const onSubmit = async (formData) => {
-    if(props.meetingInfo!=null && props.eventBookingDetails!=null && props.meetingInfo.spaceInfo!=null)
+    if(props.meetingInfo!=null && props.meetingInfo.spaceInfo!=null)
       {
         let { meetingName } =   formData;
         let currentDate=moment().format("YYYY-MM-DD");
         const dateObj = addOneDay(currentDate);
         let currentTime=dateObj.currentTime;
         let request= {"meeting":{"spaceId":props.meetingInfo.spaceInfo.spaceId,
-          //"noOfAttendees":props.eventBookingDetails.noOfAttendees,
           "buildingId":props.meetingInfo.spaceInfo.buildingId,
           "orgId":props.meetingInfo.spaceInfo.orgId,
           "floorId":props.meetingInfo.spaceInfo.floorId,
           "alldays":false,
           "reminder":0,
-          "startDateTime":currentDate+"T"+props.startTime+":00Z",
-          "endDateTime":currentDate+"T"+props.endTime+":00Z",
+          "startDateTime": moment.utc(`${currentDate}T${props.startTime}`).toISOString(), // Force to UTC ISO format
+          "endDateTime": moment.utc(`${currentDate}T${props.endTime}`).toISOString(),     // Force to UTC ISO format 
           "meetingName":meetingName,
-          //"participants":props.eventBookingDetails.noOfAttendees,
           "action":"create",
           //"sourceEventId":props.eventBookingDetails.sourceEventId,
-          //"notes":props.eventBookingDetails.summary,
-          "timeZone": getCurrentTimeZone()
+          "notes":"Booked By System",
+          "timeZone": momenttz.tz.guess(),
         },
         "parkings":[],
         "services":[]};
-
-        console.log("Mari Req",request);
          let meetingResponse = await bookMeeting(request);
          console.log("Book Meeting Update Response", meetingResponse);
       }
