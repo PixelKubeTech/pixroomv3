@@ -46,6 +46,7 @@ const MeetingContainer = (props: MeetingProps) => {
               booked={props.booked}
               spaceInfo={props.spaceInfo}
               themeInfo={props.themeInfo}
+              meetingInfo={props.meetingInfo}
             />
             <LowerContainer
                 booked={props.booked}
