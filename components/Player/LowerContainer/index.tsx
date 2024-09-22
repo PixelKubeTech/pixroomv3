@@ -106,7 +106,8 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId,spaceInfo}
  
           {
             const nextMeeting = meetingList.filter(x => x.date==currentDate && x.bookingDetails!=null &&  timeToMinutes(currentTime) <= timeToMinutes(x.bookingDetails.from));
-            setNextMeetingStartAt(nextMeeting[0].bookingDetails.from);
+            if(nextMeeting!=null && nextMeeting.length>0)
+              setNextMeetingStartAt(nextMeeting[0].bookingDetails.from);
           }
         } else {
           setSelectMeetingInfo([]);
