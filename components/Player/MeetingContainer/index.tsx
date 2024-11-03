@@ -1,5 +1,5 @@
 "use client";
-import React, { useReducer } from "react";
+import React, { useReducer,useEffect } from "react";
 import LowerContainer from "../LowerContainer";
 import MeetingRoomInfo from "../MeetingRoomInfo";
 import {
@@ -20,6 +20,16 @@ interface MeetingProps {
   info: boolean;
 }
 
+function setLedColour(hexValue) {
+  // Send a JSON-formatted message with the color value
+  debugger;
+  if (window.ledController && window.ledController.postMessage) {
+      window.ledController.postMessage(JSON.stringify({ action: 'setLedColour', color: hexValue }));
+  } else {
+      console.log("ledController is not available");
+  }
+}
+
 const MeetingContainer = (props: MeetingProps) => {
   const [calender, dispatch] = useReducer(calenderReducer, {
     meetingDate: getCurrentDate(),
@@ -30,6 +40,11 @@ const MeetingContainer = (props: MeetingProps) => {
     themeInfo: props.themeInfo,
     currentDate: props.currentDate,
   };
+
+  useEffect(() => {
+    debugger;
+    setLedColour(!props.booked ? "green" : "red");
+}, [props.meetingInfo]); // Dependency array ensures it runs when meetingInfo changes
 
   return (
     <MeetingContext.Provider value={calender}>
@@ -46,7 +61,7 @@ const MeetingContainer = (props: MeetingProps) => {
               booked={props.booked}
               spaceInfo={props.spaceInfo}
               themeInfo={props.themeInfo}
-              meetingInfo={props.meetingInfo}
+              meetingInfo={props.meetingInfo}     
             />
             <LowerContainer
                 booked={props.booked}
