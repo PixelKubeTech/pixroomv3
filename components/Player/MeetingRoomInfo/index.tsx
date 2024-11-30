@@ -80,7 +80,7 @@ function MeetingRoomInfo({
   const queryParams12 = {
     spaceId: spaceId || "",
     calendarId: calendarId?.toString() || "",
-    themeid: themeInfo.id?.toString() || "",
+    themeid: themeInfo?.id?.toString() || "",
   };
   const handleClick = () => {
     //console.log("searchParams", searchParams);
