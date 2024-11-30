@@ -43,7 +43,7 @@ const MeetingContainer = (props: MeetingProps) => {
 
   useEffect(() => {
     debugger;
-    setLedColour(!props.booked ? "green" : "red");
+    setLedColour(!props.booked ? "B9D9E4" : "CEE5EA");
 }, [props.meetingInfo]); // Dependency array ensures it runs when meetingInfo changes
 
   return (
