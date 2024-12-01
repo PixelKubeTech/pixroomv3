@@ -40,7 +40,6 @@ function Settings() {
           const spacedetails = await DeviceService.getSpaceDetails({
             spaceid: serialResponse?.result.spaceId,
           });
-          debugger;
           console.log("SpaceDetail:",spacedetails);
           const queryParams = {
             spaceId: serialResponse.result.spaceId,
