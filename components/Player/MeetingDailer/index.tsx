@@ -55,8 +55,6 @@ const MeetingDailer = ({
   const { minute, hour } = addMinutesToCurrentTime(15);
   const [progressMinute, setProgressMinute] = useState(0);
   const [progressHour, setProgressHour] = useState(hour);
-  console.log("Hour", hour);
-  console.log("SpaceId", spaceId);
   const handleChange = (value) => {
     const progressMin = minute + value;
     setProgressMinute(value);
@@ -64,8 +62,6 @@ const MeetingDailer = ({
   const bookInstantMeeting = async () => {
     
     let startTime = getCurrentTimePlus1();
-    console.log("startTime", startTime);
-
     const [hours, minutes] = startTime.split(':').map(Number);
     // Create a new Date object with today's date and the parsed time
     const now = new Date();
@@ -83,10 +79,10 @@ const MeetingDailer = ({
       return Intl.DateTimeFormat().resolvedOptions().timeZone;
     };  
     let meetingInfo = new Meeting(
-      spaceId.spaceId,
-      spaceId.buildingId,
-      spaceId.orgId,
-      spaceId.floorId,
+      spaceId,
+      buildingId,
+      orgId,
+      floorId,
       noofattendees,
       startTime,
       endTime,
@@ -99,7 +95,6 @@ const MeetingDailer = ({
     );
     let services = [];
     let parkings = [];
-    console.log("meetingInfo", meetingInfo);
     let meetingResponse = await bookMeeting({
       meeting: meetingInfo,
       parkings: parkings,
@@ -118,7 +113,6 @@ const MeetingDailer = ({
 
   const bookInstantMeetingClose = () => {
     onClose();
-    console.log("bookInstantMeetingClose");
   };
   
   return (
