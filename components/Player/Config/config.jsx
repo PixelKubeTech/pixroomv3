@@ -37,12 +37,12 @@ export const spaceResourcesDictionary = {
 export const spaceResourceConfig = [
   {
     resourceName: "Table",
-    resourceId: 105,
+    resourceId: 530,
     resourceIcon: <Whiteboard />,
   },
   {
     resourceName: "Chair",
-    resourceId: 100,
+    resourceId: 520,
     resourceIcon: <Chair />,
   },
   {
@@ -57,7 +57,7 @@ export const spaceResourceConfig = [
   },
   {
     resourceName: "TV",
-    resourceId: 112,
+    resourceId: 550,
     resourceIcon: <Viewbox />,
   },
   {
