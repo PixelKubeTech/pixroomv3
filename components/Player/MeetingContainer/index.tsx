@@ -10,10 +10,14 @@ import {
 import { getCurrentDate } from "@/app/utils/DateUtils";
 import {calenderReducer} from '../../../app/reducers/CalenderReducer'
 
+interface ThemeInfo {
+  themedata?: string;
+}
+
 interface MeetingProps {
   spaceInfo: object;
   meetingInfo: object;
-  themeInfo:object;
+  themeInfo:ThemeInfo;
   currentDate: string;
   calendarId: string;
   booked: boolean;
@@ -22,7 +26,6 @@ interface MeetingProps {
 
 function setLedColour(hexValue) {
   // Send a JSON-formatted message with the color value
-  debugger;
   if (window.ledController && window.ledController.postMessage) {
       window.ledController.postMessage(JSON.stringify({ action: 'setLedColour', color: hexValue }));
   } else {
@@ -42,9 +45,18 @@ const MeetingContainer = (props: MeetingProps) => {
   };
 
   useEffect(() => {
-    debugger;
-    setLedColour(!props.booked ? "B9D9E4" : "CEE5EA");
-}, [props.meetingInfo]); // Dependency array ensures it runs when meetingInfo changes
+    const themeinfotemp = props.themeInfo?.themedata
+      ? (() => {
+          try {
+            return JSON.parse(props.themeInfo.themedata);
+          } catch (error) {
+            console.error("Error parsing JSON:", error);
+            return null;
+          }
+        })()
+      : null;
+    setLedColour(!props.booked ? themeinfotemp?.availableStatusColor : themeinfotemp?.occupiedStatusColor);
+  }, [props.meetingInfo]);
 
   return (
     <MeetingContext.Provider value={calender}>
