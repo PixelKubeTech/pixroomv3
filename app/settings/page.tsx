@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CircularProgress } from "@mui/material";
 import RandomDigits from "./RandomDigits";
@@ -9,88 +9,160 @@ import { IErrorInfo, IResponse } from "./SettingsInterface";
 import { getCurrentDate,addOneDay } from "../utils/DateUtils";
 import moment from "moment";
 
+
+interface DeviceInfoResponseSuccess {
+  success: true;
+  result: {
+    spaceId: string;
+    calendarId: string;
+    theme: string;
+  };
+}
+
+interface DeviceInfoResponseFailure {
+  success: false;
+  errors: {
+    code: string;
+    message: string;
+  }[];
+  result: null;
+}
+
+type DeviceInfoResponse = DeviceInfoResponseSuccess | DeviceInfoResponseFailure;
+
+interface SpaceDetailsResponse {
+  // Define the structure based on API response
+  [key: string]: any;
+}
+
+interface EventInstance {
+  date: string;
+  bookingDetails: {
+    from: string;
+    to: string;
+  } | null;
+}
+
+interface MeetingResponse extends Array<EventInstance> {}
+
+// Props for the component
+interface MyComponentProps {
+  macAddress?: string;
+  currentDate: string;
+}
+
 function Settings() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const macAddress = searchParams.get("macaddress");
   const currentDate= getCurrentDate();
   let [result, setResult] = React.useState(null);
-  let [loading, setLoading] = React.useState(true);
-  let [errorInfo, setErrorInfo] = React.useState<IErrorInfo>({
-    code: "",
-    message: "",
-  });
+  const [loading, setLoading] = useState<boolean>(true);
   const meetingQueryparam = searchParams.get("meeting");
+  const [errorInfo, setErrorInfo] = useState<{ code: string; message: string } | null>(null);
   
-  React.useEffect(() => {
-    // Function to fetch data and handle redirection
-
-    const fetchData = async () => {
-      try {
-        // Fetch data from the provided route
-        const serialResponse = await DeviceService.getDeviceInfo({
-          serialNumber: macAddress ? macAddress : "10001",
+   // Helper function to fetch device info
+  const fetchDeviceInfo = async (macAddress?: string): Promise<DeviceInfoResponse> => {
+        const defaultMacAddress = "10001";
+      
+        const response = await DeviceService.getDeviceInfo({
+          serialNumber: macAddress || defaultMacAddress,
         });
-
-       
-        console.log("serialResponse", serialResponse);
-        
-        if (serialResponse.success) {
-          console.log("spaceId", serialResponse?.result.spaceId);
-          const spacedetails = await DeviceService.getSpaceDetails({
-            spaceid: serialResponse?.result.spaceId,
-          });
-          console.log("SpaceDetail:",spacedetails);
-          const queryParams = {
-            spaceId: serialResponse.result.spaceId,
-            calendarId: serialResponse.result.calendarId,
-            themeId:serialResponse.result.theme
+      
+        // Type assertion to ensure `response` matches `DeviceInfoResponse`
+        if (response.success === true && response.result) {
+          return {
+            success: true,
+            result: {
+              spaceId: response.result.spaceId,
+              calendarId: response.result.calendarId,
+              theme: response.result.theme,
+            },
           };
-          //let currentTime = addOneDay(currentDate).currentTime;
-          let currentTime=new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit'});
-          let meetingResponse = await EventService.getEventInstances({
-            calendarId: serialResponse.result.calendarId
-          });
-
-          let pageName="meeting";
-          if(meetingResponse!=null)
-          {
-            meetingResponse.map(x=>{
-              if(x.date==currentDate && x.bookingDetails!=null &&  currentTime >= x.bookingDetails.from && currentTime < x.bookingDetails.to)
-                  pageName="meetingbooked";
-            })
-          }
-          const queryString = new URLSearchParams(queryParams).toString();
-          router.push(`/${pageName}?${queryString}`);
-          //router.push(`/meeting?spaceId=${serialResponse.result.spaceId}`);
-          setLoading(false);
-        } else if (!serialResponse.success) {
-          setLoading(false);
-          setErrorInfo((error) => ({
-            ...error,
-            code: "Space Id not assigned",
-            message: "No device assigned to serial number",
-          }));
         } else {
-          console.log("serialResponse", serialResponse);
-          setLoading(false);
-          setErrorInfo((error) => ({
-            ...error,
-            code: "Error",
-            message: "No device found",
-          }));
+          return {
+            success: false,
+            errors: response.errors || [],
+            result: null,
+          };
         }
-      } catch (error) {
-        setLoading(false);
-        setResult(null);
-        console.error("Error fetching data:", error);
-      }
+      };
+  
+    // Helper function to fetch space details
+    const fetchSpaceDetails = async (spaceId: string): Promise<SpaceDetailsResponse> => {
+      return await DeviceService.getSpaceDetails({ spaceid: spaceId });
     };
-
-    // Call the fetchData function when the component mounts
-    fetchData();
-  }, []); // Empty dependency array ensures this effect runs only once, similar to componentDidMount
-
+  
+    // Helper function to fetch meeting instances
+    const fetchMeetingInstances = async (calendarId: string): Promise<MeetingResponse> => {
+      return await EventService.getEventInstances({ calendarId });
+    };
+  
+    // Determine the meeting page based on time and bookings
+    const determinePageName = (
+      meetingResponse: MeetingResponse,
+      currentDate: string,
+      currentTime: string
+    ): string => {
+      if (meetingResponse) {
+        for (const meeting of meetingResponse) {
+          if (
+            meeting.date === currentDate &&
+            meeting.bookingDetails &&
+            currentTime >= meeting.bookingDetails.from &&
+            currentTime < meeting.bookingDetails.to
+          ) {
+            return "meetingbooked";
+          }
+        }
+      }
+      return "meeting";
+    };
+  
+    // Main function to handle data fetching and redirection
+    const handleDataFetching = async (macAddress) => {
+        try {
+          const serialResponse = await fetchDeviceInfo(macAddress);
+      
+          if (!serialResponse.success) {
+            setLoading(false);
+            setErrorInfo({
+              code: "Space Id not assigned",
+              message: serialResponse.errors[0]?.message || "Unknown error",
+            });
+            return;
+          }
+      
+          const { spaceId, calendarId, theme } = serialResponse.result;
+      
+          const spaceDetails = await fetchSpaceDetails(spaceId);
+          console.log("Space Details:", spaceDetails);
+      
+          const queryParams = { spaceId, calendarId, themeId: theme };
+      
+          const currentTime = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+          const meetingResponse = await fetchMeetingInstances(calendarId);
+      
+          const pageName = determinePageName(meetingResponse, currentDate, currentTime);
+          const queryString = new URLSearchParams(queryParams).toString();
+      
+          router.push(`/${pageName}?${queryString}`);
+          setLoading(false);
+        } catch (error) {
+          setLoading(false);
+          console.error("Error fetching data:", error);
+          setErrorInfo({
+            code: "Error",
+            message: "An unexpected error occurred while fetching data",
+          });
+        }
+      };
+  
+    // Fetch data when the component mounts
+    useEffect(() => {
+      handleDataFetching(macAddress);
+    }, []);
+  
   return (
     <div className="h-[100vh] w-[100vw] flex flex-col items-center justify-center">
       {loading ? (
