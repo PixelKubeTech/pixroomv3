@@ -20,6 +20,7 @@ class Meeting {
   action:string;
   sourceEventId:string;
   timezone:string;
+  calendarid:string;
 
   constructor(
     spaceId: number = 0,
@@ -35,6 +36,7 @@ class Meeting {
     action:string="",
     sourceEventId="",
     timezone="",
+    calendarid="",
   ) {
     const startDate = this.convertStartDateToISODateTime(startDateTime);
     this.spaceId = spaceId;
@@ -54,6 +56,7 @@ class Meeting {
     this.action=action;
     this.sourceEventId=sourceEventId;
     this.timezone= this.getCurrentTimeZone();
+    this.calendarid=calendarid;
   }
 
   private getCurrentTimeZone = ():string => {

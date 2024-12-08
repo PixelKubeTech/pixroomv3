@@ -14,6 +14,7 @@ import {
 } from "./DateUtils";
 import { Message } from "../FindRoomModal";
 import { debug } from "console";
+import { space } from "postcss/lib/list";
 dayjs.extend(utc);
 const MeetingTime = ({ hour, time }) => {
   const val = time < 10 ? `0${time}` : time === 60 ? "00" : time;
@@ -56,18 +57,19 @@ const MeetingDailer = ({
   const [progressMinute, setProgressMinute] = useState(0);
   const [progressHour, setProgressHour] = useState(hour);
   const handleChange = (value) => {
-    const progressMin = minute + value;
-    setProgressMinute(value);
+    let progressMin = minute;
+    if(value)
+     progressMin = minute + value;
+    setProgressMinute(progressMin);
   };
   const bookInstantMeeting = async () => {
-    
+    //debugger;
     let startTime = getCurrentTimePlus1();
     const [hours, minutes] = startTime.split(':').map(Number);
     // Create a new Date object with today's date and the parsed time
     const now = new Date();
     const endTimecal = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
     let noofattendees =2;
-
     // Add progressMinutes to the endTimecal
     endTimecal.setMinutes(endTimecal.getMinutes() + progressMinute);
     let currentHr = getCurrentHour();
@@ -78,11 +80,36 @@ const MeetingDailer = ({
     const getCurrentTimeZone = ():string => {
       return Intl.DateTimeFormat().resolvedOptions().timeZone;
     };  
+    let calendarid;
+    let spaceidtemp;
+    let orgidtemp;
+    let buildingidtemp;
+    let floorIdtemp;
+    if (typeof spaceId === "object" && spaceId !== null) {
+        // Handle the case where spaceId is an object
+        calendarid = spaceId.mappedCalendarIds?.[0];
+        spaceidtemp = spaceId.spaceId;
+        orgidtemp=  spaceId.orgId;
+        buildingidtemp = spaceId.buildingId;
+        floorIdtemp = spaceId.floorId;
+    } else if (typeof spaceId === "number") {
+        // Handle the case where spaceId is an integer
+        calendarid = null; // or handle this case as needed
+        spaceidtemp=spaceId;
+        orgidtemp=orgId;
+        buildingidtemp=buildingId;
+        floorIdtemp =floorId;
+    } else {
+        // Handle unexpected cases
+        calendarid = null; // Fallback value
+    }
+    //let calendarid =spaceId?.mappedCalendarIds[0];
+    //let spaceidtemp = spaceId? spaceId :spaceId.spaceId;
     let meetingInfo = new Meeting(
-      spaceId,
-      buildingId,
-      orgId,
-      floorId,
+      spaceidtemp,
+      buildingidtemp,
+      orgidtemp,
+      floorIdtemp,
       noofattendees,
       startTime,
       endTime,
@@ -91,10 +118,12 @@ const MeetingDailer = ({
       "Instant Meeting booked by System",
       'New',
        '',
-       getCurrentTimeZone()
+       getCurrentTimeZone(),
+       calendarid,
     );
     let services = [];
     let parkings = [];
+    console.log("meetingInfo", meetingInfo);
     let meetingResponse = await bookMeeting({
       meeting: meetingInfo,
       parkings: parkings,
