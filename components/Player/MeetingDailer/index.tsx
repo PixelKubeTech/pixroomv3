@@ -60,7 +60,7 @@ const MeetingDailer = ({
     let progressMin = minute;
     if(value)
      progressMin = minute + value;
-    setProgressMinute(progressMin);
+    setProgressMinute(value);
   };
   const bookInstantMeeting = async () => {
     //debugger;
@@ -70,6 +70,7 @@ const MeetingDailer = ({
     const now = new Date();
     const endTimecal = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
     let noofattendees =2;
+
     // Add progressMinutes to the endTimecal
     endTimecal.setMinutes(endTimecal.getMinutes() + progressMinute);
     let currentHr = getCurrentHour();
