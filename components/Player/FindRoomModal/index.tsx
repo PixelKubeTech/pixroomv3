@@ -20,8 +20,12 @@ export interface Message {
   serverity: string;
   text?: string;
 }
+interface FindRoomProps {
+spaceInfo: any;
+}
 
-function FindRoomTable() {
+
+function FindRoomTable(props: FindRoomProps) {
   const [loading, setLoading] = React.useState(true);
   const [showModal, setShowModal] = React.useState(false);
   const [selectedSpaceDetail, setSelectedSpaceDetail] = React.useState(
@@ -31,7 +35,6 @@ function FindRoomTable() {
   const [message, setMessage] = React.useState<Message>();
   let [rooms, setRooms] = React.useState<FindRoom[]>([]);
   const meetingInfo: any = useContext(MeetingInfoContext);
-
   React.useEffect(() => {
     let fetchRooms = async () => {
       try {
@@ -42,8 +45,8 @@ function FindRoomTable() {
           orgId: meetingInfo.spaceInfo.orgId,
           buildingId: meetingInfo.spaceInfo.buildingId,
           floorId: meetingInfo.spaceInfo.floorId,
+          spaceid: props.spaceInfo.spaceId,
         });
-        // console.log('rooms', roomsResponse)
         if (roomsResponse.length > 0) {
           setRooms(roomsResponse);
           setLoading(false);

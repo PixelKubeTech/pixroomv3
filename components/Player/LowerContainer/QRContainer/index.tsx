@@ -125,7 +125,7 @@ function QRContainer(props: QRContainerProps) {
         show={showModal}
         title={"Find a Room"}
       >
-        <FindRoomTable />
+        <FindRoomTable  spaceInfo={props.spaceInfo}/>
       </Modal>
 
       <TimelineModal
