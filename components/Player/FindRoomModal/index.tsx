@@ -22,6 +22,7 @@ export interface Message {
 }
 interface FindRoomProps {
 spaceInfo: any;
+handleClick : ()=>void;
 }
 
 
@@ -156,7 +157,7 @@ function FindRoomTable(props: FindRoomProps) {
               floorId={selectedSpaceDetail.floorId}
               orgId={selectedSpaceDetail.orgId}
               floorName={selectedSpaceDetail.floorName}
-              handleClick={null}
+              handleClick={props.handleClick}
               maxAvailableTime={
                 selectedSpaceDetail.availableIn
                   ? selectedSpaceDetail.availableIn

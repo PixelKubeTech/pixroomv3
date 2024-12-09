@@ -99,35 +99,41 @@ function MeetingRoomInfo({
   const [intervalsFromAPI, setIntervalsFromAPI] = useState<Interval[]>([]);
 
   React.useEffect(() => {
-    let _meetingInfo = { ...meetingInfo };
-    if (_meetingInfo === undefined) {
-      (async () => {
+    const processBookingDetails = (bookingDetails: any[]): Interval[] => {
+      return bookingDetails
+        .map((bookingDetail: any) => {
+          const startTime = bookingDetail.bookingDetails?.from.split(":");
+          const endTime = bookingDetail.bookingDetails?.to.split(":");
+  
+          if (!startTime || !endTime) {
+            console.warn("Invalid booking detail:", bookingDetail);
+            return null;
+          }
+  
+          const starthours = parseInt(startTime[0], 10) % 12;
+          const endhours = parseInt(endTime[0], 10) % 12;
+  
+          return {
+            start: starthours * 60 + parseInt(startTime[1], 10),
+            end: endhours * 60 + parseInt(endTime[1], 10),
+          } as Interval;
+        })
+        .filter(Boolean) as Interval[]; // Explicitly cast to Interval[]
+    };
+  
+    const fetchAndSetIntervals = async () => {
+      if (!meetingInfo) {
         const meetingResponse = await EventService.getEventInstances({
           calendarId: calendarId,
         });
-        setIntervalsFromAPI(
-          meetingResponse?.bookingDetails?.map((bookingDetail: any) => {
-            const startTime = bookingDetail.bookingDetails?.from.split(":");
-            const endTime = bookingDetail.bookingDetails?.to.split(":");
-            return {
-              start: parseInt(startTime[0]) * 60 + parseInt(startTime[1]),
-              end: parseInt(endTime[0]) * 60 + parseInt(endTime[1]),
-            } as Interval;
-          })
-        );
-      })();
-    } else {
-      setIntervalsFromAPI(
-        meetingInfo?.map((bookingDetail: any) => {
-          const startTime = bookingDetail.bookingDetails?.from.split(":");
-          const endTime = bookingDetail.bookingDetails?.to.split(":");
-          return {
-            start: parseInt(startTime[0]) * 60 + parseInt(startTime[1]),
-            end: parseInt(endTime[0]) * 60 + parseInt(endTime[1]),
-          } as Interval;
-        })
-      );
-    }
+  
+        setIntervalsFromAPI(processBookingDetails(meetingResponse?.bookingDetails || []));
+      } else {
+        setIntervalsFromAPI(processBookingDetails(meetingInfo));
+      }
+    };
+  
+    fetchAndSetIntervals();
   }, [meetingInfo]);
 
   const options = {

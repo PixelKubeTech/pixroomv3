@@ -4,7 +4,7 @@ import { Modal } from "../../../../components/Player/Modals/FindRoom";
 import { Modal as TimelineModal } from "../../../../components/Player/Modals/TimeLine";
 import React, { useEffect, useState } from "react";
 import MeetingCard from "@/components/common/meetingcard";
-import { useRouter,usePathname} from "next/navigation";
+import { useRouter,usePathname,useSearchParams} from "next/navigation";
 interface QRContainerProps {
   booked: Boolean;
   showFindRoom: Boolean;
@@ -33,6 +33,18 @@ const getTimeDifferenceInMinutes = (date1, date2) => {
 
 const meetingDetails: IMeetingDetails = {} as IMeetingDetails;
 function QRContainer(props: QRContainerProps) {
+  const searchParams = useSearchParams();
+  const spaceId = searchParams.get("spaceId");
+  const queryParams12 = {
+    spaceId:  props.spaceInfo.spaceId || "",
+    calendarId: searchParams.get("calendarId")?.toString() || "",
+    themeid: searchParams.get("themeId")?.toString() || "2",
+  };
+  const handleClick = () => {
+    
+    const queryString = new URLSearchParams(queryParams12).toString();
+    router.push(`/meetinginfo?${queryString}`);
+  };
   const router = useRouter();
   const pathName = usePathname();
   const [endsIn,setEndsIn] = useState(0);
@@ -125,7 +137,7 @@ function QRContainer(props: QRContainerProps) {
         show={showModal}
         title={"Find a Room"}
       >
-        <FindRoomTable  spaceInfo={props.spaceInfo}/>
+        <FindRoomTable  spaceInfo={props.spaceInfo} handleClick={handleClick}/>
       </Modal>
 
       <TimelineModal
