@@ -44,13 +44,14 @@ async function processMeetingInfo(result) {
 }
 async function getEventInstances(request){
     try{
+      
         let {calendarId='',startTime='',endTime, currentTime} = request
         let currentDate = getCurrentDate()
         const result1 = addOneDay(currentDate);
         startTime =  result1.startOfDay ;
         endTime = result1.endOfDay;
         currentTime = formatCurrentDateLocal(new Date())
-        let result = await axios.get(`${API_BASE_URL}/event/getinstances?calendarId=${calendarId}&startTime=${currentTime}&endTime=${endTime}`)
+        let result = await axios.get(`${API_BASE_URL}/event/getinstances?calendarId=${calendarId}&startTime=${startTime}&endTime=${endTime}`)
         let meetingInfo = await processMeetingInfo(result)
         return meetingInfo
     }catch(e:any){
