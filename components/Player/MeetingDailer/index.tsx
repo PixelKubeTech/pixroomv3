@@ -53,7 +53,7 @@ const MeetingDailer = ({
   maxAvailableTime,
   handleClick,
 }: IMeetingDailer) => {
-  const { minute, hour } = addMinutesToCurrentTime(15);
+  const { minute, hour } = addMinutesToCurrentTime(5);
   const [progressMinute, setProgressMinute] = useState(0);
   const [progressHour, setProgressHour] = useState(hour);
   const handleChange = (value) => {
