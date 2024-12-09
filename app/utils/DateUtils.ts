@@ -29,6 +29,8 @@ export function addOneDay(dateString: string, blnformatdate: boolean = false): {
     return `${yearStr}-${monthStr}-${dayStr}T${hoursStr}:${minutesStr}:${secondsStr}.${milliseconds}Z`;
   }
 
+ 
+
   const formatCurrentDate = (date: Date): string => {
     const yearStr = date.getUTCFullYear();
     const monthStr = String(date.getUTCMonth() + 1).padStart(2, '0');
@@ -47,7 +49,17 @@ export function addOneDay(dateString: string, blnformatdate: boolean = false): {
     currentTime: formatCurrentDate(currentTime)
   };
 } 
+export const formatCurrentDateLocal = (date: Date): string => {
+  const yearStr = date.getFullYear(); // Local year
+  const monthStr = String(date.getMonth() + 1).padStart(2, '0'); // Local month
+  const dayStr = String(date.getDate()).padStart(2, '0'); // Local day
+  const hoursStr = String(date.getHours()).padStart(2, '0'); // Local hours
+  const minutesStr = String(date.getMinutes()).padStart(2, '0'); // Local minutes
+  const secondsStr = String(date.getSeconds()).padStart(2, '0'); // Local seconds
+  const milliseconds = String(date.getMilliseconds()).padStart(3, '0'); // Local milliseconds
 
+  return `${yearStr}-${monthStr}-${dayStr}T${hoursStr}:${minutesStr}:${secondsStr}.${milliseconds}`;
+};
 export const getCurrentDate1 = () => {
   return new Date().toISOString().split('T')[0]
 }
