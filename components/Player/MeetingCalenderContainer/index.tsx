@@ -11,7 +11,7 @@ function getMeetingDataByDate(meetingData:Array<any>,date:any){
   return result;
 }
 
-function MeetingCalenderContainer({meetingInfo,themeInfo,calendarId,spaceInfo,showFreeSlots}:any) {
+function MeetingCalenderContainer({meetingInfo,themeInfo,calendarId,spaceInfo,showFreeSlots, setMeetingDate}:any) {
   const [meetingData,setEvent] = useState(meetingInfo);
   const[calendarIdparam,setCalendarId] = useState(calendarId);
   const currentDate = getCurrentDate()
@@ -81,8 +81,8 @@ function MeetingCalenderContainer({meetingInfo,themeInfo,calendarId,spaceInfo,sh
       <form className="border-none p-0">
         <input className="nosubmit w-full h-[40px] rounded-[20px] p-4 pl-[40px]" />
       </form>
-      <Calender />
-      <BottomComponent showFreeSlots={showFreeSlots}/>
+      <Calender setMeetingDate={setMeetingDate}/>
+      <BottomComponent showFreeSlots={showFreeSlots} meetingInfo={meetingInfo} spaceInfo={spaceInfo}/>
     </div>
   );
 }

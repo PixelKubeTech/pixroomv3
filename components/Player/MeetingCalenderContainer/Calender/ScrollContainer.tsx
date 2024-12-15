@@ -4,11 +4,15 @@ import moment from "moment";
 import Date from "./Date";
 import { MeetingDispatchContext } from '../../../../app/context/MeetingContext'
 
-function ScrollContainer({margin = 4, size = 'LARGE'} : any) {
+function ScrollContainer({margin = 4, size = 'LARGE', setMeetingDate} : any) {
   const calender:any = useContext(MeetingDispatchContext)
   const dateArr = Array.from(Array(50).keys())
   const [selectedDate, setselectedDate] = useState(moment().format('DD-MM-YYYY'));
-  let setCalenderDate = () => {
+  let setCalenderDate = (date) => {
+    setMeetingDate({
+      startDate : date + "T00:00:00.000Z",
+      endDate : date + "T23:59:59.000Z"
+    })    
     if (calender) {
       calender({
         type: "meeting_calender_date",

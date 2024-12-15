@@ -1,15 +1,17 @@
 "use client";
-import React, { useState, useEffect, useContext } from "react";
-import { Modal } from "../../../components/Player/Modals/FindRoom";
-import Button from "../@common/Button";
-import QRContainer from "./QRContainer";
+
 import { CalenderType, MeetingContext } from "@/app/context/MeetingContext";
-import { getCurrentDate, reverseDate,addOneDay } from "@/app/utils/DateUtils";
-import MeetingDailer from "../MeetingDailer";
-import Snackbar from "@mui/material/Snackbar";
+import React, { useContext, useEffect, useState } from "react";
+import { addOneDay, getCurrentDate, reverseDate } from "@/app/utils/DateUtils";
+
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
+import Button from "../@common/Button";
 import { EventService } from "@/services";
+import MeetingDailer from "../MeetingDailer";
+import { Modal } from "../../../components/Player/Modals/FindRoom";
+import QRContainer from "./QRContainer";
+import Snackbar from "@mui/material/Snackbar";
 import TimelineComponent from "../MeetingCalenderContainer/BottomComponent/TimelineComponent";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
@@ -126,7 +128,7 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId,spaceInfo}
   });
  return (
     <div className="flex justify-between relative" style={{height: 'calc(100% - 150px)'}}>
-      <QRContainer nextMeetingStartAt={nextMeetingStartAt} booked={booked} showFindRoom={showFindRoom} scrollSubject={scrollSubject} eventBookingDetails={eventBookingDetails} spaceInfo={spaceInfo} />
+      <QRContainer nextMeetingStartAt={nextMeetingStartAt} booked={booked} showFindRoom={showFindRoom} scrollSubject={scrollSubject} eventBookingDetails={eventBookingDetails} spaceInfo={spaceInfo} themeInfo={themeInfo}/>
       <div className="w-[30%] h-[100%] bg-black/5 rounded-br-[40px] pb-3">
         <div className="bg-green rounded-b-[40px] py-4 pl-4" style={{height: 'calc(100% - 52px)'}}>
           <p className="py-2 text-lg pb-4 px-4 bg-[#0072B8]/5 mb-2 rounded-lg">
@@ -134,7 +136,7 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId,spaceInfo}
           </p>
           <div className="h-[86%] overflow-hidden">
             {
-              selectedMeetingInfo.length == 0 ? "No meeting scheduled..." :  <TimelineComponent  eventClick={eventClick} meetingInfo={selectedMeetingInfo} themeInfo={themeDataResponse} />
+              meetingInfo?.length == 0 ? "No meeting scheduled..." :  <TimelineComponent  eventClick={eventClick} meetingInfo={meetingInfo || []} themeInfo={themeDataResponse} />
             }
           </div>
         </div>

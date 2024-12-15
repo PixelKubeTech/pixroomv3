@@ -2,14 +2,15 @@
 import React,{useReducer} from "react";
 import MeetingRoomInfo from "../../../components/Player/MeetingRoomInfo";
 import MeetingCalenderContainer from "../../../components/Player/MeetingCalenderContainer";
+import { calenderReducer } from "../../../app/reducers/CalenderReducer";
 import {
   MeetingInfoContext,
   MeetingContext,
   MeetingDispatchContext,
 } from "@/app/context/MeetingContext";
 import { getCurrentDate } from "@/app/utils/DateUtils";
-import { calenderReducer } from "../../../app/reducers/CalenderReducer";
-const MeetingInfoContainer = ({ spaceInfo, meetingInfo,themeInfo,currentDate,calendarId }) => {
+
+const MeetingInfoContainer = ({ spaceInfo, meetingInfo,themeInfo,currentDate,calendarId, setMeetingDate = () => {} } : any) => {
 
   let meetingContainerInfo: any = {
     "spaceInfo": spaceInfo ? spaceInfo : null,
@@ -43,7 +44,7 @@ const MeetingInfoContainer = ({ spaceInfo, meetingInfo,themeInfo,currentDate,cal
                 meetingInfo={meetingInfo}
                 themeInfo={themeInfo}
               />
-              <MeetingCalenderContainer meetingInfo={meetingInfo} themeInfo={themeInfo} calendarId={calendarId} spaceInfo={spaceInfo} showFreeSlots/>
+              <MeetingCalenderContainer meetingInfo={meetingInfo} themeInfo={themeInfo} calendarId={calendarId} spaceInfo={spaceInfo} showFreeSlots setMeetingDate={setMeetingDate}/>
             </div>
           </div>
         </MeetingInfoContext.Provider>

@@ -12,6 +12,7 @@ interface QRContainerProps {
   eventBookingDetails: any;
   spaceInfo: any;
   nextMeetingStartAt: String;
+  themeInfo: any;
 }
 
 interface IMeetingDetails {
@@ -116,9 +117,9 @@ function QRContainer(props: QRContainerProps) {
     <div className="h-full flex flex-col w-[70%] p-6 mb-10 relative">
       <div className="flex justify-between items-center pl-[76px]">
         <img
-          height={50}
-          width={200}
-          src={"../../../../pixroom/assets/images/Tesla.png"}
+          style={{ maxHeight: "50px", maxWidth: "200px", objectFit: "contain" }}
+          src={props.themeInfo?.logo}
+          alt="Logo"
         />
         {props.showFindRoom ? (
           <div className={"self-end"}>

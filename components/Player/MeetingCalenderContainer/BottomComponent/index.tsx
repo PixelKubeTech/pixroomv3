@@ -57,7 +57,7 @@ const meetingInfodata = [
   },
 ];
 
-function BottomComponent({showFreeSlots}) {
+function BottomComponent({showFreeSlots, meetingInfo = [], spaceInfo = {}}) {
   const [bookingDetails, setBookingDetails] = React.useState(null);
   const [startTime, setStartTime] = React.useState(getTimeSlots().hhStart + ":" + getTimeSlots().mmStart);
   const [endTime, setEndTime] = React.useState(getTimeSlots().hhEnd + ":" + getTimeSlots().mmEnd);
@@ -66,11 +66,10 @@ function BottomComponent({showFreeSlots}) {
     setBookingDetails(data.bookingDetails);
    };
    
-  const meetingInfo = React.useContext(MeetingInfoContext) || meetingInfodata;
   return (
     <div className='flex px-8 h-[56%] meeting-info-context-scroll'>
-      <TimelineComponent meetingInfo={meetingInfo} eventClick={eventClick} showFreeSlots={showFreeSlots} setStartTime={setStartTime} setEndTime={setEndTime}/>
-      <CalenderFormComponent meetingInfo={meetingInfo} eventBookingDetails={bookingDetails} startTime={startTime} endTime={endTime}/>
+      <TimelineComponent meetingInfo={{meetingInfo}} eventClick={eventClick} showFreeSlots={showFreeSlots} setStartTime={setStartTime} setEndTime={setEndTime}/>
+      <CalenderFormComponent meetingInfo={{meetingInfo}} spaceInfo={spaceInfo} eventBookingDetails={bookingDetails} startTime={startTime} endTime={endTime}/>
     </div>
   )
 }

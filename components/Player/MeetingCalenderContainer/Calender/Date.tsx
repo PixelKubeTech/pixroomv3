@@ -25,7 +25,7 @@ function Date({ dateObj, selectedDate, setselectedDate,setCalenderDate, size }: 
     }
     onClick={() =>{
      setselectedDate(dateObj.format('DD-MM-YYYY'))
-     setCalenderDate(dateObj.format('DD-MM-YYYY'))
+     setCalenderDate(dateObj.format("YYYY-MM-DD"))
     }}>
         {currDate < 10 ? "0" + currDate : currDate}
       </div>

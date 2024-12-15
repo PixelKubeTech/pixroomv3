@@ -5,9 +5,11 @@ import LowerContainer from '../../components/Player/LowerContainer'
 import { SpaceService, EventService } from "@/services";
 import { ISpace } from "../interface";
 import { addOneDay, getCurrentDate, getStartEndOfMonth } from "../utils/DateUtils";
+import { MeetingInfoProvider } from '../context/MeetingInfoDataContext';
 import { getThemesById } from '@/services/ThemeService';
 import MeetingContainer from '@/components/Player/MeetingContainer';
 import { debug } from 'console';
+import MeetingBookedClient from './MeetingBookedClient';
 
 export default async function MeetingBooked(props) {
   let spaceIdparam = props.searchParams.spaceId ? props.searchParams.spaceId : "15"
@@ -28,13 +30,15 @@ export default async function MeetingBooked(props) {
     calendarId: spaceresponse.data?.mappedCalendarIds?spaceresponse.data.mappedCalendarIds[0]:'1'
   });
   let spaceInfo: ISpace.SpaceInfo = spaceresponse.data;
-  let themeResponse = props!=null && props.themeInfo!=null?props.themeInfo:await getThemesById({ Id:themeparam });
+  let themeResponse = props != null && props.themeInfo != null ? props.themeInfo : await getThemesById({ Id: themeparam });
+
   return (
-    <div className={`h-screen max-h-screen w-screen p-4 box-border bg-cover overflow-y-hidden`}>
-      <img src={"/pixroom/assets/images/booked.jpg"} className='meeting-booked-background'/>
-      <MeetingContainer currentDate={currentDate} spaceInfo={spaceInfo} meetingInfo={meetingInfo} themeInfo={themeResponse} calendarId= {calendarparam} booked={true} info={false}/>
-    </div>
+    <MeetingInfoProvider calendarId={calendarparam}>
+      <MeetingBookedClient
+        spaceInfo={spaceInfo}
+        themeInfo={themeResponse}
+        calendarId={calendarparam}
+      />
+    </MeetingInfoProvider>
   );
 }
-
-

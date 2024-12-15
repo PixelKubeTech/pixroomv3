@@ -46,6 +46,11 @@ export const spaceResourceConfig = [
     resourceIcon: <Chair />,
   },
   {
+    resourceName: "Chair",
+    resourceId: 465,
+    resourceIcon: <Chair />,
+  },
+  {
     resourceName: "Wifi",
     resourceId: 110,
     resourceIcon: <Wifirouter />,

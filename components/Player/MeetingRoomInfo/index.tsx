@@ -37,6 +37,7 @@ function MeetingRoomInfo({
   spaceInfo,
   themeInfo,
   meetingInfo,
+  setMeetingDate,
 }: any) {
   let themeDataResponse;
   let enableFaultReporting = true;
@@ -189,7 +190,7 @@ function MeetingRoomInfo({
                   </span>
                 )}
               </h1>
-              <p className={"opacity-70"}>Room Capacity: 10 People</p>
+              <p className={"opacity-70"}>Room Capacity: {spaceInfo?.resource_count} People</p>
             </div>
             {info ? (
               <p className={"text-[#626574] text-xl"}>
@@ -242,7 +243,7 @@ function MeetingRoomInfo({
       ) : (
         <div className="flex flex-col bg-[#dee4f0] h-full rounded-[40px] w-[30%] p-2">
           <div className="mx-4 mt-2">Upcoming Meetings</div>
-          <Calender margin={2} size={size} />
+          <Calender margin={2} size={size} setMeetingDate={setMeetingDate}/>
         </div>
       )}
     </div>

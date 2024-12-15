@@ -15,6 +15,8 @@ import {
 import { Message } from "../FindRoomModal";
 import { debug } from "console";
 import { space } from "postcss/lib/list";
+import { useMeetingInfo } from "@/app/context/MeetingInfoDataContext";
+
 dayjs.extend(utc);
 const MeetingTime = ({ hour, time }) => {
   const val = time < 10 ? `0${time}` : time === 60 ? "00" : time;
@@ -62,6 +64,8 @@ const MeetingDailer = ({
      progressMin = minute + value;
     setProgressMinute(value);
   };
+  const {fetchMeetingInfo} = useMeetingInfo();
+
   const bookInstantMeeting = async () => {
     //debugger;
     let startTime = getCurrentTimePlus1();
@@ -130,6 +134,7 @@ const MeetingDailer = ({
       parkings: parkings,
       services: services,
     });
+    setTimeout(() => fetchMeetingInfo(), 4000);
     onClose();
     setSuccess(true);
     setMessage({

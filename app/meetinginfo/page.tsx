@@ -1,39 +1,26 @@
-
-import Image from "next/image";
-//import { Inter } from 'next/font/google'
-
-import { SpaceService, EventService } from "@/services";
-import MeetingContainer from "@/components/Player/MeetingContainer";
+import HomeClient from "./HomeClient";
 import { ISpace } from "../interface";
-import MeetingInfoContainer from "@/components/Player/MeetingInfoContainer";
+import { MeetingInfoProvider } from "../context/MeetingInfoDataContext";
+import { SpaceService } from "@/services";
+import { getCurrentDate } from "../utils/DateUtils";
 import { getThemesById } from "@/services/ThemeService";
-import client from "../urql.client";
-import { addOneDay, getCurrentDate, getStartEndOfMonth } from "../utils/DateUtils";
-
-
-//const inter = Inter({ subsets: ['latin'] })
 
 export default async function Home(props) {
-  let spaceId = props.searchParams.spaceId ? props.searchParams.spaceId : "15"
-  let calendarId = props.searchParams.calendarId ? props.searchParams.calendarId : "2"
-  let themeid= props.searchParams.themeId ? props.searchParams.themeId : "1"
-  let currentDate = getCurrentDate()
+  let spaceId = props.searchParams.spaceId ? props.searchParams.spaceId : "15";
+  let calendarId = props.searchParams.calendarId ? props.searchParams.calendarId : "2";
+  let themeid = props.searchParams.themeId ? props.searchParams.themeId : "1";
 
   let response = await SpaceService.getSpaceInfo({
     spaceId: spaceId,
   });
-  let meetingResponse = await EventService.getEventInstances({
-    calendarId: calendarId
-  });
+
+  let themeInfo = props != null && props.themeInfo != null ? props.themeInfo : await getThemesById({ Id: themeid });
+
   let spaceInfo: ISpace.SpaceInfo = response.data;
-  let meetingInfo = meetingResponse;
-  let themeInfo = props!=null && props.themeInfo!=null?props.themeInfo:await getThemesById({ Id: themeid});
+
   return (
-    <div
-      className={`h-screen max-h-screen w-screen p-4 box-border bg-cover overflow-y-hidden`}
-      style={{ backgroundImage: `url(../pixroom/assets/images/mainbg.png)` }}
-    >
-      <MeetingInfoContainer currentDate={currentDate} spaceInfo={spaceInfo} meetingInfo={meetingInfo} themeInfo={themeInfo} calendarId={calendarId}/>
-    </div>
+    <MeetingInfoProvider calendarId={calendarId}>
+      <HomeClient spaceInfo={spaceInfo} themeInfo={themeInfo} calendarId={calendarId} />
+    </MeetingInfoProvider>
   );
 }

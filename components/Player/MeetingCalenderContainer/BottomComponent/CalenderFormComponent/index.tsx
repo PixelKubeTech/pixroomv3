@@ -14,6 +14,7 @@ import AlertTitle from "@mui/material/AlertTitle";
 import { getTimeSlots } from "./utils";
 import moment from "moment";
 import momenttz from 'moment-timezone';
+import { useMeetingInfo } from "@/app/context/MeetingInfoDataContext";
 
 import { addOneDay } from "@/app/utils/DateUtils";
 interface Message {
@@ -56,17 +57,18 @@ function CalenderFormComponent(props) {
     setSuccess(status);
   };
 
+const {fetchMeetingInfo, meetingDate} = useMeetingInfo();
   const onSubmit = async (formData) => {
-    if(props.meetingInfo!=null && props.meetingInfo.spaceInfo!=null)
+    if(props.meetingInfo!=null && props.spaceInfo!=null)
       {
         let { meetingName } =   formData;
-        let currentDate=moment().format("YYYY-MM-DD");
+        let currentDate=moment(meetingDate.startDate).format("YYYY-MM-DD");
         const dateObj = addOneDay(currentDate);
         let currentTime=dateObj.currentTime;
-        let request= {"meeting":{"spaceId":props.meetingInfo.spaceInfo.spaceId,
-          "buildingId":props.meetingInfo.spaceInfo.buildingId,
-          "orgId":props.meetingInfo.spaceInfo.orgId,
-          "floorId":props.meetingInfo.spaceInfo.floorId,
+        let request= {"meeting":{"spaceId":props.spaceInfo.spaceId,
+          "buildingId":props.spaceInfo.buildingId,
+          "orgId":props.spaceInfo.orgId,
+          "floorId":props.spaceInfo.floorId,
           "alldays":false,
           "reminder":0,
           "startDateTime": moment.utc(`${currentDate}T${props.startTime}`).toISOString(), // Force to UTC ISO format
@@ -80,6 +82,7 @@ function CalenderFormComponent(props) {
         "parkings":[],
         "services":[]};
          let meetingResponse = await bookMeeting(request);
+         setTimeout(() => fetchMeetingInfo(), 4000);         
          console.log("Book Meeting Update Response", meetingResponse);
       }
   };

@@ -63,7 +63,7 @@ function TimelineComponent(props) {
     <div className={`h-full overflow-scroll max-h-100 flex flex-col basis-1/2 gap-2 thin-scrollbar`}>
       {combinedList?.map((data, index) => (
         <MeetingBlock
-          key={data.bookingDetails.from}
+          key={index}
           isAvailable={data.isAvailable}
           bookingDetails={data.bookingDetails}
           parentProps={props}

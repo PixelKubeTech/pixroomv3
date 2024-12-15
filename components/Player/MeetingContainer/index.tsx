@@ -22,6 +22,7 @@ interface MeetingProps {
   calendarId: string;
   booked: boolean;
   info: boolean;
+  setMeetingDate?: any;
 }
 
 function setLedColour(hexValue) {
@@ -74,7 +75,8 @@ const MeetingContainer = (props: MeetingProps) => {
               booked={props.booked}
               spaceInfo={props.spaceInfo}
               themeInfo={props.themeInfo}
-              meetingInfo={props.meetingInfo}     
+              meetingInfo={props.meetingInfo}    
+              setMeetingDate={props.setMeetingDate} 
             />
             <LowerContainer
                 booked={props.booked}

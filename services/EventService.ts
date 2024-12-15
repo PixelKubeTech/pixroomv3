@@ -1,4 +1,5 @@
-import { addOneDay, getCurrentDate, reverseDate,formatCurrentDateLocal } from '@/app/utils/DateUtils'
+import { addOneDay, formatCurrentDateLocal, getCurrentDate, reverseDate } from '@/app/utils/DateUtils'
+
 import axios from 'axios'
 
 const API_BASE_URL = 'https://demo.pixelkube.io/api/pixconnectors'
@@ -6,6 +7,7 @@ const API_BASE_URL = 'https://demo.pixelkube.io/api/pixconnectors'
 const getTime = (time) => time.substring(11,16)
 
 async function processMeetingInfo(result) {
+    
     try {
         const mappedData = result.data.map(item => {
             let response = {
@@ -66,4 +68,4 @@ async function getEventInstances(request){
     }
 }
 
-export {getEventInstances}
+export {getEventInstances, processMeetingInfo, API_BASE_URL}
