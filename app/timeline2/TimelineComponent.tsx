@@ -103,12 +103,14 @@ const MeetingTimeline = ({ startTime, endTime, onEndTimeChange,spaceInfo,onMeeti
   const getCurrentTimeZone = ():string => {
     return Intl.DateTimeFormat().resolvedOptions().timeZone;
   };  
+
+  
   const updateMeeting = async () => {
    if(eventBookingDetails!=null && spaceInfo!=null)
     {
       let currentDate=moment().format("YYYY-MM-DD");
+      let currentDateTime = moment().format("YYYY-MM-DDTHH:mm:ss");
       const dateObj = addOneDay(currentDate);
-      let currentTime=dateObj.currentTime;
       let request= {"meeting":{"spaceId":spaceInfo.spaceId,
         "noOfAttendees":eventBookingDetails.noOfAttendees,
         "buildingId":spaceInfo.buildingId,
@@ -117,9 +119,11 @@ const MeetingTimeline = ({ startTime, endTime, onEndTimeChange,spaceInfo,onMeeti
         "alldays":false,
         "reminder":0,
         "startDateTime":currentDate+"T"+startTime+":00Z",
-        "endDateTime":updateRequired?currentDate+"T"+currentEndTime+":00Z":currentTime,
+        "endDateTime":updateRequired?currentDate+"T"+currentEndTime+":00Z":currentDateTime,
         "meetingName":eventBookingDetails.meetingName,
-        "participants":eventBookingDetails.noOfAttendees,
+        "participants": eventBookingDetails.participants = Array.isArray(eventBookingDetails.participants)
+        ? eventBookingDetails.participants
+        : (eventBookingDetails.participants || "").split(","),
         "action":"update",
         "sourceEventId":eventBookingDetails.sourceEventId,
         "notes":eventBookingDetails.summary,
