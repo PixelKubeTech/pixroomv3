@@ -5,7 +5,7 @@ import Devices from "../Devices";
 import ReportFaultModal from "../ReportFaultModal";
 import { Modal } from "../Modals/FindRoom";
 import Calender from "../MeetingCalenderContainer/Calender";
-import Clock1 from "@/components/common/Clock";
+import Clock from "@/components/common/Clock2";
 import { useSearchParams } from "next/navigation";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
@@ -29,6 +29,18 @@ interface Interval {
   start: number;
   end: number;
 }
+
+const convertTimeToDegrees = (timestamp) => {
+  const date = new Date(0);
+  date.setUTCSeconds(timestamp);
+  const [hours, minutes] = timestamp.split(":");
+  const adjustedHours = hours % 12; // Convert to 12-hour format
+  const hourDegrees = adjustedHours * 30; // Each hour is 30 degrees
+  const minuteDegrees = minutes * 0.5;   // Each minute is 0.5 degrees
+  const totalDegrees = (hourDegrees + minuteDegrees + 270) % 360;
+
+  return totalDegrees;
+};
 
 function MeetingRoomInfo({
   info,
@@ -103,6 +115,7 @@ function MeetingRoomInfo({
     const processBookingDetails = (bookingDetails: any[]): Interval[] => {
       return bookingDetails
         .map((bookingDetail: any) => {
+          console.log("bookingDetails", bookingDetail)
           const startTime = bookingDetail.bookingDetails?.from.split(":");
           const endTime = bookingDetail.bookingDetails?.to.split(":");
   
@@ -110,13 +123,13 @@ function MeetingRoomInfo({
             console.warn("Invalid booking detail:", bookingDetail);
             return null;
           }
-  
-          const starthours = parseInt(startTime[0], 10) % 12;
-          const endhours = parseInt(endTime[0], 10) % 12;
-  
+
+          const start = convertTimeToDegrees(bookingDetail.bookingDetails?.from);
+          const end = convertTimeToDegrees(bookingDetail.bookingDetails?.to);
+          console.log( "start end ", start, end)
           return {
-            start: starthours * 60 + parseInt(startTime[1], 10),
-            end: endhours * 60 + parseInt(endTime[1], 10),
+            start: start,
+            end: end,
           } as Interval;
         })
         .filter(Boolean) as Interval[]; // Explicitly cast to Interval[]
@@ -205,7 +218,7 @@ function MeetingRoomInfo({
             )}
           </div>
         </div>
-        <Clock1 intervals={intervalsFromAPI} />
+        <Clock intervals={intervalsFromAPI} />
       </div>
 
       {info ? (
