@@ -19,8 +19,8 @@ const MeetingClient: React.FC<MeetingBookedClientProps> = ({ spaceInfo, themeInf
   console.log("MeetingClient", meetingInfo);
   return (
     <div
-    className={`h-screen max-h-screen w-screen p-4 box-border bg-cover overflow-y-hidden`}
-    style={{ backgroundImage: `url(../../pixroom/assets/images/mainbg.png)` }}
+    className={`h-screen max-h-screen w-screen p-4 box-border bg-cover overflow-y-hidden bg-custom-gradient-free`}
+   // style={{ backgroundImage: `url(../../pixroom/assets/images/mainbg.png)` }}
   >
       <MeetingContainer
         currentDate={currentDate}
