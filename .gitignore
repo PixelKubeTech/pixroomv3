@@ -1,1 +1,8 @@
 node_modules
+.env.local
+.next/
+public/service-worker.js
+public/service-worker.js.map
+public/swe-worker-development.js
+public/workbox-*.js
+public/workbox-*.js.map
