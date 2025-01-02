@@ -31,8 +31,6 @@ interface Interval {
 }
 
 const convertTimeToDegrees = (timestamp) => {
-  const date = new Date(0);
-  date.setUTCSeconds(timestamp);
   const [hours, minutes] = timestamp.split(":");
   const adjustedHours = hours % 12; // Convert to 12-hour format
   const hourDegrees = adjustedHours * 30; // Each hour is 30 degrees
