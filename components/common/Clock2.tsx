@@ -53,7 +53,7 @@ export default function Clock(props: ClockProps) {
                         key={index}
                         className="dial-section"
                         style={{
-                            transform: `rotate(${index}deg) translate(${radius - 10}px)`,
+                            transform: `rotate(${index}deg) translate(${radius - 6}px)`,
                             backgroundColor: getSectionColor(index),
                         }}
                     />
