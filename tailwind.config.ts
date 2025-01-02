@@ -13,7 +13,7 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'custom-gradient-free': 'linear-gradient(to bottom right, #b3d4e0, #eaf0f2, #97c2d6)',
-        'custom-gradient-busy': 'linear-gradient(to bottom right, #ef3e5b, #fdc0d0, #ed4761)', 
+        'custom-gradient-busy': 'linear-gradient(to bottom right, #ef3e5b, #f7e0e6, #ed4761)', 
       },
     },
   },
