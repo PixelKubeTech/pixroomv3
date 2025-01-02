@@ -2,7 +2,9 @@ import { addOneDay, formatCurrentDateLocal, getCurrentDate, reverseDate } from '
 
 import axios from 'axios'
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL + '/api/pixconnectors';
+const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+
+const API_BASE_URL = apiUrl? apiUrl + '/api/pixconnectors':'/api/pixconnectors';
 
 const getTime = (time) => time.substring(11,16)
 

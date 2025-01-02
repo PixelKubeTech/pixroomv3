@@ -1,7 +1,8 @@
 import { reverseDate } from '@/app/utils/DateUtils'
 import axios from 'axios'
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL + '/api/SMSService'
+const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+const API_BASE_URL = apiUrl? apiUrl + '/api/SMSService' : '/api/SMSService';
 
 
 async function getDeviceInfo(request) {

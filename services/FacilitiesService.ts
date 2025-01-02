@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL + '/api'
+const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+const API_BASE_URL = apiUrl? apiUrl + '/api': "/api";
 
 
 async function getFacilitiesByOrgId(request){
