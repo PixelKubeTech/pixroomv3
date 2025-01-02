@@ -1,7 +1,7 @@
 import { reverseDate } from '@/app/utils/DateUtils'
 import axios from 'axios'
 
-const API_BASE_URL = 'https://demo.pixelkube.io/api/SMSService'
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL + '/api/SMSService'
 
 
 async function getDeviceInfo(request) {

@@ -1,5 +1,5 @@
 import axios from 'axios'
-const API_BASE_URL = 'https://demo.pixelkube.io/api'
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL + '/api'
 
 async function getThemesById(request){
     try{

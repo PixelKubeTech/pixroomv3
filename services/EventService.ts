@@ -2,12 +2,11 @@ import { addOneDay, formatCurrentDateLocal, getCurrentDate, reverseDate } from '
 
 import axios from 'axios'
 
-const API_BASE_URL = 'https://demo.pixelkube.io/api/pixconnectors'
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL + '/api/pixconnectors';
 
 const getTime = (time) => time.substring(11,16)
 
 async function processMeetingInfo(result) {
-    
     try {
         const mappedData = result.data.map(item => {
             let response = {
