@@ -17,8 +17,7 @@ const MeetingBookedClient: React.FC<MeetingBookedClientProps> = ({ spaceInfo, th
   const { meetingInfo, setMeetingDate } = useContext(MeetingInfoContext);
   const currentDate = getCurrentDate();
   return (
-    <div className={`h-screen max-h-screen w-screen p-4 box-border bg-cover overflow-y-hidden`}>
-      <img src={"/pixroom/assets/images/booked.jpg"} className="meeting-booked-background" />
+    <div className={`h-screen max-h-screen w-screen p-4 box-border bg-cover overflow-y-hidden bg-custom-gradient-busy`}>
       <MeetingContainer
         currentDate={currentDate}
         spaceInfo={spaceInfo}
