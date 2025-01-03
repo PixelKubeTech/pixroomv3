@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React, { useReducer, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import Devices from "../Devices";
 import ReportFaultModal from "../ReportFaultModal";
 import { Modal } from "../Modals/FindRoom";
@@ -11,6 +11,7 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import dayjs from "dayjs";
 import { EventService } from "@/services";
+import { useAppStore } from "@/app/store/appStore";
 export function MeetingRoomInfoReducer(state, action) {
   console.log("state", state);
   if (action.type === "selected_device") {
@@ -44,24 +45,23 @@ function MeetingRoomInfo({
   info,
   size = "LARGE",
   booked,
-  spaceInfo,
-  themeInfo,
   meetingInfo,
   setMeetingDate,
 }: any) {
-  let themeDataResponse;
-  let enableFaultReporting = true;
-  if (themeInfo && themeInfo.themedata) {
-    try {
-      themeDataResponse = JSON.parse(themeInfo.themedata);
-      enableFaultReporting = themeDataResponse.enableFaultReporting;
-    } catch (error) {
-      console.error("Error parsing JSON:", error);
-      themeDataResponse = null; // or handle the error as needed
-    }
-  } else {
-    themeDataResponse = null; // or handle the absence of data as needed
-  }
+  const {
+    spaceInfo,
+    themeInfo,
+    deviceInfo,
+    intervalsForAnalogClock,
+    loadFromLocalStorage
+  } = useAppStore();
+  useEffect(() => {
+    loadFromLocalStorage();
+  }, [loadFromLocalStorage]);
+
+  const themeDataResponse = themeInfo?.themedatajson;
+  const enableFaultReporting = themeDataResponse?.enableFaultReporting;
+
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   
@@ -77,26 +77,12 @@ function MeetingRoomInfo({
     });
   };
 
-  const searchParams = useSearchParams();
+  const calendarId = deviceInfo?.calendarId;
 
-  const spaceId = searchParams.get("spaceId");
-  let calendarId =
-    spaceInfo != null
-      ? spaceInfo.mappedCalendarIds != null
-        ? spaceInfo.mappedCalendarIds[0]
-        : "5"
-      : "6";
-
-  console.log("SpaceInfo for RoomCapacity",spaceInfo);
-  const queryParams12 = {
-    spaceId: spaceId || "",
-    calendarId: calendarId?.toString() || "",
-    themeid: themeInfo?.id?.toString() || "",
-  };
   const handleClick = () => {
     //console.log("searchParams", searchParams);
-    const queryString = new URLSearchParams(queryParams12).toString();
-    router.push(`/meetinginfo?${queryString}`);
+    //const queryString = new URLSearchParams(queryParams12).toString();
+    router.push(`/meetinginfo`);
     //router.push(`/meetinginfo?spaceId=${queryParams}`);
   };
   const handleDeviceClick = () => {
@@ -106,47 +92,6 @@ function MeetingRoomInfo({
   const closeClick = () => {
     router.back();
   };
-
-  const [intervalsFromAPI, setIntervalsFromAPI] = useState<Interval[]>([]);
-
-  React.useEffect(() => {
-    const processBookingDetails = (bookingDetails: any[]): Interval[] => {
-      return bookingDetails
-        .map((bookingDetail: any) => {
-          console.log("bookingDetails", bookingDetail)
-          const startTime = bookingDetail.bookingDetails?.from.split(":");
-          const endTime = bookingDetail.bookingDetails?.to.split(":");
-  
-          if (!startTime || !endTime) {
-            console.warn("Invalid booking detail:", bookingDetail);
-            return null;
-          }
-
-          const start = convertTimeToDegrees(bookingDetail.bookingDetails?.from);
-          const end = convertTimeToDegrees(bookingDetail.bookingDetails?.to);
-          console.log( "start end ", start, end)
-          return {
-            start: start,
-            end: end,
-          } as Interval;
-        })
-        .filter(Boolean) as Interval[]; // Explicitly cast to Interval[]
-    };
-  
-    const fetchAndSetIntervals = async () => {
-      if (!meetingInfo) {
-        const meetingResponse = await EventService.getEventInstances({
-          calendarId: calendarId,
-        });
-  
-        setIntervalsFromAPI(processBookingDetails(meetingResponse?.bookingDetails || []));
-      } else {
-        setIntervalsFromAPI(processBookingDetails(meetingInfo));
-      }
-    };
-  
-    fetchAndSetIntervals();
-  }, [meetingInfo]);
 
   const options = {
     border: true,
@@ -216,7 +161,7 @@ function MeetingRoomInfo({
             )}
           </div>
         </div>
-        <Clock intervals={intervalsFromAPI} />
+        <Clock intervals={intervalsForAnalogClock} />
       </div>
 
       {info ? (
