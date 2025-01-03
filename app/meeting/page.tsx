@@ -1,3 +1,5 @@
+"use client";
+
 import { addOneDay, getCurrentDate } from "../utils/DateUtils";
 
 import { ISpace } from "../interface";
@@ -6,24 +8,29 @@ import MeetingClient from "./MeetingClient";
 import { MeetingInfoProvider } from '../context/MeetingInfoDataContext';
 import { SpaceService } from "@/services";
 import { getThemesById } from '@/services/ThemeService';
+import { useAppStore } from "../store/appStore";
+import { useEffect } from "react";
 
-export default async function MeetingBooked(props) {
-  let spaceIdparam = props.searchParams.spaceId ? props.searchParams.spaceId : "15";
-  let calendarparam = props.searchParams.calendarId ? props.searchParams.calendarId : "3";
+export default function MeetingBooked(props) {
+  const {
+    spaceInfo,
+    deviceInfo,
+    themeInfo,
+    events,
+    loadFromLocalStorage
+  } = useAppStore();
+
+
+  useEffect(() => {
+    loadFromLocalStorage();
+  }, [loadFromLocalStorage]);
+  let spaceIdparam = spaceInfo?.spaceId;
+  let calendarparam = deviceInfo?.calendarId;
   let themeparam = props.searchParams.themeId ? props.searchParams.themeId : "1";
   let currentDate = getCurrentDate();
   const result = addOneDay(currentDate);
 
-  let spaceresponse = await SpaceService.getSpaceInfo({
-    spaceId: spaceIdparam,
-  });
-
-  if (calendarparam == '0' && spaceresponse?.data?.mappedCalendarIds?.length > 0) {
-    calendarparam = spaceresponse.data.mappedCalendarIds[0];
-  }
-
-  let spaceInfo: ISpace.SpaceInfo = spaceresponse.data;
-  let themeResponse = props != null && props.themeInfo != null ? props.themeInfo : await getThemesById({ Id: themeparam });
+  let themeResponse = themeInfo;
 
   return (
     <MeetingInfoProvider calendarId={calendarparam}>

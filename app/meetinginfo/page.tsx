@@ -4,19 +4,22 @@ import { MeetingInfoProvider } from "../context/MeetingInfoDataContext";
 import { SpaceService } from "@/services";
 import { getCurrentDate } from "../utils/DateUtils";
 import { getThemesById } from "@/services/ThemeService";
+import { useAppStore } from "../store/appStore";
+import { useEffect } from "react";
 
 export default async function Home(props) {
-  let spaceId = props.searchParams.spaceId ? props.searchParams.spaceId : "15";
-  let calendarId = props.searchParams.calendarId ? props.searchParams.calendarId : "2";
-  let themeid = props.searchParams.themeId ? props.searchParams.themeId : "1";
+  const {
+    spaceInfo,
+    deviceInfo,
+    themeInfo,
+    loadFromLocalStorage
+  } = useAppStore();
 
-  let response = await SpaceService.getSpaceInfo({
-    spaceId: spaceId,
-  });
 
-  let themeInfo = props != null && props.themeInfo != null ? props.themeInfo : await getThemesById({ Id: themeid });
-
-  let spaceInfo: ISpace.SpaceInfo = response.data;
+  useEffect(() => {
+    loadFromLocalStorage();
+  }, [loadFromLocalStorage]);
+  let calendarId = deviceInfo?.calendarId;
 
   return (
     <MeetingInfoProvider calendarId={calendarId}>
