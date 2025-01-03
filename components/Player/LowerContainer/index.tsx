@@ -15,6 +15,7 @@ import Snackbar from "@mui/material/Snackbar";
 import TimelineComponent from "../MeetingCalenderContainer/BottomComponent/TimelineComponent";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
+import { useAppStore } from "@/app/store/appStore";
 function getMeetingDataByDate(meetingData:Array<any>,date:any){
   if((meetingData as any)?.success==false){ return []}
   let result =  meetingData.filter(item => item.date === date)
@@ -26,7 +27,19 @@ interface Message {
   text?: string;
 }
 
-function LowerContainer({ booked, meetingInfo , themeInfo, calendarId,spaceInfo}: any) {
+function LowerContainer({ booked, meetingInfo, calendarId}: any) {
+    const {
+      spaceInfo,
+      themeInfo,
+      loadFromLocalStorage
+    } = useAppStore();
+
+
+    useEffect(() => {
+      loadFromLocalStorage();
+    }, [loadFromLocalStorage]);
+
+
   const [showModal, setShowModal] = useState(false);
   const [meetingData,setEvent] = useState(meetingInfo);
   const[calendarIdparam,setCalendarId] = useState(calendarId);
@@ -38,38 +51,18 @@ function LowerContainer({ booked, meetingInfo , themeInfo, calendarId,spaceInfo}
   const [eventBookingDetails, setEventBookingDetails] = React.useState(null);
   let themeDataResponse;
   const [nextMeetingStartAt,setNextMeetingStartAt]=React.useState("");
-  if (themeInfo && themeInfo.themedata) {
-    try {
-      themeDataResponse = JSON.parse(themeInfo.themedata);
-    } catch (error) {
-      console.error("Error parsing JSON:", error);
-      themeDataResponse = null; // or handle the error as needed
-    }
-  } else {
-    themeDataResponse = null; // or handle the absence of data as needed
-  }
+  themeDataResponse = themeInfo?.themedatajson;
+
   let showFindRoom=themeDataResponse!=null ? themeDataResponse.findRoom:true;
   let scrollSubject=themeDataResponse!=null  ? themeDataResponse.scrollSubject:true;
-  let currentTime=new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit'});
-  const router = useRouter();
-  const searchParams = useSearchParams();
 
-  const spaceId = searchParams.get("spaceId");
-  let calendarId2 =
-    spaceInfo != null
-      ? spaceInfo.mappedCalendarIds != null
-        ? spaceInfo.mappedCalendarIds[0]
-        : "5"
-      : "6";
-  const queryParams12 = {
-    spaceId: spaceId || "",
-    calendarId: calendarId2?.toString() || "",
-    themeid: themeInfo.id?.toString() || "",
-  };
+  const router = useRouter();
+
+
   const handleClick = () => {
     //console.log("searchParams", searchParams);
-    const queryString = new URLSearchParams(queryParams12).toString();
-    router.push(`/meetinginfo?${queryString}`);
+    //const queryString = new URLSearchParams(queryParams12).toString();
+    router.push(`/meetinginfo`);
     //router.push(`/meetinginfo?spaceId=${queryParams}`);
   };
   const eventClick = (data) => {

@@ -2,11 +2,6 @@
 import React, { useReducer,useEffect } from "react";
 import LowerContainer from "../LowerContainer";
 import MeetingRoomInfo from "../MeetingRoomInfo";
-import {
-  MeetingContext,
-  MeetingDispatchContext,
-  MeetingInfoContext
-} from "@/app/context/MeetingContext";
 import { getCurrentDate } from "@/app/utils/DateUtils";
 import {calenderReducer} from '../../../app/reducers/CalenderReducer'
 
@@ -61,9 +56,7 @@ const MeetingContainer = (props: MeetingProps) => {
   }, [props.meetingInfo]);
 
   return (
-    <MeetingContext.Provider value={calender}>
-      <MeetingDispatchContext.Provider value={dispatch}>
-      <MeetingInfoContext.Provider value={meetingContainerInfo}>
+
         <div className={`w-full h-full`}>
           <div
             id="modal-root"
@@ -80,16 +73,10 @@ const MeetingContainer = (props: MeetingProps) => {
             />
             <LowerContainer
                 booked={props.booked}
-                spaceInfo={props.spaceInfo}
                 meetingInfo={props.meetingInfo}
-                themeInfo={props.themeInfo}
-                calendarId={props.calendarId}
               />
             </div>
         </div>
-        </MeetingInfoContext.Provider>
-      </MeetingDispatchContext.Provider>
-    </MeetingContext.Provider>
   );
 };
 
