@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { useAppStore } from '@/app/store/appStore';
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -32,4 +32,12 @@ const HomePage: React.FC = () => {
   );
 };
 
-export default HomePage;
+function MainPage() {
+  return (
+    // You could have a loading skeleton as the `fallback` too
+    <Suspense>
+      <HomePage />
+    </Suspense>
+  )
+}
+export default MainPage;

@@ -1,10 +1,6 @@
 'use client';
+import { Interval } from '@/app/interface/Intervals';
 import * as React from 'react';
-
-interface Interval {
-    start: number;
-    end: number;
-  }
   
   export interface ClockProps {
     intervals: Interval[];

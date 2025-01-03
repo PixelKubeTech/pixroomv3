@@ -8,6 +8,7 @@ import { SpaceInfo } from '@/app/interface/SpaceType';
 import { DeviceInfo } from '@/app/interface/DeviceInfoType';
 import { IEvent } from '@/app/interface/EventType';
 import { generateTwoDayMockEvents } from './mockEvents';
+import { Interval } from '../interface/Intervals';
 
 interface ThemeData {
   allowBooking: boolean;
@@ -59,13 +60,13 @@ interface Theme {
 interface AppState {
   macaddress: string | null;
   deviceInfo: DeviceInfo | null;
-  themeInfo: {} | null;
+  themeInfo: Theme | null;
   spaceInfo: SpaceInfo | null;
   events: IEvent[];
   nextMeeting: any | null;
   activeMeeting: any | null; // Current meeting in progress
   upcomingEvents: IEvent[];
-  intervalsForAnalogClock?:{ start: any; end: any; }[],
+  intervalsForAnalogClock: Interval[],
   upcomingEventsByDay: Record<string, unknown>;
   loading: boolean;
   intervalId:  ReturnType<typeof setTimeout> | null; // To store the interval ID

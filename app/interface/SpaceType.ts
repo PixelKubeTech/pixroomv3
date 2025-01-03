@@ -7,5 +7,6 @@ export interface SpaceInfo  {
     floorId?: number;
     directionNotes?: string;
     email?: string;
-    servicingFacilities?: string[]
+    servicingFacilities?: string[];
+    resource_count:number;
   };

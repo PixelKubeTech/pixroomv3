@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CircularProgress } from "@mui/material";
 import RandomDigits from "./RandomDigits";
@@ -174,4 +174,12 @@ function Settings() {
   );
 }
 
-export default Settings;
+function SettingsWrapper() {
+  return (
+    // You could have a loading skeleton as the `fallback` too
+    <Suspense>
+      <Settings />
+    </Suspense>
+  )
+}
+export default SettingsWrapper;
