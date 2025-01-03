@@ -65,7 +65,7 @@ interface AppState {
   events: IEvent[];
   nextMeeting: any | null;
   activeMeeting: any | null; // Current meeting in progress
-  upcomingEvents: IEvent[];
+  upcomingEvents: IEvent[]; 
   intervalsForAnalogClock: Interval[],
   upcomingEventsByDay: Record<string, unknown>;
   loading: boolean;
@@ -261,14 +261,10 @@ export const useAppStore = create<AppState>((set, get) => ({
       const request = { calendarId: deviceInfo.calendarId };
       let events; 
       console.log("use mock events?", process.env.NEXT_PUBLIC_USE_MOCK_EVENTS);
-      if(process.env.USE_MOCK_EVENTS){
-        //events = await getEventInstances(request) || [];
+      if(process.env.NEXT_PUBLIC_USE_MOCK_EVENTS){
         events = generateTwoDayMockEvents(); 
-
-
       } else {
-        events = generateTwoDayMockEvents(); 
-
+        events = await getEventInstances(request) || [];
       }
 
       set({ events, loading: false });
