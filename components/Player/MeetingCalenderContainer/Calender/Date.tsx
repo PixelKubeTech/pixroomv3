@@ -1,6 +1,12 @@
 import React from "react";
 import moment from "moment";
+import { useAppStore } from "@/app/store/appStore";
 function Date({ dateObj, selectedDate, setselectedDate,setCalenderDate, size }: any) {
+const {
+  selectedDay,
+  setSelectedDay,
+    } = useAppStore();
+
   const [currDate, currDayofWeek, currDateFotmat] = [
     dateObj.date(),
     dateObj.day(),
@@ -24,6 +30,7 @@ function Date({ dateObj, selectedDate, setselectedDate,setCalenderDate, size }: 
         }`
     }
     onClick={() =>{
+     setSelectedDay(dateObj.date());
      setselectedDate(dateObj.format('DD-MM-YYYY'))
      setCalenderDate(dateObj.format("YYYY-MM-DD"))
     }}>

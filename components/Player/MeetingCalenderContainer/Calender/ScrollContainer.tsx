@@ -3,11 +3,19 @@ import React, { useContext, useState } from "react";
 import moment from "moment";
 import Date from "./Date";
 import { MeetingDispatchContext } from '../../../../app/context/MeetingContext'
+import { useAppStore } from "@/app/store/appStore";
 
 function ScrollContainer({margin = 4, size = 'LARGE', setMeetingDate} : any) {
+  const {
+    selectedDay,
+    setSelectedDay,
+      } = useAppStore();
   const calender:any = useContext(MeetingDispatchContext)
   const dateArr = Array.from(Array(50).keys())
   const [selectedDate, setselectedDate] = useState(moment().format('DD-MM-YYYY'));
+  if(!selectedDay){
+    setSelectedDay(moment().date());
+  }
   let setCalenderDate = (date) => {
     setMeetingDate({
       startDate : date + "T00:00:00.000Z",

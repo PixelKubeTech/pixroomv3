@@ -69,6 +69,7 @@ interface AppState {
   intervalsForAnalogClock: Interval[],
   upcomingEventsByDay: Record<string, unknown>;
   loading: boolean;
+  selectedDay: number;
   intervalId:  ReturnType<typeof setTimeout> | null; // To store the interval ID
   startPolling: () => void;
   stopPolling: () => void;
@@ -83,6 +84,7 @@ interface AppState {
   getThemeInfo: () => Promise<void>;
   getSpaceInfo: () => Promise<void>;
   processEvents: () => void;
+  setSelectedDay: (day:number) => void;
   loadFromLocalStorage: () => void;
   saveToLocalStorage: () => void;
   clearLocalStorage:() => void;
@@ -116,7 +118,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   error: null,
   deviceConfigured: 'configured',
   landingPage: 'meeting',
-
+  setSelectedDay: (day:number) => set({ selectedDay: day }),
   setMacAddress: (mac) => set({ macaddress: mac }),
 
   setDeviceInfo: (deviceInfo) => set({ deviceInfo }),

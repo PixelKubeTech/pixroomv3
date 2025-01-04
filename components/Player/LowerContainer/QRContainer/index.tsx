@@ -47,7 +47,6 @@ function QRContainer(props: QRContainerProps) {
     }, [loadFromLocalStorage]);
 
   const handleClick = () => {
-    
     //const queryString = new URLSearchParams(queryParams12).toString();
     router.push(`/meetinginfo`);
   };

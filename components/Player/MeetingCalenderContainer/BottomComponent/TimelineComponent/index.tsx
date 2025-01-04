@@ -1,8 +1,23 @@
 import React, { useState, useEffect } from "react";
 import MeetingBlock from "./MeetingBlocks";
 import "./scrollbarthin.css";
+import { useAppStore } from "@/app/store/appStore";
 
 function TimelineComponent(props) {
+    const {
+      spaceInfo,
+      deviceInfo,
+      themeInfo,
+      events,
+      selectedDay,
+      upcomingEventsByDay,
+      loadFromLocalStorage
+    } = useAppStore();
+
+    useEffect(() => {
+      loadFromLocalStorage();
+    }, [selectedDay]);
+
   const [selectedSlots, setSelectedSlots] = useState<number[]>([]);
   const [selectedMeetingIndex, setSelectedMeetingIndex] = useState<number>(-1);
   const handleMeetingBlockClick = (data) => {
@@ -61,7 +76,7 @@ function TimelineComponent(props) {
     const combinedList = [...meetingInfo, ...freeSlots].sort((a, b) => a.bookingDetails.from.localeCompare(b.bookingDetails.from));
   return (
     <div className={`h-full overflow-scroll max-h-100 flex flex-col basis-1/2 gap-2 thin-scrollbar`}>
-      {combinedList?.map((data, index) => (
+      {upcomingEventsByDay[selectedDay]?.map((data, index) => (
         <MeetingBlock
           key={index}
           isAvailable={data.isAvailable}
