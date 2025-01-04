@@ -23,7 +23,7 @@ export default function MeetingBooked(props) {
 
   useEffect(() => {
     loadFromLocalStorage();
-  }, [loadFromLocalStorage]);
+  }, [loadFromLocalStorage, spaceInfo]);
   let spaceIdparam = spaceInfo?.spaceId;
   let calendarparam = deviceInfo?.calendarId ;
   let themeparam = props.searchParams.themeId ? props.searchParams.themeId : "1";
@@ -31,9 +31,9 @@ export default function MeetingBooked(props) {
   const result = addOneDay(currentDate);
 
   let themeResponse = themeInfo;
-  
+
   if (!spaceInfo || !calendarparam) {
-    return <div>Loading...</div>; 
+    return <div>No Space or Calendar Info</div>; 
   }
 
   return (
