@@ -1,9 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import RandomDigits from "./RegistrationPage";
+import { CircularProgress } from "@mui/material";
 
-function MainPage() {
+function DeviceRegistrationMainPage() {
   let [result, setResult] = React.useState(null);
   let [errorInfo, seterrorInfo] = React.useState(null);
 
@@ -14,4 +15,13 @@ function MainPage() {
     </div>
   )
 }
-export default MainPage;
+
+function DeviceRegistrationPageWrapper() {
+  return (
+    <Suspense fallback={<CircularProgress />}>
+      <DeviceRegistrationMainPage />
+    </Suspense>
+  );
+}
+
+export default DeviceRegistrationPageWrapper;
