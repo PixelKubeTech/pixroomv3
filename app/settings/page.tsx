@@ -48,6 +48,7 @@ function Settings() {
         return;
       }
       if (deviceInfo) {
+        getSpaceInfo().then
         fetchEvents().then(() => { });
       }
       if (deviceInfo && activeMeeting) {
