@@ -1,3 +1,5 @@
+"use client";
+
 import HomeClient from "./HomeClient";
 import { ISpace } from "../interface";
 import { MeetingInfoProvider } from "../context/MeetingInfoDataContext";
@@ -20,7 +22,10 @@ export default async function Home(props) {
     loadFromLocalStorage();
   }, [loadFromLocalStorage]);
   let calendarId = deviceInfo?.calendarId;
-
+  
+  if (!spaceInfo || !calendarId) {
+    return <div>Loading...</div>; // Handle the null case appropriately
+  }
   return (
     <MeetingInfoProvider calendarId={calendarId}>
       <HomeClient spaceInfo={spaceInfo} themeInfo={themeInfo} calendarId={calendarId} />

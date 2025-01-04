@@ -25,12 +25,16 @@ export default function MeetingBooked(props) {
     loadFromLocalStorage();
   }, [loadFromLocalStorage]);
   let spaceIdparam = spaceInfo?.spaceId;
-  let calendarparam = deviceInfo?.calendarId;
+  let calendarparam = deviceInfo?.calendarId ;
   let themeparam = props.searchParams.themeId ? props.searchParams.themeId : "1";
   let currentDate = getCurrentDate();
   const result = addOneDay(currentDate);
 
   let themeResponse = themeInfo;
+  
+  if (!spaceInfo || !calendarparam) {
+    return <div>Loading...</div>; 
+  }
 
   return (
     <MeetingInfoProvider calendarId={calendarparam}>

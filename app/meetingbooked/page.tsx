@@ -1,4 +1,6 @@
 
+"use client";
+
 import { addOneDay, getCurrentDate, getStartEndOfMonth } from "../utils/DateUtils";
 import { MeetingInfoProvider } from '../context/MeetingInfoDataContext';
 import MeetingBookedClient from './MeetingBookedClient';
@@ -27,6 +29,9 @@ export default async function MeetingBooked(props) {
   let meetingInfo = events;
   let themeResponse = themeInfo;
 
+  if (!calendarparam || !spaceInfo){
+      return <div>Loading...</div>; // Handle the null case appropriately
+  }
   return (
     <MeetingInfoProvider calendarId={calendarparam}>
       <MeetingBookedClient
