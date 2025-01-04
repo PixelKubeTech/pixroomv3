@@ -1,4 +1,3 @@
-
 "use client";
 
 import { addOneDay, getCurrentDate, getStartEndOfMonth } from "../utils/DateUtils";
@@ -7,7 +6,7 @@ import MeetingBookedClient from './MeetingBookedClient';
 import { useAppStore } from '../store/appStore';
 import { useEffect } from 'react';
 
-export default async function MeetingBooked(props) {
+export default  function MeetingBooked(props) {
   const {
     spaceInfo,
     deviceInfo,
@@ -30,7 +29,7 @@ export default async function MeetingBooked(props) {
   let themeResponse = themeInfo;
 
   if (!calendarparam || !spaceInfo){
-      return <div>Loading...</div>; // Handle the null case appropriately
+      return <div>Loading...</div>; 
   }
   return (
     <MeetingInfoProvider calendarId={calendarparam}>

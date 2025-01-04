@@ -260,8 +260,8 @@ export const useAppStore = create<AppState>((set, get) => ({
 
       const request = { calendarId: deviceInfo.calendarId };
       let events; 
-      console.log("use mock events?", process.env.NEXT_PUBLIC_USE_MOCK_EVENTS);
       if(process.env.NEXT_PUBLIC_USE_MOCK_EVENTS){
+        console.log("use mock events?", process.env.NEXT_PUBLIC_USE_MOCK_EVENTS);
         events = generateTwoDayMockEvents(); 
       } else {
         events = await getEventInstances(request) || [];
