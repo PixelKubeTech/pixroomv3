@@ -67,7 +67,7 @@ interface AppState {
   activeMeeting: any | null; // Current meeting in progress
   upcomingEvents: IEvent[]; 
   intervalsForAnalogClock: Interval[],
-  upcomingEventsByDay: Record<string, unknown>;
+  upcomingEventsByDay: Record<string, IEvent[]>;
   loading: boolean;
   selectedDay: number;
   intervalId:  ReturnType<typeof setTimeout> | null; // To store the interval ID
@@ -118,6 +118,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   error: null,
   deviceConfigured: 'configured',
   landingPage: 'meeting',
+  selectedDay:0,
   setSelectedDay: (day:number) => set({ selectedDay: day }),
   setMacAddress: (mac) => set({ macaddress: mac }),
 
