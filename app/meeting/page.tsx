@@ -23,7 +23,7 @@ export default function MeetingBooked(props) {
 
   useEffect(() => {
     loadFromLocalStorage();
-  }, [loadFromLocalStorage, spaceInfo]);
+  }, [loadFromLocalStorage]);
   let spaceIdparam = spaceInfo?.spaceId;
   let calendarparam = deviceInfo?.calendarId ;
   let themeparam = props.searchParams.themeId ? props.searchParams.themeId : "1";
