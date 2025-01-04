@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-const API_BASE_URL = apiUrl?apiUrl + '/api':apiUrl;
+const API_BASE_URL = apiUrl?apiUrl + '/api': '/api' ;
 
 
 async function getSpaceInfo(request){
