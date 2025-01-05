@@ -70,7 +70,7 @@ interface AppState {
   upcomingEventsByDay: Record<string, IEvent[]>;
   loading: boolean;
   selectedDay: number;
-  intervalId:  ReturnType<typeof setTimeout> | null; // To store the interval ID
+  intervalId: ReturnType<typeof setTimeout> | null; // To store the interval ID 
   startPolling: () => void;
   stopPolling: () => void;
   error: string | null;
@@ -324,21 +324,35 @@ export const useAppStore = create<AppState>((set, get) => ({
 
     const todaysEvents = upcomingEventsByDay[now.getDate()] || [];
 
-    const intervalsForAnalogClock = todaysEvents.map((ev) => {  
-        const from = new Date(ev.bookingDetails.from1);
-        const to = new Date(ev.bookingDetails.to2);
-        return {
-          start: convertTimeToDegrees(from),
-          end: convertTimeToDegrees(to),
-        };
-    } );
+    const intervalsForAnalogClock = todaysEvents.map((event) => ({
+      start: convertTimeToDegrees(new Date(event.bookingDetails.from1)),
+      end: convertTimeToDegrees(new Date(event.bookingDetails.to2)),
+    }));
+  
+  //clearTimeout(get().intervalId);
 
+  let newTimeoutId: ReturnType<typeof setTimeout> | null = null;
+    if (activeMeeting) {
+      const activeMeetingEndTime = new Date(activeMeeting.bookingDetails.to2).getTime() - now.getTime();
+      newTimeoutId = setTimeout(() => {
+        set({ activeMeeting: null });
+        get().processEvents(); // Re-evaluate to update `nextMeeting` -> `activeMeeting`
+      }, activeMeetingEndTime);
+    }
+  
+    if (nextMeeting && !activeMeeting) {
+      const nextMeetingStartTime = new Date(nextMeeting.bookingDetails.from1).getTime() - now.getTime();
+      newTimeoutId = setTimeout(() => {
+        get().processEvents(); // Re-evaluate to move `nextMeeting` -> `activeMeeting`
+      }, nextMeetingStartTime);
+    }
     set({
       nextMeeting,
       activeMeeting,
       upcomingEvents,
       upcomingEventsByDay,
-      intervalsForAnalogClock
+      intervalsForAnalogClock,
+      intervalId: newTimeoutId,
     });
   },
 }));
