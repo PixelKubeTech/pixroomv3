@@ -19,7 +19,9 @@ export default function MeetingBooked(props) {
     themeInfo,
     events,
     activeMeeting,
-    loadFromLocalStorage
+    loadFromLocalStorage,
+    startPolling,
+    stopPolling
   } = useAppStore();
 
 
@@ -28,6 +30,13 @@ export default function MeetingBooked(props) {
   }, []);
 
   const router = useRouter();
+  useEffect(() => {
+    startPolling();
+
+    return () => {
+      stopPolling(); 
+    };
+  }, [startPolling, stopPolling]);
 
   useEffect(() => {
     if ( activeMeeting) {
