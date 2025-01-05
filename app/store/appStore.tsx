@@ -354,7 +354,6 @@ export const useAppStore = create<AppState>((set, get) => ({
       upcomingEvents,
       upcomingEventsByDay,
       intervalsForAnalogClock,
-      intervalId: newTimeoutId,
     });
   },
 }));
