@@ -1,6 +1,5 @@
 "use client";
 
-import { addOneDay, getCurrentDate, getStartEndOfMonth } from "../utils/DateUtils";
 import { MeetingInfoProvider } from '../context/MeetingInfoDataContext';
 import MeetingBookedClient from './MeetingBookedClient';
 import { useAppStore } from '../store/appStore';
@@ -40,12 +39,8 @@ export default  function MeetingBooked(props) {
       } 
   }, [activeMeeting]);
 
-  let spaceIdparam = spaceInfo?.spaceId
-  let calendarparam = deviceInfo?.calendarId;
-  let currentDate = getCurrentDate();
-  const result = addOneDay(currentDate);
 
-  let meetingInfo = events;
+  let calendarparam = deviceInfo?.calendarId;
   let themeResponse = themeInfo;
 
   if (!calendarparam || !spaceInfo){

@@ -19,6 +19,7 @@ export default function MeetingBooked(props) {
     themeInfo,
     events,
     activeMeeting,
+    nextMeeting,
     loadFromLocalStorage,
     startPolling,
     stopPolling
@@ -44,11 +45,7 @@ export default function MeetingBooked(props) {
     } 
 }, [activeMeeting]);
 
-  let spaceIdparam = spaceInfo?.spaceId;
   let calendarparam = deviceInfo?.calendarId ;
-  let themeparam = props.searchParams.themeId ? props.searchParams.themeId : "1";
-  let currentDate = getCurrentDate();
-  const result = addOneDay(currentDate);
 
   let themeResponse = themeInfo;
 
