@@ -5,6 +5,7 @@ import { MeetingInfoProvider } from '../context/MeetingInfoDataContext';
 import MeetingBookedClient from './MeetingBookedClient';
 import { useAppStore } from '../store/appStore';
 import { useEffect } from 'react';
+import { useRouter } from "next/navigation";
 
 export default  function MeetingBooked(props) {
   const {
@@ -12,13 +13,23 @@ export default  function MeetingBooked(props) {
     deviceInfo,
     themeInfo,
     events,
+    activeMeeting,
     loadFromLocalStorage
   } = useAppStore();
 
 
   useEffect(() => {
     loadFromLocalStorage();
-  }, [loadFromLocalStorage]);
+  }, []);
+  const router = useRouter();
+
+
+  useEffect(() => {
+      if ( !activeMeeting) {
+        router.push("/meeting");
+        return;
+      } 
+  }, [activeMeeting]);
 
   let spaceIdparam = spaceInfo?.spaceId
   let calendarparam = deviceInfo?.calendarId;

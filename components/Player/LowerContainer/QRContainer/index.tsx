@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import MeetingCard from "@/components/common/meetingcard";
 import { useRouter,usePathname,useSearchParams} from "next/navigation";
 import { useAppStore } from "@/app/store/appStore";
+import moment from "moment";
 interface QRContainerProps {
   booked: Boolean;
   showFindRoom: Boolean;
@@ -24,14 +25,6 @@ interface IMeetingDetails {
   nextMeetingStartAt:String;
 }
 
-function floorToTwoDecimalPlaces(number) {
-  return Math.floor(number * 100) / 100;
-}
-
-const getTimeDifferenceInMinutes = (date1, date2) => {
-  const diffInMs = date2 - date1; // difference in milliseconds
-  return floorToTwoDecimalPlaces(Math.abs(Math.abs(diffInMs) / (1000 * 60))); // convert milliseconds to minutes
-};
 
 const meetingDetails: IMeetingDetails = {} as IMeetingDetails;
 function QRContainer(props: QRContainerProps) {
@@ -40,19 +33,20 @@ function QRContainer(props: QRContainerProps) {
       themeInfo,
       deviceInfo,
       intervalsForAnalogClock,
+      activeMeeting,
+      nextMeeting,
       loadFromLocalStorage
     } = useAppStore();
     useEffect(() => {
       loadFromLocalStorage();
-    }, [loadFromLocalStorage]);
+    }, []);
+    const [endsIn, setEndsIn] = useState({minutes:0, seconds:0});
 
   const handleClick = () => {
-    //const queryString = new URLSearchParams(queryParams12).toString();
     router.push(`/meetinginfo`);
   };
   const router = useRouter();
   const pathName = usePathname();
-  const [endsIn,setEndsIn] = useState(0);
   let meetingStartTime =
     props != null &&
     props.eventBookingDetails != null &&
@@ -65,57 +59,47 @@ function QRContainer(props: QRContainerProps) {
     props.eventBookingDetails.to != null
       ? props.eventBookingDetails.to
       : "00:00";
-  let currentTime=new Date();
-  
-  const today = new Date();
-  const [hours, minutes] = meetingExtendEndTime.split(':').map(Number);
-  const timeDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hours, minutes);
-  
-  if (props.eventBookingDetails != null) {
-    meetingDetails.title =props.eventBookingDetails.meetingName;
-    meetingDetails.time =
-      props.eventBookingDetails.from + "-" + props.eventBookingDetails.to;
-    meetingDetails.bookedBy = props.eventBookingDetails.bookingPersonName;
-    meetingDetails.participants = props.eventBookingDetails.duration;
+    
+  if (activeMeeting?.bookingDetails != null) {
+    meetingDetails.title = activeMeeting.bookingDetails.meetingName;
+    meetingDetails.time = activeMeeting.bookingDetails.from + "-" + activeMeeting.bookingDetails.to;
+    meetingDetails.bookedBy = activeMeeting.bookingDetails.bookingPersonName;
+    meetingDetails.participants = activeMeeting.bookingDetails.noOfAttendees;
   }
-  meetingDetails.nextMeetingStartAt=props.nextMeetingStartAt!=""?props.nextMeetingStartAt:"tomorrow";
+  if(nextMeeting){
+    meetingDetails.nextMeetingStartAt= nextMeeting?.bookingDetails.from!=""?nextMeeting.bookingDetails.from:"tomorrow";
+  }
+  else{
+    meetingDetails.nextMeetingStartAt= "tomorrow";
+  }
   const [showModal, setShowModal] = useState(false);
   const [showTimelineModal, setShowTimelineModal] = useState(false);
   const [newEnd, setNewEnd] = useState("00:00");
 
-  function formatTime(date) {
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const formattedHours = String(hours).padStart(2, '0');
-    const formattedMinutes = String(minutes).padStart(2, '0');
-    return `${formattedHours}:${formattedMinutes}`;
-  }
+  const getTimeDiffinMinutesAndSeconds = (date1, date2) => {
+    const totalDiffInSeconds = moment(date2).diff(moment(date1), "seconds");
+    const minutes = Math.floor( totalDiffInSeconds / 60);
+    const seconds = Math.floor( totalDiffInSeconds % 60);
+    return {minutes, seconds}
+  };
 
-  const getMeetingEndsInTime=()=>{
-    let now=new Date();
-    let currentTime=formatTime(now);
-    const [hours, minutes] = meetingExtendEndTime.split(':').map(Number);
-    const timeDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
-    setEndsIn(getTimeDifferenceInMinutes(now,timeDate));
-    if (pathName=="/meetingbooked" && meetingExtendEndTime!="00:00" && currentTime >= meetingExtendEndTime) {
-      router.back();
-    }
-    else if (pathName=="/meeting" && currentTime >= meetingDetails.nextMeetingStartAt) {
-      router.back();
-    }
-  }
+    const getMeetingEndsInTime = () => {
+      const now = new Date();
+      setEndsIn(getTimeDiffinMinutesAndSeconds(now, new Date(activeMeeting?.bookingDetails.endTime)));
+    };
+  
   
   useEffect(() => {
     const intervalId = setInterval(() => {
-      console.log('This runs every 5 seconds');
+      console.log('This runs every second');
       getMeetingEndsInTime();
-    }, 1000); // 1000 milliseconds = 1 seconds
+    }, 1000); 
 
     // Cleanup function to clear the interval
     return () => {
       clearInterval(intervalId);
     };
-  }, [endsIn]); // Empty dependency array means this effect runs once on mount
+  }, [endsIn]); 
 
   return (
     <div className="h-full flex flex-col w-[70%] p-6 mb-10 relative">
@@ -178,7 +162,7 @@ function QRContainer(props: QRContainerProps) {
             onClick={() => setShowTimelineModal(!showTimelineModal)}
           />
           <span className="ml-2">
-            This meeting is going to end in the next {endsIn} minutes
+          This meeting is going to end in the next {endsIn.minutes}:{endsIn.seconds.toString().padStart(2, "0")}
           </span>
         </div>
       ) : null}

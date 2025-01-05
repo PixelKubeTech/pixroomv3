@@ -6,6 +6,7 @@ import { ISpace } from "../interface";
 import MeetingContainer from '@/components/Player/MeetingContainer';
 import { MeetingInfoContext } from '../context/MeetingInfoDataContext';
 import { getCurrentDate } from "../utils/DateUtils";
+import { useAppStore } from '../store/appStore';
 
 interface MeetingBookedClientProps {
   spaceInfo: ISpace.SpaceInfo;
@@ -14,6 +15,9 @@ interface MeetingBookedClientProps {
 }
 
 const MeetingBookedClient: React.FC<MeetingBookedClientProps> = ({ spaceInfo, themeInfo, calendarId }) => {
+  const {
+    activeMeeting
+  } = useAppStore();
   const { meetingInfo, setMeetingDate } = useContext(MeetingInfoContext);
   const currentDate = getCurrentDate();
   return (

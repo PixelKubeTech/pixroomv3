@@ -57,8 +57,11 @@ function MeetingRoomInfo({
   } = useAppStore();
   useEffect(() => {
     loadFromLocalStorage();
-  }, [loadFromLocalStorage]);
+  }, []);
 
+  useEffect(() => {
+    console.log("intervalsfromananlogclock", intervalsForAnalogClock);
+  }, [intervalsForAnalogClock]);
   const themeDataResponse = themeInfo?.themedatajson;
   const enableFaultReporting = themeDataResponse?.enableFaultReporting;
 

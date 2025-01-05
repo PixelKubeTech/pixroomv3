@@ -31,7 +31,8 @@ function LowerContainer({ booked, meetingInfo, calendarId}: any) {
     const {
       spaceInfo,
       themeInfo,
-      loadFromLocalStorage
+      loadFromLocalStorage,
+      events,
     } = useAppStore();
 
 
@@ -129,7 +130,7 @@ function LowerContainer({ booked, meetingInfo, calendarId}: any) {
           </p>
           <div className="h-[86%] overflow-hidden">
             {
-              meetingInfo?.length == 0 ? "No meeting scheduled..." :  <TimelineComponent  eventClick={eventClick} meetingInfo={meetingInfo || []} themeInfo={themeDataResponse} />
+              events?.length == 0 ? "No meeting scheduled..." :  <TimelineComponent  eventClick={eventClick} meetingInfo={events || []} themeInfo={themeDataResponse} />
             }
           </div>
         </div>
