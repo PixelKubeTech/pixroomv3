@@ -21,7 +21,7 @@ const MeetingBookedClient: React.FC<MeetingBookedClientProps> = ({ spaceInfo, th
   const { meetingInfo, setMeetingDate } = useContext(MeetingInfoContext);
   const currentDate = getCurrentDate();
   return (
-    <div className={`h-screen max-h-screen w-screen p-4 box-border bg-cover overflow-y-hidden bg-custom-gradient-busy`}>
+    <div className={`h-screen max-h-screen w-screen p-4 box-border bg-cover overflow-y-hidden bg-gradient-to-r from-red-300 via-pink-200 to-red-100`}>
       <MeetingContainer
         currentDate={currentDate}
         spaceInfo={spaceInfo}
