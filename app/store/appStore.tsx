@@ -118,7 +118,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   error: null,
   deviceConfigured: 'configured',
   landingPage: 'meeting',
-  selectedDay:0,
+  selectedDay: (new Date()).getDate(),
   setSelectedDay: (day:number) => set({ selectedDay: day }),
   setMacAddress: (mac) => set({ macaddress: mac }),
 
@@ -263,7 +263,7 @@ export const useAppStore = create<AppState>((set, get) => ({
 
       const request = { calendarId: deviceInfo.calendarId };
       let events; 
-      if(process.env.NEXT_PUBLIC_USE_MOCK_EVENTS){
+      if(process.env.NEXT_PUBLIC_USE_MOCK_EVENTS && process.env.NEXT_PUBLIC_USE_MOCK_EVENTS==="1" ){
         console.log("use mock events?", process.env.NEXT_PUBLIC_USE_MOCK_EVENTS);
         events = generateTwoDayMockEvents(); 
       } else {
@@ -309,7 +309,8 @@ export const useAppStore = create<AppState>((set, get) => ({
       (event) => new Date(event.bookingDetails.to2) > now
     );
 
-    const nextMeeting = upcomingEvents.length > 0 ? upcomingEvents[0] : null;
+    const d = new Date();
+    const nextMeeting = upcomingEvents.length > 0 ? upcomingEvents[d.getDay()] : null;
     const activeMeeting = events.find(
       (event) =>
         new Date(event.bookingDetails.from1) <= now &&
@@ -324,8 +325,8 @@ export const useAppStore = create<AppState>((set, get) => ({
     const todaysEvents = upcomingEventsByDay[now.getDate()] || [];
 
     const intervalsForAnalogClock = todaysEvents.map((ev) => {  
-        const from = new Date(ev.bookingDetails.startTime);
-        const to = new Date(ev.bookingDetails.endTime);
+        const from = new Date(ev.bookingDetails.from1);
+        const to = new Date(ev.bookingDetails.to2);
         return {
           start: convertTimeToDegrees(from),
           end: convertTimeToDegrees(to),
