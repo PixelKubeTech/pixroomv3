@@ -42,11 +42,6 @@ function LowerContainer({ booked, meetingInfo, calendarId}: any) {
 
 
   const [showModal, setShowModal] = useState(false);
-  const [meetingData,setEvent] = useState(meetingInfo);
-  const[calendarIdparam,setCalendarId] = useState(calendarId);
-  const currentDate = getCurrentDate()
-  const [selectedMeetingInfo,setSelectMeetingInfo] = useState(getMeetingDataByDate(meetingData,reverseDate(currentDate)))
-  const {meetingDate} = useContext(MeetingContext) || {}
   const [success, setSuccess] = React.useState(false);
   const [message, setMessage] = React.useState<Message>();
   const [eventBookingDetails, setEventBookingDetails] = React.useState(null);
@@ -61,10 +56,7 @@ function LowerContainer({ booked, meetingInfo, calendarId}: any) {
 
 
   const handleClick = () => {
-    //console.log("searchParams", searchParams);
-    //const queryString = new URLSearchParams(queryParams12).toString();
     router.push(`/meetinginfo`);
-    //router.push(`/meetinginfo?spaceId=${queryParams}`);
   };
   const eventClick = (data) => {
    setEventBookingDetails(data.bookingDetails);
@@ -72,49 +64,6 @@ function LowerContainer({ booked, meetingInfo, calendarId}: any) {
 
    let [progress, setProgress] = React.useState(0);
 
-  function timeToMinutes(time) {
-    const [hours, minutes] = time.split(':').map(Number);
-    return hours * 60 + minutes;
-  }
-  useEffect(() => {
-    // Fetch meeting response
-    const fetchMeetingResponse = async () => {
-      try {
-        let currentTime=new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit'});
-        
-        console.log('calendarIdparam', calendarIdparam);
-        const meetingList = await EventService.getEventInstances({
-          calendarId: calendarIdparam ? calendarIdparam : '4'
-        });
-        setEvent(meetingList);
-        const currentDate= getCurrentDate();
-        if (meetingList.length > 0) {
-          setSelectMeetingInfo(meetingList);
-          meetingList.map((x,i)=>{
-            if(x.date==currentDate && x.bookingDetails!=null &&  currentTime >= x.bookingDetails.from && currentTime < x.bookingDetails.to)
-            {
-              setEventBookingDetails(x.bookingDetails);
-              if(meetingList[i + 1]!=null && meetingList[i + 1].bookingDetails!=null)
-                setNextMeetingStartAt(meetingList[i+1].bookingDetails.from);
-            }
-          })
-         if(nextMeetingStartAt=="")
- 
-          {
-            const nextMeeting = meetingList.filter(x => x.date==currentDate && x.bookingDetails!=null &&  timeToMinutes(currentTime) <= timeToMinutes(x.bookingDetails.from));
-            if(nextMeeting!=null && nextMeeting.length>0)
-              setNextMeetingStartAt(nextMeeting[0].bookingDetails.from);
-          }
-        } else {
-          setSelectMeetingInfo([]);
-        }
-      } catch (error) {
-        console.error('Error fetching event instances', error);
-      }
-    };
-
-    fetchMeetingResponse();
-  }, [meetingDate]);
   useEffect(() => {
     if(progress < 97) {
       setTimeout(() => setProgress(newVal1=>newVal1+1), 200)
