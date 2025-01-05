@@ -261,7 +261,9 @@ export const useAppStore = create<AppState>((set, get) => ({
       await get().getThemeInfo();
       await get().getSpaceInfo();
 
-      const request = { calendarId: deviceInfo.calendarId };
+      const futureDate = new Date((new Date()).getTime() + 10 * 24 * 60 * 60 * 1000);
+
+      const request = { calendarId: deviceInfo.calendarId, endTime: futureDate  };
       let events; 
       if(process.env.NEXT_PUBLIC_USE_MOCK_EVENTS && process.env.NEXT_PUBLIC_USE_MOCK_EVENTS==="1" ){
         console.log("use mock events?", process.env.NEXT_PUBLIC_USE_MOCK_EVENTS);
