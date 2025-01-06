@@ -72,8 +72,8 @@ function QRContainer(props: QRContainerProps) {
   if(activeMeeting){
     const startDate = new Date(activeMeeting.bookingDetails.from1);
     let endDate = new Date(activeMeeting.bookingDetails.to2);
-     meetingStartTime = `${startDate.getHours()}:${startDate.getMinutes()}`;
-     meetingExtendEndTime = `${endDate.getHours()}:${endDate.getMinutes()}`;
+     meetingStartTime = `${startDate.getHours()}:${startDate.getMinutes().toString().padStart(2, "0")}`;
+     meetingExtendEndTime = `${endDate.getHours()}:${endDate.getMinutes().toString().padStart(2, "0")}`;
   }
   if(nextMeeting){
     const nextDate = new Date(nextMeeting.bookingDetails.from1);
