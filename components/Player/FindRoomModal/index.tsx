@@ -43,9 +43,9 @@ function FindRoomTable(props: FindRoomProps) {
         let roomsResponse = await FindRoomService.getFindRoomDetails({
           startDate: startDate.format("YYYY-MM-DD HH:mm:01"),
           endDate: startDate.add(1, "hour").format("YYYY-MM-DD HH:mm:00"),
-          orgId: meetingInfo.spaceInfo.orgId,
-          buildingId: meetingInfo.spaceInfo.buildingId,
-          floorId: meetingInfo.spaceInfo.floorId,
+          orgId: props.spaceInfo.orgId,
+          buildingId: props.spaceInfo.buildingId,
+          floorId: props.spaceInfo.floorId,
           spaceid: props.spaceInfo.spaceId,
         });
         if (roomsResponse.length > 0) {

@@ -37,6 +37,7 @@ function QRContainer(props: QRContainerProps) {
     const {
       activeMeeting,
       nextMeeting,
+      spaceInfo,
       loadFromLocalStorage
     } = useAppStore();
     useEffect(() => {
@@ -131,7 +132,7 @@ function QRContainer(props: QRContainerProps) {
         show={showModal}
         title={"Find a Room"}
       >
-        <FindRoomTable  spaceInfo={props.spaceInfo} handleClick={handleClick}/>
+        <FindRoomTable  spaceInfo={spaceInfo} handleClick={handleClick}/>
       </Modal>
 
       <TimelineModal
