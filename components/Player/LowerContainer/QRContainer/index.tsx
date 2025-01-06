@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useAppStore } from "@/app/store/appStore";
 import moment from "moment";
 import RoomFreeCard from "@/components/common/roomfreecard";
+import QRCodeComponent from "../../@common/QrCode";
 
 interface QRContainerProps {
   booked: Boolean;
@@ -150,13 +151,10 @@ function QRContainer(props: QRContainerProps) {
         />
       </TimelineModal>
       {activeMeeting? <RoomBusyCard {...meetingDetails} /> : <RoomFreeCard  nextMeetingStartAt={nextMeetingStartAt}/>}
-      
-      <img
-        className="absolute bottom-[10%] right-[10%]"
-        height={75}
-        width={75}
-        src={"../../../../pixroom/assets/images/qr.png"}
-      />
+      <div className="absolute bottom-[10%] right-[10%]">
+      <QRCodeComponent />
+      </div>
+ 
       {props.booked ? (
         <div className="absolute flex items-center bottom-4 flex gap-1 pb-3 pl-6">
           <img
