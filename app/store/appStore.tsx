@@ -63,7 +63,7 @@ interface AppState {
   themeInfo: Theme | null;
   spaceInfo: SpaceInfo | null;
   events: IEvent[];
-  nextMeeting: any | null;
+  nextMeeting: IEvent | null;
   activeMeeting: any | null; // Current meeting in progress
   upcomingEvents: IEvent[]; 
   intervalsForAnalogClock: Interval[],
@@ -311,14 +311,17 @@ export const useAppStore = create<AppState>((set, get) => ({
       (event) => new Date(event.bookingDetails.to2) > now
     );
 
-    const d = new Date();
-    const nextMeeting = upcomingEvents.length > 0 ? upcomingEvents[d.getDay()] : null;
     const activeMeeting = events.find(
       (event) =>
         new Date(event.bookingDetails.from1) <= now &&
         new Date(event.bookingDetails.to2) >= now
     );
-
+ 
+    let nextMeeting;
+    if (upcomingEvents.length > 0) {
+      nextMeeting = activeMeeting && upcomingEvents.length > 1 ? upcomingEvents[1] : upcomingEvents[0];
+    }
+    
     const upcomingEventsByDay = groupBy(upcomingEvents, (event) => {
       const date = new Date(event.bookingDetails.from1);
       return date.getDate();

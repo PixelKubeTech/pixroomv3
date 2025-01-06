@@ -1,5 +1,8 @@
 import { IEvent, BookingDetails } from "@/app/interface/EventType"; // Adjust the import path as needed
 
+const meetDuration = 5;
+const freeDuration = 5;
+
 export const generateTwoDayMockEvents = (): IEvent[] => {
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0); // Midnight today
@@ -17,7 +20,7 @@ export const generateTwoDayMockEvents = (): IEvent[] => {
 
     while (currentTime < endTime) {
       const meetingStartTime = new Date(currentTime);
-      const meetingEndTime = new Date(meetingStartTime.getTime() + 10 * 60 * 1000); // 10 minutes meeting
+      const meetingEndTime = new Date(meetingStartTime.getTime() + meetDuration * 60 * 1000); 
 
       if (meetingEndTime > endTime) break;
 
@@ -42,7 +45,7 @@ export const generateTwoDayMockEvents = (): IEvent[] => {
         bookingDetails,
       });
 
-      currentTime = new Date(meetingEndTime.getTime() + 10 * 60 * 1000); // Skip 10 minutes of free time
+      currentTime = new Date(meetingEndTime.getTime() + freeDuration * 60 * 1000); 
     }
   };
 

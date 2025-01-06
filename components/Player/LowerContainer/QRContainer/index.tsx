@@ -3,10 +3,12 @@ import FindRoomTable from "../../../../components/Player/FindRoomModal";
 import { Modal } from "../../../../components/Player/Modals/FindRoom";
 import { Modal as TimelineModal } from "../../../../components/Player/Modals/TimeLine";
 import React, { useEffect, useState } from "react";
-import MeetingCard from "@/components/common/meetingcard";
-import { useRouter,usePathname,useSearchParams} from "next/navigation";
+import RoomBusyCard from "@/components/common/roombusycard";
+import { useRouter } from "next/navigation";
 import { useAppStore } from "@/app/store/appStore";
 import moment from "moment";
+import RoomFreeCard from "@/components/common/roomfreecard";
+
 interface QRContainerProps {
   booked: Boolean;
   showFindRoom: Boolean;
@@ -28,11 +30,11 @@ interface IMeetingDetails {
 
 const meetingDetails: IMeetingDetails = {} as IMeetingDetails;
 function QRContainer(props: QRContainerProps) {
+  let meetingStartTime;
+  let meetingExtendEndTime;
+  let nextMeetingStartAt = "tomorrow";
+
     const {
-      spaceInfo,
-      themeInfo,
-      deviceInfo,
-      intervalsForAnalogClock,
       activeMeeting,
       nextMeeting,
       loadFromLocalStorage
@@ -42,35 +44,40 @@ function QRContainer(props: QRContainerProps) {
     }, []);
     const [endsIn, setEndsIn] = useState({minutes:0, seconds:0});
 
+    useEffect(() => {
+      console.log("activeMeeting", activeMeeting);
+      console.log("nextMeeting", nextMeeting);
+
+      if (activeMeeting?.bookingDetails != null) {
+        meetingDetails.title = activeMeeting.bookingDetails.meetingName;
+        meetingDetails.time = activeMeeting.bookingDetails.from + "-" + activeMeeting.bookingDetails.to;
+        meetingDetails.bookedBy = activeMeeting.bookingDetails.bookingPersonName;
+        meetingDetails.participants = activeMeeting.bookingDetails.noOfAttendees;
+      }
+
+      if(nextMeeting){
+        nextMeetingStartAt= nextMeeting.bookingDetails.from;
+      }
+    }, [activeMeeting, nextMeeting]);
+
   const handleClick = () => {
     router.push(`/meetinginfo`);
   };
   const router = useRouter();
-  const pathName = usePathname();
-  let meetingStartTime =
-    props != null &&
-    props.eventBookingDetails != null &&
-    props.eventBookingDetails.from != null
-      ? props.eventBookingDetails.from
-      : "11:00";
-  let meetingExtendEndTime =
-    props != null &&
-    props.eventBookingDetails != null &&
-    props.eventBookingDetails.to != null
-      ? props.eventBookingDetails.to
-      : "00:00";
-    
-  if (activeMeeting?.bookingDetails != null) {
-    meetingDetails.title = activeMeeting.bookingDetails.meetingName;
-    meetingDetails.time = activeMeeting.bookingDetails.from + "-" + activeMeeting.bookingDetails.to;
-    meetingDetails.bookedBy = activeMeeting.bookingDetails.bookingPersonName;
-    meetingDetails.participants = activeMeeting.bookingDetails.noOfAttendees;
+  const d = new Date()
+  meetingStartTime = `${d.getHours()}:${d.getMinutes()}`;
+  meetingExtendEndTime = `${d.getHours()}:${d.getMinutes()}`;
+  nextMeetingStartAt = `${d.getHours()}:${d.getMinutes()}`;
+  if(activeMeeting){
+    const startDate = new Date(activeMeeting.bookingDetails.from1);
+    let endDate = new Date(activeMeeting.bookingDetails.to2);
+     meetingStartTime = `${startDate.getHours()}:${startDate.getMinutes()}`;
+     meetingExtendEndTime = `${endDate.getHours()}:${endDate.getMinutes()}`;
   }
   if(nextMeeting){
-    meetingDetails.nextMeetingStartAt= nextMeeting?.bookingDetails.from!=""?nextMeeting.bookingDetails.from:"tomorrow";
-  }
-  else{
-    meetingDetails.nextMeetingStartAt= "tomorrow";
+    const nextDate = new Date(nextMeeting.bookingDetails.from1);
+    nextMeetingStartAt = `${nextDate.getHours()}:${nextDate.getMinutes()}`;
+
   }
   const [showModal, setShowModal] = useState(false);
   const [showTimelineModal, setShowTimelineModal] = useState(false);
@@ -83,15 +90,13 @@ function QRContainer(props: QRContainerProps) {
     return {minutes, seconds}
   };
 
-    const getMeetingEndsInTime = () => {
+  const getMeetingEndsInTime = () => {
       const now = new Date();
       setEndsIn(getTimeDiffinMinutesAndSeconds(now, new Date(activeMeeting?.bookingDetails.endTime)));
     };
   
-  
   useEffect(() => {
     const intervalId = setInterval(() => {
-      console.log('This runs every second');
       getMeetingEndsInTime();
     }, 1000); 
 
@@ -138,14 +143,13 @@ function QRContainer(props: QRContainerProps) {
           endTime={meetingExtendEndTime}
           onEndTimeChange={(newEndTime) => setNewEnd(newEndTime)}
           spaceInfo={props.spaceInfo}
-          eventBookingDetails={props.eventBookingDetails}
+          eventBookingDetails={meetingDetails}
           onMeetingClose={() => setShowTimelineModal(false)}
-          nextMeetingStartAt={props.nextMeetingStartAt}
+          nextMeetingStartAt={nextMeetingStartAt}
         />
       </TimelineModal>
-
-      <MeetingCard {...meetingDetails} />
-
+      {activeMeeting? <RoomBusyCard {...meetingDetails} /> : <RoomFreeCard  nextMeetingStartAt={nextMeetingStartAt}/>}
+      
       <img
         className="absolute bottom-[10%] right-[10%]"
         height={75}

@@ -1,9 +1,8 @@
 "use client";
-import React, { useReducer,useEffect } from "react";
+import React, {useEffect } from "react";
 import LowerContainer from "../LowerContainer";
 import MeetingRoomInfo from "../MeetingRoomInfo";
-import { getCurrentDate } from "@/app/utils/DateUtils";
-import {calenderReducer} from '../../../app/reducers/CalenderReducer'
+import { useAppStore } from "@/app/store/appStore";
 
 interface ThemeInfo {
   themedata?: string;
@@ -30,30 +29,14 @@ function setLedColour(hexValue) {
 }
 
 const MeetingContainer = (props: MeetingProps) => {
-  const [calender, dispatch] = useReducer(calenderReducer, {
-    meetingDate: getCurrentDate(),
-  });
-  let meetingContainerInfo: any = {
-    spaceInfo: props.spaceInfo,
-    meetingInfo: props.meetingInfo,
-    themeInfo: props.themeInfo,
-    currentDate: props.currentDate,
-  };
+  const{
+    themeInfo,
+  } = useAppStore();
+
 
   useEffect(() => {
-   // debugger;
-    const themeinfotemp = props.themeInfo?.themedata
-      ? (() => {
-          try {
-            return JSON.parse(props.themeInfo.themedata);
-          } catch (error) {
-            console.error("Error parsing JSON:", error);
-            return null;
-          }
-        })()
-      : null;
-    setLedColour(!props.booked ? themeinfotemp?.availableStatusColor : themeinfotemp?.occupiedStatusColor);
-  }, [props.meetingInfo]);
+    setLedColour(!props.booked ? themeInfo?.themedatajson?.availableStatusColor : themeInfo?.themedatajson?.occupiedStatusColor);
+  }, [themeInfo]);
 
   return (
 
