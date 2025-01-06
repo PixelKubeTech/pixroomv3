@@ -76,7 +76,7 @@ function QRContainer(props: QRContainerProps) {
   }
   if(nextMeeting){
     const nextDate = new Date(nextMeeting.bookingDetails.from1);
-    nextMeetingStartAt = `${nextDate.getHours()}:${nextDate.getMinutes()}`;
+    nextMeetingStartAt = `${nextDate.getHours()}:${nextDate.getMinutes().toString().padStart(2, '0')}`;
 
   }
   const [showModal, setShowModal] = useState(false);
