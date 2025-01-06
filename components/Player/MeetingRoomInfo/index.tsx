@@ -164,7 +164,7 @@ function MeetingRoomInfo({
             )}
           </div>
         </div>
-        <Clock intervals={intervalsForAnalogClock} />
+        <Clock intervals={intervalsForAnalogClock} free={themeDataResponse.availableStatusColor} busy={themeDataResponse.occupiedStatusColor} />
       </div>
 
       {info ? (

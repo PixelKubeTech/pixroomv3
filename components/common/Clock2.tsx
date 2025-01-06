@@ -1,9 +1,12 @@
 'use client';
 import { Interval } from '@/app/interface/Intervals';
+import { Color } from '@mui/material';
 import * as React from 'react';
   
   export interface ClockProps {
     intervals: Interval[];
+    free: string,
+    busy: string,
   }
 
 export default function Clock(props: ClockProps) {
@@ -30,10 +33,10 @@ export default function Clock(props: ClockProps) {
         // ];
         for (const interval of intervals) {
             if (minute >= interval.start && minute <= interval.end) {
-                return 'red'; // Busy color
+                return props.busy; // Busy color
             }
         }
-        return 'green'; // Free color
+        return props.free; // Free color
     };
     const getTodayDay = () => {
         const today = new Date();
