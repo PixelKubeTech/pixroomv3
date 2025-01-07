@@ -1,7 +1,10 @@
 import axios from "axios";
 import dayjs, { Dayjs } from "dayjs";
 
-const API_BASE_URL = "https://demo.pixelkube.io/api";
+const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+const API_BASE_URL = apiUrl? apiUrl + '/api': "/api";
+
+
 //const API_BASE_URL = "http://localhost:7177/api";
 
 class Meeting {
