@@ -60,7 +60,6 @@ function MeetingRoomInfo({
   }, []);
 
   useEffect(() => {
-    console.log("intervalsfromananlogclock", intervalsForAnalogClock);
   }, [intervalsForAnalogClock]);
   const themeDataResponse = themeInfo?.themedatajson;
   const enableFaultReporting = themeDataResponse?.enableFaultReporting;
@@ -80,13 +79,8 @@ function MeetingRoomInfo({
     });
   };
 
-  const calendarId = deviceInfo?.calendarId;
-
   const handleClick = () => {
-    //console.log("searchParams", searchParams);
-    //const queryString = new URLSearchParams(queryParams12).toString();
     router.push(`/meetinginfo`);
-    //router.push(`/meetinginfo?spaceId=${queryParams}`);
   };
   const handleDeviceClick = () => {
     if (!enableFaultReporting) return false;
@@ -96,18 +90,9 @@ function MeetingRoomInfo({
     router.back();
   };
 
-  const options = {
-    border: true,
-    borderColor: "#2e2e2e",
-    baseColor: "#17a2b8",
-    centerColor: "#459cff",
-    centerBorderColor: "#ffffff",
-    handColors: {
-      second: "#d81c7a",
-      minute: "#ffffff",
-      hour: "#ffffff",
-    },
-  };
+  const freeColor = themeDataResponse?themeDataResponse.availableStatusColor : "green";
+  const busyColor = themeDataResponse?themeDataResponse.occupiedStatusColor : "red"; 
+
   return (
     <div
       className={
@@ -164,7 +149,7 @@ function MeetingRoomInfo({
             )}
           </div>
         </div>
-        <Clock intervals={intervalsForAnalogClock} free={themeDataResponse.availableStatusColor} busy={themeDataResponse.occupiedStatusColor} />
+        <Clock intervals={intervalsForAnalogClock} free={freeColor} busy={busyColor} />
       </div>
 
       {info ? (
