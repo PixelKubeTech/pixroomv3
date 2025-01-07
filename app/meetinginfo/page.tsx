@@ -9,7 +9,7 @@ import { getThemesById } from "@/services/ThemeService";
 import { useAppStore } from "../store/appStore";
 import { useEffect } from "react";
 
-export default async function Home(props) {
+export default function Home(props) {
   const {
     spaceInfo,
     deviceInfo,
@@ -24,7 +24,7 @@ export default async function Home(props) {
   let calendarId = deviceInfo?.calendarId;
   
   if (!spaceInfo || !calendarId) {
-    return <div>Loading...</div>; // Handle the null case appropriately
+    return <div>Device is not registered.</div>; 
   }
   return (
     <MeetingInfoProvider calendarId={calendarId}>
