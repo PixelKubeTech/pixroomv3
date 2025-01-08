@@ -94,7 +94,7 @@ function QRContainer(props: QRContainerProps) {
 
   const getMeetingEndsInTime = () => {
       const now = new Date();
-      setEndsIn(getTimeDiffinMinutesAndSeconds(now, new Date(activeMeeting?.bookingDetails.endTime)));
+      setEndsIn(getTimeDiffinMinutesAndSeconds(now, new Date(activeMeeting?.bookingDetails.to2)));
     };
   
   useEffect(() => {
