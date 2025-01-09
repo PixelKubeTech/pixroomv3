@@ -4,9 +4,6 @@ import dayjs, { Dayjs } from "dayjs";
 const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL
 const API_BASE_URL = apiUrl? apiUrl + '/api': "/api";
 
-
-//const API_BASE_URL = "http://localhost:7177/api";
-
 class Meeting {
   spaceId: number;
   noOfAttendees: number;
