@@ -81,7 +81,7 @@ const MeetingDailer = ({
     let endtimehour= String(endTimecal.getHours()).padStart(2, '0');
     let endtimeminutes= String(endTimecal.getMinutes()).padStart(2, '0');
     let endTime = `${endtimehour}:${endtimeminutes}`;
-    const participantsDummy: string[] = ["Alice", "Bob", "Charlie"];
+    const participantsDummy: string[] = [];
     const getCurrentTimeZone = ():string => {
       return Intl.DateTimeFormat().resolvedOptions().timeZone;
     };  
