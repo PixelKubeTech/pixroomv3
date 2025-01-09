@@ -1,25 +1,19 @@
 "use client";
 
-import { addOneDay, getCurrentDate } from "../utils/DateUtils";
-
-import { ISpace } from "../interface";
-import MeetingBookedClient from './MeetingClient';
 import MeetingClient from "./MeetingClient";
 import { MeetingInfoProvider } from '../context/MeetingInfoDataContext';
-import { SpaceService } from "@/services";
-import { getThemesById } from '@/services/ThemeService';
 import { useAppStore } from "../store/appStore";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import DeviceNotRegistered from "@/components/common/DeviceNotRegisteredMessage";
 
 export default function MeetingBooked(props) {
   const {
     spaceInfo,
     deviceInfo,
     themeInfo,
-    events,
     activeMeeting,
-    nextMeeting,
+    fetchEvents,
     loadFromLocalStorage,
     startPolling,
     stopPolling
@@ -32,6 +26,7 @@ export default function MeetingBooked(props) {
 
   const router = useRouter();
   useEffect(() => {
+    fetchEvents();
     startPolling();
 
     return () => {
@@ -50,7 +45,7 @@ export default function MeetingBooked(props) {
   let themeResponse = themeInfo;
 
   if (!spaceInfo || !calendarparam) {
-    return <div>No Space or Calendar Info</div>; 
+    return <DeviceNotRegistered/>
   }
 
   return (
