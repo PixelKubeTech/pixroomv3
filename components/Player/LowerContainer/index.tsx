@@ -7,14 +7,12 @@ import { addOneDay, getCurrentDate, reverseDate } from "@/app/utils/DateUtils";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import Button from "../@common/Button";
-import { EventService } from "@/services";
 import MeetingDailer from "../MeetingDailer";
 import { Modal } from "../../../components/Player/Modals/FindRoom";
 import QRContainer from "./QRContainer";
 import Snackbar from "@mui/material/Snackbar";
 import TimelineComponent from "../MeetingCalenderContainer/BottomComponent/TimelineComponent";
 import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
 import { useAppStore } from "@/app/store/appStore";
 import moment from "moment";
 function getMeetingDataByDate(meetingData:Array<any>,date:any){
@@ -50,7 +48,7 @@ function LowerContainer({ booked, meetingInfo, calendarId}: any) {
 
 
     useEffect(() => {
-    }, [selectedDay]);
+    }, [selectedDate]);
 
 
   const [showModal, setShowModal] = useState(false);

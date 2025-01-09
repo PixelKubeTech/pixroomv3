@@ -3,7 +3,6 @@ import moment from "moment";
 import { useAppStore } from "@/app/store/appStore";
 function Date({ dateObj, selectedDate, setselectedDate,setCalenderDate, size }: any) {
 const {
-  selectedDay,
   setSelectedDate,
     } = useAppStore();
 
