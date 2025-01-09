@@ -16,6 +16,7 @@ import TimelineComponent from "../MeetingCalenderContainer/BottomComponent/Timel
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { useAppStore } from "@/app/store/appStore";
+import moment from "moment";
 function getMeetingDataByDate(meetingData:Array<any>,date:any){
   if((meetingData as any)?.success==false){ return []}
   let result =  meetingData.filter(item => item.date === date)
@@ -27,18 +28,29 @@ interface Message {
   text?: string;
 }
 
+function formatDate(date: Date): string {
+  if (moment(date).isSame(new Date(), "day")) {
+    return "Today";
+  } else if (moment(date).isSame(moment().add(1, "day"), "day")) {
+    return "Tomorrow";
+  } else {
+    return moment(date).format("YYYY-MM-DD");
+  }
+}
+
 function LowerContainer({ booked, meetingInfo, calendarId}: any) {
     const {
       spaceInfo,
       themeInfo,
-      loadFromLocalStorage,
+      selectedDay,
+      selectedDate,
+      setSelectedDate,
       events,
     } = useAppStore();
 
 
     useEffect(() => {
-      loadFromLocalStorage();
-    }, [loadFromLocalStorage]);
+    }, [selectedDay]);
 
 
   const [showModal, setShowModal] = useState(false);
@@ -69,13 +81,14 @@ function LowerContainer({ booked, meetingInfo, calendarId}: any) {
       setTimeout(() => setProgress(newVal1=>newVal1+1), 200)
     }
   });
+  const timelineHeader = formatDate(selectedDate);
  return (
     <div className="flex justify-between relative" style={{height: 'calc(100% - 150px)'}}>
       <QRContainer nextMeetingStartAt={nextMeetingStartAt} booked={booked} showFindRoom={showFindRoom} scrollSubject={scrollSubject} eventBookingDetails={eventBookingDetails} spaceInfo={spaceInfo} themeInfo={themeInfo}/>
       <div className="w-[30%] h-[100%] bg-black/5 rounded-br-[40px] pb-3">
         <div className="bg-green rounded-b-[40px] py-4 pl-4" style={{height: 'calc(100% - 52px)'}}>
           <p className="py-2 text-lg pb-4 px-4 bg-[#0072B8]/5 mb-2 rounded-lg">
-            Today
+            {timelineHeader}
           </p>
           <div className="h-[86%] overflow-hidden">
             {

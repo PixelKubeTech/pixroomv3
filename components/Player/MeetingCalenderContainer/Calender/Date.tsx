@@ -4,7 +4,7 @@ import { useAppStore } from "@/app/store/appStore";
 function Date({ dateObj, selectedDate, setselectedDate,setCalenderDate, size }: any) {
 const {
   selectedDay,
-  setSelectedDay,
+  setSelectedDate,
     } = useAppStore();
 
   const [currDate, currDayofWeek, currDateFotmat] = [
@@ -30,7 +30,7 @@ const {
         }`
     }
     onClick={() =>{
-     setSelectedDay(dateObj.date());
+     setSelectedDate(dateObj.toDate());
      setselectedDate(dateObj.format('DD-MM-YYYY'))
      setCalenderDate(dateObj.format("YYYY-MM-DD"))
     }}>
