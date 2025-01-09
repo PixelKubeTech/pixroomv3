@@ -40,7 +40,6 @@ function LowerContainer({ booked, meetingInfo, calendarId}: any) {
     const {
       spaceInfo,
       themeInfo,
-      selectedDay,
       selectedDate,
       setSelectedDate,
       events,
@@ -90,7 +89,7 @@ function LowerContainer({ booked, meetingInfo, calendarId}: any) {
           </p>
           <div className="h-[86%] overflow-hidden">
             {
-              events?.length == 0 ? "No meeting scheduled..." :  <TimelineComponent  eventClick={eventClick} meetingInfo={events || []} themeInfo={themeDataResponse} />
+              events?.length == 0 ? "No meeting scheduled..." :  <TimelineComponent  eventClick={eventClick} />
             }
           </div>
         </div>
