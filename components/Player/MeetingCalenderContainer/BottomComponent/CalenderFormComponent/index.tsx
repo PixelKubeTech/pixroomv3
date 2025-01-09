@@ -17,6 +17,7 @@ import momenttz from 'moment-timezone';
 import { useMeetingInfo } from "@/app/context/MeetingInfoDataContext";
 
 import { addOneDay } from "@/app/utils/DateUtils";
+import { useAppStore } from "@/app/store/appStore";
 interface Message {
   serverity?: string;
   text?: string;
@@ -58,21 +59,27 @@ function CalenderFormComponent(props) {
   };
 
 const {fetchMeetingInfo, meetingDate} = useMeetingInfo();
+const {
+  spaceInfo,
+  deviceInfo,
+} = useAppStore();
+
   const onSubmit = async (formData) => {
-    if(props.meetingInfo!=null && props.spaceInfo!=null)
+    if(spaceInfo!=null)
       {
         let { meetingName } =   formData;
-        let currentDate=moment(meetingDate.startDate).format("YYYY-MM-DD");
+        let currentDate= meetingDate.startDate? moment(meetingDate.startDate).format("YYYY-MM-DD") : moment().format("YYYY-MM-DD");
         const dateObj = addOneDay(currentDate);
         let currentTime=dateObj.currentTime;
-        let request= {"meeting":{"spaceId":props.spaceInfo.spaceId,
-          "buildingId":props.spaceInfo.buildingId,
-          "orgId":props.spaceInfo.orgId,
-          "floorId":props.spaceInfo.floorId,
+        let request= {"meeting":{"spaceId":spaceInfo.spaceId,
+          "buildingId":spaceInfo.buildingId,
+          "orgId":spaceInfo.orgId,
+          "floorId":spaceInfo.floorId,
+          //"calendarId": deviceInfo?.calendarId,
           "alldays":false,
           "reminder":0,
-          "startDateTime": moment.utc(`${currentDate}T${props.startTime}`).toISOString(), // Force to UTC ISO format
-          "endDateTime": moment.utc(`${currentDate}T${props.endTime}`).toISOString(),     // Force to UTC ISO format 
+          "startDateTime": moment.utc(`${currentDate}T${startTime}`).toISOString(), // Force to UTC ISO format
+          "endDateTime": moment.utc(`${currentDate}T${endTime}`).toISOString(),     // Force to UTC ISO format 
           "meetingName":meetingName,
           "action":"create",
           //"sourceEventId":props.eventBookingDetails.sourceEventId,
