@@ -70,6 +70,7 @@ interface AppState {
   upcomingEventsByDay: Record<string, IEvent[]>;
   loading: boolean;
   selectedDay: number;
+  selectedDate: Date;
   intervalId: ReturnType<typeof setTimeout> | null; // To store the interval ID 
   startPolling: () => void;
   stopPolling: () => void;
@@ -84,6 +85,7 @@ interface AppState {
   getThemeInfo: () => Promise<void>;
   getSpaceInfo: () => Promise<void>;
   processEvents: () => void;
+  setSelectedDate:(date:Date) => void
   setSelectedDay: (day:number) => void;
   loadFromLocalStorage: () => void;
   saveToLocalStorage: () => void;
@@ -111,6 +113,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   nextMeeting: null,
   activeMeeting: null,
   intervalId: null,
+  selectedDate: new Date(),
   upcomingEvents: [],
   intervalsForAnalogClock:[],
   upcomingEventsByDay: {},
@@ -119,9 +122,9 @@ export const useAppStore = create<AppState>((set, get) => ({
   deviceConfigured: 'configured',
   landingPage: 'meeting',
   selectedDay: (new Date()).getDate(),
+  setSelectedDate: (date:Date) => set({ selectedDate: date }),
   setSelectedDay: (day:number) => set({ selectedDay: day }),
   setMacAddress: (mac) => set({ macaddress: mac }),
-
   setDeviceInfo: (deviceInfo) => set({ deviceInfo }),
 
   determineLandingPage: () => {
