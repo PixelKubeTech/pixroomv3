@@ -44,7 +44,7 @@ function  Devices({ size, handleClick, orgId,handleDeviceChange }: any) {
       {loading ? (
         <div>Loading Facilities...</div>
       ) : !facilities ? (
-        <div>No Facilities</div>
+        <div>No information about facilities</div>
       ) : (
         facilities.map((device) => (
           <div

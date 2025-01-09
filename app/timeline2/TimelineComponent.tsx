@@ -121,9 +121,6 @@ const MeetingTimeline = ({ startTime, endTime, onEndTimeChange,spaceInfo,onMeeti
         "startDateTime":currentDate+"T"+startTime+":00Z",
         "endDateTime":updateRequired?currentDate+"T"+currentEndTime+":00Z":currentDateTime,
         "meetingName":eventBookingDetails.meetingName,
-        "participants": eventBookingDetails.participants = Array.isArray(eventBookingDetails.participants)
-        ? eventBookingDetails.participants
-        : (eventBookingDetails.participants || "").split(","),
         "action":"update",
         "sourceEventId":eventBookingDetails.sourceEventId,
         "notes":eventBookingDetails.summary,
