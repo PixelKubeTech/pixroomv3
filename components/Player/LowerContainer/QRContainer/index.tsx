@@ -25,7 +25,7 @@ interface IMeetingDetails {
   title: string;
   bookedBy: string;
   participants: number;
-  nextMeetingStartAt:String;
+  nextMeetingStartAt: String;
 }
 
 
@@ -35,32 +35,29 @@ function QRContainer(props: QRContainerProps) {
   let meetingExtendEndTime;
   let nextMeetingStartAt = "tomorrow";
 
-    const {
-      activeMeeting,
-      nextMeeting,
-      spaceInfo,
-      loadFromLocalStorage
-    } = useAppStore();
-    useEffect(() => {
-      loadFromLocalStorage();
-    }, []);
-    const [endsIn, setEndsIn] = useState({minutes:0, seconds:0});
+  const {
+    activeMeeting,
+    nextMeeting,
+    spaceInfo,
+    loadFromLocalStorage
+  } = useAppStore();
+  useEffect(() => {
+    loadFromLocalStorage();
+  }, []);
+  const [endsIn, setEndsIn] = useState({ minutes: 0, seconds: 0 });
 
-    useEffect(() => {
-      console.log("activeMeeting", activeMeeting);
-      console.log("nextMeeting", nextMeeting);
+  useEffect(() => {
+    if (activeMeeting?.bookingDetails != null) {
+      meetingDetails.title = activeMeeting.bookingDetails.meetingName;
+      meetingDetails.time = activeMeeting.bookingDetails.from + "-" + activeMeeting.bookingDetails.to;
+      meetingDetails.bookedBy = activeMeeting.bookingDetails.bookingPersonName;
+      meetingDetails.participants = activeMeeting.bookingDetails.noOfAttendees;
+    }
 
-      if (activeMeeting?.bookingDetails != null) {
-        meetingDetails.title = activeMeeting.bookingDetails.meetingName;
-        meetingDetails.time = activeMeeting.bookingDetails.from + "-" + activeMeeting.bookingDetails.to;
-        meetingDetails.bookedBy = activeMeeting.bookingDetails.bookingPersonName;
-        meetingDetails.participants = activeMeeting.bookingDetails.noOfAttendees;
-      }
-
-      if(nextMeeting){
-        nextMeetingStartAt= nextMeeting.bookingDetails.from;
-      }
-    }, [activeMeeting, nextMeeting]);
+    if (nextMeeting) {
+      nextMeetingStartAt = nextMeeting.bookingDetails.from;
+    }
+  }, [activeMeeting, nextMeeting]);
 
   const handleClick = () => {
     router.push(`/meetinginfo`);
@@ -70,13 +67,13 @@ function QRContainer(props: QRContainerProps) {
   meetingStartTime = `${d.getHours()}:${d.getMinutes()}`;
   meetingExtendEndTime = `${d.getHours()}:${d.getMinutes()}`;
   nextMeetingStartAt = `${d.getHours()}:${d.getMinutes()}`;
-  if(activeMeeting){
+  if (activeMeeting) {
     const startDate = new Date(activeMeeting.bookingDetails.from1);
     let endDate = new Date(activeMeeting.bookingDetails.to2);
-     meetingStartTime = `${startDate.getHours()}:${startDate.getMinutes().toString().padStart(2, "0")}`;
-     meetingExtendEndTime = `${endDate.getHours()}:${endDate.getMinutes().toString().padStart(2, "0")}`;
+    meetingStartTime = `${startDate.getHours()}:${startDate.getMinutes().toString().padStart(2, "0")}`;
+    meetingExtendEndTime = `${endDate.getHours()}:${endDate.getMinutes().toString().padStart(2, "0")}`;
   }
-  if(nextMeeting){
+  if (nextMeeting) {
     const nextDate = new Date(nextMeeting.bookingDetails.from1);
     nextMeetingStartAt = `${nextDate.getHours()}:${nextDate.getMinutes().toString().padStart(2, '0')}`;
 
@@ -87,26 +84,26 @@ function QRContainer(props: QRContainerProps) {
 
   const getTimeDiffinMinutesAndSeconds = (date1, date2) => {
     const totalDiffInSeconds = moment(date2).diff(moment(date1), "seconds");
-    const minutes = Math.floor( totalDiffInSeconds / 60);
-    const seconds = Math.floor( totalDiffInSeconds % 60);
-    return {minutes, seconds}
+    const minutes = Math.floor(totalDiffInSeconds / 60);
+    const seconds = Math.floor(totalDiffInSeconds % 60);
+    return { minutes, seconds }
   };
 
   const getMeetingEndsInTime = () => {
-      const now = new Date();
-      setEndsIn(getTimeDiffinMinutesAndSeconds(now, new Date(activeMeeting?.bookingDetails.to2)));
-    };
-  
+    const now = new Date();
+    setEndsIn(getTimeDiffinMinutesAndSeconds(now, new Date(activeMeeting?.bookingDetails.to2)));
+  };
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       getMeetingEndsInTime();
-    }, 1000); 
+    }, 1000);
 
     // Cleanup function to clear the interval
     return () => {
       clearInterval(intervalId);
     };
-  }, [endsIn]); 
+  }, [endsIn]);
 
   return (
     <div className="h-full flex flex-col w-[70%] p-6 mb-10 relative">
@@ -133,7 +130,7 @@ function QRContainer(props: QRContainerProps) {
         show={showModal}
         title={"Find a Room"}
       >
-        <FindRoomTable  spaceInfo={spaceInfo} handleClick={handleClick}/>
+        <FindRoomTable spaceInfo={spaceInfo} handleClick={handleClick} />
       </Modal>
 
       <TimelineModal
@@ -150,22 +147,34 @@ function QRContainer(props: QRContainerProps) {
           nextMeetingStartAt={nextMeetingStartAt}
         />
       </TimelineModal>
-      {activeMeeting? <RoomBusyCard {...meetingDetails} /> : <RoomFreeCard  nextMeetingStartAt={nextMeetingStartAt}/>}
+      {activeMeeting ? <RoomBusyCard {...meetingDetails} /> : <RoomFreeCard nextMeetingStartAt={nextMeetingStartAt} />}
       <div className="absolute bottom-[10%] right-[10%]">
-      <QRCodeComponent />
+        <QRCodeComponent />
       </div>
- 
+
       {props.booked ? (
         <div className="absolute flex items-center bottom-4 flex gap-1 pb-3 pl-6">
-          <img
-            className="cursor-pointer"
+
+
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="cursor-pointer size-6"
             height={36}
             width={36}
-            src={"../../../../pixroom/assets/images/Search_BTN.png"}
             onClick={() => setShowTimelineModal(!showTimelineModal)}
-          />
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+            />
+          </svg>
           <span className="ml-2">
-          This meeting is going to end in the next {endsIn.minutes}:{endsIn.seconds.toString().padStart(2, "0")}
+            This meeting is going to end in the next {endsIn.minutes}:{endsIn.seconds.toString().padStart(2, "0")}
           </span>
         </div>
       ) : null}
