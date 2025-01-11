@@ -306,6 +306,10 @@ export const useAppStore = create<AppState>((set, get) => ({
     const now = new Date();
     const events = get().events;
 
+    if (events.length === 0){
+      return;
+    }
+
     const upcomingEvents =  events.filter(
       (event) => new Date(event.bookingDetails.to2) > now
     );
