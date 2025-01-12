@@ -187,7 +187,8 @@ const MeetingDailer = ({
       </div>
       <div className="flex justify-between items-center mt-10">
         <GoButton title={"back"} onClick={bookInstantMeetingClose} />
-        <Button disbabled={isDisabled} text="Book Now" handleClick={bookInstantMeeting} />
+        <Button disbabled={isDisabled} className={!isDisabled ?
+                    "" : "opacity-50 cursor-not-allowed"}text="Book Now" handleClick={bookInstantMeeting} />
         <Button text="Book Later" handleClick={handleClick} />
       </div>
     </div>
