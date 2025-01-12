@@ -60,6 +60,8 @@ const MeetingDailer = ({
   const [progressMinute, setProgressMinute] = useState(0);
   const { increasePollRateForDuration } = useAppStore.getState();
   const [progressHour, setProgressHour] = useState(hour);
+  const [isDisabled, setIsDisabled] = useState(false);
+
   const handleChange = (value) => {
     let progressMin = minute;
     if(value)
@@ -70,8 +72,8 @@ const MeetingDailer = ({
 
   const bookInstantMeeting = async () => {
     //debugger;
+    //setTimeout(() => setIsDisabled(false), 3000);
     let startTime = getCurrentTimePlus1();
-    increasePollRateForDuration(60000, 3000)
     const [hours, minutes] = startTime.split(':').map(Number);
     // Create a new Date object with today's date and the parsed time
     const now = new Date();
@@ -111,8 +113,12 @@ const MeetingDailer = ({
         // Handle unexpected cases
         calendarid = null; // Fallback value
     }
+
+
     //let calendarid =spaceId?.mappedCalendarIds[0];
     //let spaceidtemp = spaceId? spaceId :spaceId.spaceId;
+    setIsDisabled(true);
+
     let meetingInfo = new Meeting(
       spaceidtemp,
       buildingidtemp,
@@ -131,13 +137,13 @@ const MeetingDailer = ({
     );
     let services = [];
     let parkings = [];
-    console.log("meetingInfo", meetingInfo);
     let meetingResponse = await bookMeeting({
       meeting: meetingInfo,
       parkings: parkings,
       services: services,
     });
-    setTimeout(() => fetchMeetingInfo(), 4000);
+    increasePollRateForDuration(60000, 3000)
+
     onClose();
     setSuccess(true);
     setMessage({
@@ -181,7 +187,7 @@ const MeetingDailer = ({
       </div>
       <div className="flex justify-between items-center mt-10">
         <GoButton title={"back"} onClick={bookInstantMeetingClose} />
-        <Button text="Book Now" handleClick={bookInstantMeeting} />
+        <Button disbabled={isDisabled} text="Book Now" handleClick={bookInstantMeeting} />
         <Button text="Book Later" handleClick={handleClick} />
       </div>
     </div>

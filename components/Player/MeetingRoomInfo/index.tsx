@@ -58,8 +58,10 @@ function MeetingRoomInfo({
   useEffect(() => {
     loadFromLocalStorage();
   }, []);
+  const [busyIntervals, setBusyIntervals] = useState<Interval[]>([]);;
 
   useEffect(() => {
+    setBusyIntervals(intervalsForAnalogClock);
   }, [intervalsForAnalogClock]);
   const themeDataResponse = themeInfo?.themedatajson;
   const enableFaultReporting = themeDataResponse?.enableFaultReporting;
@@ -149,7 +151,7 @@ function MeetingRoomInfo({
             )}
           </div>
         </div>
-        <Clock intervals={intervalsForAnalogClock} free={freeColor} busy={busyColor} />
+        <Clock intervals={busyIntervals} free={freeColor} busy={busyColor} />
       </div>
 
       {info ? (
