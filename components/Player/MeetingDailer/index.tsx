@@ -16,6 +16,7 @@ import { Message } from "../FindRoomModal";
 import { debug } from "console";
 import { space } from "postcss/lib/list";
 import { useMeetingInfo } from "@/app/context/MeetingInfoDataContext";
+import { useAppStore } from "@/app/store/appStore";
 
 dayjs.extend(utc);
 const MeetingTime = ({ hour, time }) => {
@@ -57,6 +58,7 @@ const MeetingDailer = ({
 }: IMeetingDailer) => {
   const { minute, hour } = addMinutesToCurrentTime(5);
   const [progressMinute, setProgressMinute] = useState(0);
+  const { increasePollRateForDuration } = useAppStore.getState();
   const [progressHour, setProgressHour] = useState(hour);
   const handleChange = (value) => {
     let progressMin = minute;
@@ -69,6 +71,7 @@ const MeetingDailer = ({
   const bookInstantMeeting = async () => {
     //debugger;
     let startTime = getCurrentTimePlus1();
+    increasePollRateForDuration(60000, 3000)
     const [hours, minutes] = startTime.split(':').map(Number);
     // Create a new Date object with today's date and the parsed time
     const now = new Date();

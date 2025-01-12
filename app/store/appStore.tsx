@@ -72,6 +72,7 @@ interface AppState {
   selectedDate: Date;
   intervalId: ReturnType<typeof setTimeout> | null; // To store the interval ID 
   startPolling: () => void;
+  increasePollRateForDuration: (duration: number, tempPollRate: number) => void;
   stopPolling: () => void;
   error: string | null;
   deviceConfigured: string; // 'configured' or 'requires_configuration'
@@ -149,9 +150,10 @@ export const useAppStore = create<AppState>((set, get) => ({
       return;
     }
 
+    const defaultPollRate = 60000; 
     const newIntervalId = setInterval(() => {
       fetchEvents();
-    }, 60000); // Poll every 60 seconds
+    }, defaultPollRate); 
 
     set({ intervalId: newIntervalId });
   },
@@ -163,6 +165,31 @@ export const useAppStore = create<AppState>((set, get) => ({
       set({ intervalId: null });
     }
   },
+  increasePollRateForDuration: (duration: number, tempPollRate: number) => {
+    const { fetchEvents, intervalId, stopPolling } = get();
+
+    // Clear existing interval
+    if (intervalId) {
+      clearInterval(intervalId);
+    }
+
+    // Start a new interval with the temporary poll rate
+    const tempIntervalId = setInterval(() => {
+      fetchEvents();
+    }, tempPollRate); // Temporary poll rate (e.g., 5 seconds)
+
+    set({ intervalId: tempIntervalId });
+
+    console.log(`Poll rate increased to ${tempPollRate}ms for ${duration / 1000} seconds`);
+
+    // Revert to default poll rate after the specified duration
+    setTimeout(() => {
+      stopPolling(); // Stop the temporary polling
+      get().startPolling(); // Restart polling with the default rate
+      console.log("Poll rate reverted to default.");
+    }, duration);
+  },
+
   loadFromLocalStorage: () => {
     const storedMacAddress = localStorage.getItem('macaddress');
     const storedDeviceInfo = localStorage.getItem('deviceInfo');
