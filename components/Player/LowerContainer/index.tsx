@@ -34,11 +34,16 @@ function LowerContainer({ booked, meetingInfo, calendarId }: any) {
     spaceInfo,
     themeInfo,
     selectedDate,
+    nextMeeting,
   } = useAppStore();
 
-
+  const [maxAvailableTime, setMaxAvailableTime] = useState(60);
   useEffect(() => {
-  }, [selectedDate]);
+    if(nextMeeting){
+      setMaxAvailableTime( Math.min(60, (nextMeeting?.bookingDetails?.from1 - (new Date()).getTime())/ (1000 * 60)));
+
+    }
+  }, [selectedDate, nextMeeting]);
 
 
   const [showModal, setShowModal] = useState(false);
@@ -101,7 +106,7 @@ function LowerContainer({ booked, meetingInfo, calendarId }: any) {
               spaceId={spaceInfo}
               setSuccess={setSuccess}
               setMessage={setMessage}
-              maxAvailableTime={60}
+              maxAvailableTime={maxAvailableTime}
               handleClick={handleClick}
               onClose={() => setShowModal(false)}
             />
