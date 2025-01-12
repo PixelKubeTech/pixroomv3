@@ -92,7 +92,7 @@ function MeetingBlock({ isAvailable, bookingDetails, parentProps, themeInfo, onC
       <div className='flex'>
         <div className='font-bold basis-1/5'>{bookingDetails.from}</div>
         <div className='uppercase font-bold'>
-          {parentProps?.themeInfo?.hideSubject ? 'BUSY' : bookingDetails.meetingName}
+          {themeInfo?.hideSubject ? 'BUSY' : bookingDetails.meetingName}
         </div>
       </div>
       {isAvailable ? (
@@ -114,9 +114,9 @@ function MeetingBlock({ isAvailable, bookingDetails, parentProps, themeInfo, onC
           <div className='flex'>
             <div className='font-bold basis-1/5'>{bookingDetails.to}</div>
             <div>
-              {themeInfo?.showOrganizer
+              {themeInfo?.showOrganizer && bookingDetails?.bookingPersonName
                 ? 'Booked by ' + bookingDetails.bookingPersonName
-                : 'Booked by XXXXXXXX'}
+                : ''}
             </div>
           </div>
           {bookingDetails.duration > 1 && Array.from(Array(bookingDetails.duration - 1).keys()).map((data) => (
