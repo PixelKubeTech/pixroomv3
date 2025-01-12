@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 //function MeetingBlock({ isAvailable, bookingDetails, parentProps, onClick }: any) {
-function MeetingBlock({ isAvailable, bookingDetails, parentProps, onClick, setStartTime = () => {}, setEndTime = () => {}, currentIndex, selectedMeetingIndex, setSelectedMeetingIndex }: any) {
+function MeetingBlock({ isAvailable, bookingDetails, parentProps, themeInfo, onClick, setStartTime = () => {}, setEndTime = () => {}, currentIndex, selectedMeetingIndex, setSelectedMeetingIndex }: any) {
   const [selectedSlots, setSelectedSlots] = useState<number[]>([]);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -114,7 +114,7 @@ function MeetingBlock({ isAvailable, bookingDetails, parentProps, onClick, setSt
           <div className='flex'>
             <div className='font-bold basis-1/5'>{bookingDetails.to}</div>
             <div>
-              {parentProps?.themeInfo?.showOrganizer
+              {themeInfo?.showOrganizer
                 ? 'Booked by ' + bookingDetails.bookingPersonName
                 : 'Booked by XXXXXXXX'}
             </div>

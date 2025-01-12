@@ -11,6 +11,7 @@ const getTime = (time) => time.substring(11,16)
 async function processMeetingInfo(result) {
     try {
         const mappedData = result.data.map(item => {
+            const organiser = item.attendees.filter(attendee => attendee.isOrganizer);
             let response = {
                 isAvailable: false,
                 date: reverseDate(item.startTime.split('T')[0]), // Ensure reverseDate is defined
@@ -21,7 +22,7 @@ async function processMeetingInfo(result) {
                     to: getTime(item.endTime), // Ensure getTime is defined
                     from1: new Date(item.startTime).getTime(), // Convert to timestamp
                     to2: new Date(item.endTime).getTime(),
-                    bookingPersonName: item.attendees[0]?.email ?? '',
+                    bookingPersonName: organiser.length == 1? organiser[0].email: "" ,
                     sourceEventId:item.sourceEventId,
                     noOfAttendees:item.attendees.length,
                     notes:item.summary

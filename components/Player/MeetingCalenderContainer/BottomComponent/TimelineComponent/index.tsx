@@ -5,6 +5,7 @@ import { useAppStore } from "@/app/store/appStore";
 
 function TimelineComponent(props) {
   const {
+    themeInfo,
     selectedDate,
     upcomingEventsByDay,
   } = useAppStore();
@@ -60,6 +61,8 @@ function TimelineComponent(props) {
 
   const freeSlots = showFreeSlots ? findFreeSlots(meetingInfo || []) : [];
 
+  const themeData = themeInfo?.themedatajson;
+
   // Merge meetings and free slots, then sort
   const combinedList = [...sortedMeetingInfo, ...freeSlots].sort((a, b) => a.bookingDetails.from.localeCompare(b.bookingDetails.from));
   return (
@@ -71,6 +74,7 @@ function TimelineComponent(props) {
           isAvailable={data.isAvailable}
           bookingDetails={data.bookingDetails}
           parentProps={props}
+          themeInfo={themeData}
           onClick={handleMeetingBlockClick}
           setStartTime={props.setStartTime}
           setEndTime={props.setEndTime}
