@@ -1,3 +1,5 @@
+import { useAppStore } from "@/app/store/appStore";
+
 function getCurrentTime() {
     const now = new Date();
     let hours:any = now.getHours();
@@ -66,7 +68,7 @@ function getCurrentTimePlus1() {
     let minutes:any = now.getMinutes();
   
     // Calculate the nearest 15-minute interval
-    const roundedMinutes = Math.ceil(minutes / 15) * 15;
+    const roundedMinutes = Math.ceil(minutes / 1) * 1;
   
     if (roundedMinutes === 60) {
       hours += 1;
