@@ -3,15 +3,29 @@ import MeetingBlock from "./MeetingBlocks";
 import "./scrollbarthin.css";
 import { useAppStore } from "@/app/store/appStore";
 
+const isDateInPast = (date: Date): boolean => {
+  const givenDate = new Date(date);
+  const now = new Date();
+
+  givenDate.setHours(0, 0, 0, 0);
+  now.setHours(0, 0, 0, 0);
+
+  return givenDate < now;
+};
+
 function TimelineComponent(props) {
   const {
     themeInfo,
     selectedDate,
+    setSelectedDate,
     upcomingEventsByDay,
   } = useAppStore();
 
   const [meetingInfo, setMeetingInfo] = useState<any[]>([]); //TODO Add typecheck instead of any
   useEffect(() => {
+    if(isDateInPast(selectedDate)) {
+      setSelectedDate(new Date());
+    }
     const meetingInfo = upcomingEventsByDay[selectedDate.getDate()] ?? [];
     setMeetingInfo(meetingInfo);
   }, [selectedDate, upcomingEventsByDay]);

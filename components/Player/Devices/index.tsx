@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useReducer } from "react";
 import { getFacilitiesByOrgId } from "@/services/FacilitiesService";
 import { DeviceMapping } from "./deviceMapping";
-import { MeetingRoomInfoReducer } from "../MeetingRoomInfo";
 
 function DeviceIcon({ size, deviceIcon }) {
   let icon = DeviceMapping.find((device) =>
