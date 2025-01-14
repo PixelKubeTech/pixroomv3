@@ -296,6 +296,9 @@ export const useAppStore = create<AppState>((set, get) => ({
         events = generateTwoDayMockEvents(); 
       } else {
         events = await getEventInstances(request) || [];
+        if(!Array.isArray(events)){
+          return;
+        }
       }
 
       set({ events, loading: false });
